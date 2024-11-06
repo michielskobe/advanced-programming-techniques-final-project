@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->graphicsView->setScene(scene);;
 
-    QString imageFile = ":/images/test2.jpg";
+    QString imageFile = ":/images/world_images/maze1.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
     setupWorldGrid();
 }
@@ -28,7 +28,8 @@ void MainWindow::setupWorldGrid() {
         Tile& tile = *tilePtr;
         int tileXPos = tile.getXPos();
         int tileYPos = tile.getYPos();
-        float tileValue = tile.getValue();
+        float tileValue = tile.getValue() == INFINITY ? 0 : tile.getValue();
+
 
         int greyValue = static_cast<int>(tileValue * 255);
         QColor color(greyValue, greyValue, greyValue);
