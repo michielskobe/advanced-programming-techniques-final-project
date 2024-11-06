@@ -32,3 +32,5 @@ INCLUDEPATH += $$PWD/worldlib
 DEPENDPATH += $$PWD/worldlib
 
 RESOURCES = application.qrc
+
+DISTFILES +=

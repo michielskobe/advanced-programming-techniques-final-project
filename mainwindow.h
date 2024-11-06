@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include "world.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,5 +21,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
+    World world;
+    const int tileSize = 5;
+
+    void setupWorldGrid();
 };
 #endif // MAINWINDOW_H
