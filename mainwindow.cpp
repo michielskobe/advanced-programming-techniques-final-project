@@ -25,10 +25,10 @@ void MainWindow::setupWorldGrid() {
     auto tiles = world.getTiles();
 
     for (auto& tilePtr : tiles) {
-        Tile& tile = *tilePtr;
-        int tileXPos = tile.getXPos();
-        int tileYPos = tile.getYPos();
-        float tileValue = tile.getValue() == INFINITY ? 0 : tile.getValue();
+        // Tile& tile = *tilePtr;
+        int tileXPos = tilePtr->getXPos();
+        int tileYPos = tilePtr->getYPos();
+        float tileValue = tilePtr->getValue() == INFINITY ? 0 : tilePtr->getValue();
 
 
         int greyValue = static_cast<int>(tileValue * 255);
