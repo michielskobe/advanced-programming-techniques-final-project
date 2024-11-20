@@ -11,10 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    rendermethod.cpp \
+    view.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    rendermethod.h \
+    view.h
 
 FORMS += \
     mainwindow.ui
