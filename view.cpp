@@ -2,7 +2,18 @@
 
 View::View() {}
 
-void View::setRenderMethod(const RenderMethod &newRenderMethod)
+void View::setActiveRenderMethod(int newActiveRenderMethod)
 {
-    renderMethod = newRenderMethod;
+    activeRenderMethod = newActiveRenderMethod;
 }
+
+int View::getActiveRenderMethod() const
+{
+    return activeRenderMethod;
+}
+
+void View::setRenderMethods(const std::vector<std::shared_ptr<RenderMethod> > &newRenderMethods)
+{
+    renderMethods = newRenderMethods;
+}
+

@@ -2,6 +2,8 @@
 #define VIEW_H
 
 #include "rendermethod.h"
+#include <memory>
+#include <vector>
 
 class View
 {
@@ -9,9 +11,13 @@ public:
     View();
     ~View() = default;
 
-    RenderMethod renderMethod;
+    std::vector<std::shared_ptr<RenderMethod>> renderMethods;
+    int activeRenderMethod;
 
-    void setRenderMethod(const RenderMethod &newRenderMethod);
+    void setRenderMethods(const std::vector<std::shared_ptr<RenderMethod>> &newRenderMethods);
+    int getActiveRenderMethod() const;
+    void setActiveRenderMethod(int newActiveRenderMethod);
+
 };
 
 #endif // VIEW_H
