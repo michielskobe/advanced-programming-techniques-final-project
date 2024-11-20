@@ -10,10 +10,16 @@ CONFIG += c++17
 
 
 SOURCES += \
+    gamecontroller.cpp \
+    gamegenerator.cpp \
+    level.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    gamecontroller.h \
+    gamegenerator.h \
+    level.h \
     mainwindow.h
 
 FORMS += \
