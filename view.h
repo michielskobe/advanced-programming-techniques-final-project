@@ -14,10 +14,10 @@ public:
     std::vector<std::shared_ptr<RenderMethod>> renderMethods;
     int activeRenderMethod;
 
+    virtual void renderModel() = 0;
     void setRenderMethods(const std::vector<std::shared_ptr<RenderMethod>> &newRenderMethods);
     int getActiveRenderMethod() const;
     void setActiveRenderMethod(int newActiveRenderMethod);
-
 };
 
 #endif // VIEW_H

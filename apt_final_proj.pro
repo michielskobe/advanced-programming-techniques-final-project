@@ -10,21 +10,27 @@ CONFIG += c++17
 
 
 SOURCES += \
+    enemyview.cpp \
     gamecontroller.cpp \
     gamegenerator.cpp \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
+    protagonistview.cpp \
     rendermethod.cpp \
+    tileview.cpp \
     view.cpp
 
 HEADERS += \
+    enemyview.h \
     gamecontroller.h \
     gamegenerator.h \
     level.h \
     mainwindow.h \
     mainwindow.h \
+    protagonistview.h \
     rendermethod.h \
+    tileview.h \
     view.h
 
 FORMS += \
