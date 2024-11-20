@@ -14,13 +14,18 @@ SOURCES += \
     gamegenerator.cpp \
     level.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    rendermethod.cpp \
+    view.cpp
 
 HEADERS += \
     gamecontroller.h \
     gamegenerator.h \
     level.h \
-    mainwindow.h
+    mainwindow.h \
+    mainwindow.h \
+    rendermethod.h \
+    view.h
 
 FORMS += \
     mainwindow.ui
