@@ -13,11 +13,13 @@ SOURCES += \
     enemyview.cpp \
     gamecontroller.cpp \
     gamegenerator.cpp \
+    graphicrender.cpp \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
     protagonistview.cpp \
     rendermethod.cpp \
+    textrender.cpp \
     tileview.cpp \
     view.cpp
 
@@ -25,11 +27,13 @@ HEADERS += \
     enemyview.h \
     gamecontroller.h \
     gamegenerator.h \
+    graphicrender.h \
     level.h \
     mainwindow.h \
     mainwindow.h \
     protagonistview.h \
     rendermethod.h \
+    textrender.h \
     tileview.h \
     view.h
 
