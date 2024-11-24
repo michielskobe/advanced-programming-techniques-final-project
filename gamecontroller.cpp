@@ -1,12 +1,14 @@
 #include "gamecontroller.h"
 
-GameController::GameController() {}
+GameController::GameController() {
+    initialGameLoad();
+}
 
 
 void GameController::initialGameLoad()
 {
     // get levels from GameGenerator;
-    std::vector<std::string> fileNames;
+    std::vector<QString> fileNames;
     fileNames.push_back(":/images/world_images/maze1.png");
     fileNames.push_back(":/images/world_images/maze2.png");
 

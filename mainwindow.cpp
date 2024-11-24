@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "gamecontroller.h"
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QColor>
@@ -14,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     QString imageFile = ":/images/world_images/maze1.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
     setupWorldGrid();
+
+    GameController gameController = GameController();
+
 }
 
 MainWindow::~MainWindow()

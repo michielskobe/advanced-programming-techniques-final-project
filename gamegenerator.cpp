@@ -5,10 +5,12 @@ GameGenerator::GameGenerator()
 
 }
 
-GameGenerator::GameGenerator(std::vector<std::string> fileNames)
+GameGenerator::GameGenerator(std::vector<QString> fileNames)
 {
     // generate levels based on the fileNames
-    throw "Not implemented";
+    for (auto file: fileNames){
+        levels.emplace_back(new Level(file));
+    }
 }
 
 std::vector<std::unique_ptr<Level> > GameGenerator::getLevels()

@@ -8,7 +8,7 @@ class GameGenerator
 {
 public: // ctor
     GameGenerator();
-    GameGenerator(std::vector<std::string> fileNames);
+    GameGenerator(std::vector<QString> fileNames);
 
 public: // attributes
     std::vector<std::unique_ptr<Level>> levels;

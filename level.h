@@ -11,12 +11,16 @@ class Level
 {
 public: //ctor + dctor
     Level();
-    Level(std::string fileName);
+    Level(QString fileName);
 
 public: //attributes
     std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Tile>> healthPacks;
+    int rows;
+    int cols;
+    QImage world;
+    std::unique_ptr<Protagonist> protagonist;
 
 public: // methods
 };
