@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QKeyEvent>
 #include "world.h"
+#include "gamecontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,8 +26,10 @@ private:
     QGraphicsScene *scene;
     World world;
     int tileSize = 3;
+    GameController gameController;
 
     void setupWorldGrid();
+    void keyPressEvent(QKeyEvent *event) override;
 
 public slots:
     void zoomIn();

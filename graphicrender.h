@@ -1,9 +1,10 @@
 #ifndef GRAPHICRENDER_H
 #define GRAPHICRENDER_H
-
+#include <QtLogging>
+#include <QLoggingCategory>
 #include "rendermethod.h"
 
-class GraphicRender : public RenderMethod
+class GraphicRender : public QGraphicsPixmapItem, public RenderMethod
 {
 public:
     GraphicRender();

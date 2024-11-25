@@ -6,6 +6,11 @@ GameController::GameController() {
     initialGameLoad();
 }
 
+void GameController::moveProtagonistRelative(int relativeX, int relativeY)
+{
+    qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
+}
+
 
 void GameController::initialGameLoad()
 {

@@ -17,6 +17,7 @@ SOURCES += \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
+    overlayrender.cpp \
     protagonistview.cpp \
     rendermethod.cpp \
     textrender.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     level.h \
     mainwindow.h \
     mainwindow.h \
+    overlayrender.h \
     protagonistview.h \
     rendermethod.h \
     textrender.h \

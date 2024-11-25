@@ -18,7 +18,9 @@ public: // methods
     void startAutoPlay();
     void stopAutoPlay();
 
-    // maybe we can split this initial game generation into its own class?
+    void moveProtagonistRelative(int relativeX, int relativeY);
+    void moveProtagonistAbsolute(int absoluteX, int absoluteY);
+
     void addLevel();
     void initialGameLoad();
 };

@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "gamecontroller.h"
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QColor>
 #include <QDebug>
 #include <QtLogging>
 #include <QLoggingCategory>
+#include "rendermethod.h"
+#include "graphicrender.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
@@ -22,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     setupWorldGrid();
 
     qCInfo(MainWindowCat) << "Making game controller.";
-    GameController gameController = GameController();
 
 }
 
@@ -33,6 +33,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupWorldGrid() {
     auto tiles = world.getTiles();
+
+    GraphicRender *method = new GraphicRender();
+    scene->addItem(method);
 
     for (auto& tilePtr : tiles) {
         // Tile& tile = *tilePtr;
@@ -48,6 +51,33 @@ void MainWindow::setupWorldGrid() {
         tileItem->setBrush(color);
         tileItem->setPen(Qt::NoPen);
         scene->addItem(tileItem);
+    }
+}
+
+/*
+ *  This method parses key presses and translates them into actions for the game controller
+ */
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()){
+        case Qt::Key_Z:
+            qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
+            gameController.moveProtagonistRelative(0,1);
+            break;
+        case Qt::Key_Q:
+            qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
+            gameController.moveProtagonistRelative(-1,0);
+            break;
+        case Qt::Key_S:
+            qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
+            gameController.moveProtagonistRelative(0,-1);
+            break;
+        case Qt::Key_D:
+            qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
+            gameController.moveProtagonistRelative(1,0);
+            break;
+        default:
+            qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";
     }
 }
 

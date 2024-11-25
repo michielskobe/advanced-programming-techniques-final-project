@@ -1,5 +1,11 @@
 #include "graphicrender.h"
 
-GraphicRender::GraphicRender() {}
+QLoggingCategory graphicRenderCat("Graphical Renderer");
 
-void GraphicRender::render(){}
+GraphicRender::GraphicRender() {
+    qCInfo(graphicRenderCat) << "Init of graphic renderer";
+}
+
+void GraphicRender::render(){
+    qCInfo(graphicRenderCat) << "graphic renderer";
+}
