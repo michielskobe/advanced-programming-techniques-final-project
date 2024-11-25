@@ -26,7 +26,7 @@ private:
     QGraphicsScene *scene;
     World world;
     int tileSize = 3;
-    GameController gameController;
+    GameController gameController = GameController();
 
     void setupWorldGrid();
     void keyPressEvent(QKeyEvent *event) override;

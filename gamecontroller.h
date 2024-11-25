@@ -13,6 +13,7 @@ public: // constructor/destructor
 public: // attributes
     Protagonist protagonist;
     std::vector<std::unique_ptr<Level>> levels;
+    int activeLevelIndex = 0;
 
 public: // methods
     void startAutoPlay();

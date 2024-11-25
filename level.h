@@ -25,6 +25,8 @@ public: //attributes
     std::unique_ptr<Protagonist> protagonist;
 
 public: // methods
+    void moveProtagonistRelative(int relativeX, int relativeY);
+    void moveProtagonistAbsolute(int absoluteX, int absoluteY);
 };
 
 #endif // LEVEL_H

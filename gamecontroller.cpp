@@ -6,9 +6,22 @@ GameController::GameController() {
     initialGameLoad();
 }
 
+/*
+ * Move the protagonist relatively in the active level
+ */
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
+    levels[activeLevelIndex]->moveProtagonistRelative(relativeX, relativeY);
+}
+
+/*
+ * Move the protagonist absolutely in the active level
+ */
+void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
+{
+    qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
+    levels[activeLevelIndex]->moveProtagonistRelative(absoluteX, absoluteY);
 }
 
 

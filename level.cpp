@@ -18,3 +18,19 @@ Level::Level(QString fileName)
     worldImageLocation = fileName;
 
 }
+
+/*
+ * Move the protagonist relatively in the level
+ */
+void Level::moveProtagonistRelative(int relativeX, int relativeY)
+{
+    protagonist->setPos(protagonist->getXPos() + relativeX, protagonist ->getYPos() + relativeY);
+}
+
+/*
+ * Move the protagonist Absolutely in the level
+ */
+void Level::moveProtagonistAbsolute(int absoluteX, int absoluteY)
+{
+    protagonist->setPos(absoluteX, absoluteY);
+}

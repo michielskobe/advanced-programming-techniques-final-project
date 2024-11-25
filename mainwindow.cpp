@@ -34,8 +34,8 @@ MainWindow::~MainWindow()
 void MainWindow::setupWorldGrid() {
     auto tiles = world.getTiles();
 
-    GraphicRender *method = new GraphicRender();
-    scene->addItem(method);
+    // GraphicRender *method = new GraphicRender();
+    // scene->addItem(method);
 
     for (auto& tilePtr : tiles) {
         // Tile& tile = *tilePtr;
