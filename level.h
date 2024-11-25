@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 #include "world.h"
+#include <QtLogging>
+#include <QLoggingCategory>
 
 class Level
 {
@@ -19,7 +21,7 @@ public: //attributes
     std::vector<std::unique_ptr<Tile>> healthPacks;
     int rows;
     int cols;
-    QImage world;
+    QString worldImageLocation;
     std::unique_ptr<Protagonist> protagonist;
 
 public: // methods

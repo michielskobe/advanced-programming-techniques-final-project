@@ -4,6 +4,11 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QColor>
+#include <QDebug>
+#include <QtLogging>
+#include <QLoggingCategory>
+
+QLoggingCategory MainWindowCat("MainWindow");
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     world.createWorld(imageFile, 1, 1, 0.25f);
     setupWorldGrid();
 
+    qCInfo(MainWindowCat) << "Making game controller.";
     GameController gameController = GameController();
 
 }
@@ -43,4 +49,14 @@ void MainWindow::setupWorldGrid() {
         tileItem->setPen(Qt::NoPen);
         scene->addItem(tileItem);
     }
+}
+
+void MainWindow::zoomIn()
+{
+    ++tileSize;
+}
+
+void MainWindow::zoomOut()
+{
+    --tileSize;
 }

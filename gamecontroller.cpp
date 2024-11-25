@@ -1,5 +1,7 @@
 #include "gamecontroller.h"
 
+QLoggingCategory gameControllerCat("gameController");
+
 GameController::GameController() {
     initialGameLoad();
 }
@@ -7,6 +9,7 @@ GameController::GameController() {
 
 void GameController::initialGameLoad()
 {
+    qCInfo(gameControllerCat) << "Performing initial game load.";
     // get levels from GameGenerator;
     std::vector<QString> fileNames;
     fileNames.push_back(":/images/world_images/maze1.png");

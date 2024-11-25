@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
+    <width>1199</width>
     <height>673</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="graphic_tab">
      <attribute name="title">
       <string>Graphical mode</string>
      </attribute>
@@ -41,11 +41,37 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="text_tab">
      <attribute name="title">
       <string>Text-based mode</string>
      </attribute>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="zoomOutBtn">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>590</y>
+      <width>87</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zoom -</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="zoomInBtn">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>590</y>
+      <width>87</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zoom +</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -53,7 +79,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>987</width>
+     <width>1199</width>
      <height>23</height>
     </rect>
    </property>

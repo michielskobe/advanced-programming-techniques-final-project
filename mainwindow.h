@@ -23,8 +23,12 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     World world;
-    const int tileSize = 5;
+    int tileSize = 3;
 
     void setupWorldGrid();
+
+public slots:
+    void zoomIn();
+    void zoomOut();
 };
 #endif // MAINWINDOW_H

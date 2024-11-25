@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++17 console
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -39,6 +39,8 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui
+
+# QT_LOGGING_CONF=./qtlogging.ini
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
