@@ -23,6 +23,8 @@ public: // methods
 
     void moveProtagonistRelative(int relativeX, int relativeY);
     void moveProtagonistAbsolute(int absoluteX, int absoluteY);
+    int getActiveLevelIndex() const;
+    void setActiveLevelIndex(int newActiveLevelIndex);
 
     void addLevel();
     void initialGameLoad();

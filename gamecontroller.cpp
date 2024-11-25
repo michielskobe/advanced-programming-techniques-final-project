@@ -7,6 +7,16 @@ GameController::GameController() {
     connectSlots();
 }
 
+int GameController::getActiveLevelIndex() const
+{
+    return activeLevelIndex;
+}
+
+void GameController::setActiveLevelIndex(int newActiveLevelIndex)
+{
+    activeLevelIndex = newActiveLevelIndex;
+}
+
 /*
  * Move the protagonist relatively in the active level
  */
