@@ -4,6 +4,7 @@ QLoggingCategory gameControllerCat("gameController");
 
 GameController::GameController() {
     initialGameLoad();
+    connectSlots();
 }
 
 /*
@@ -35,4 +36,17 @@ void GameController::initialGameLoad()
 
     GameGenerator generator = GameGenerator(fileNames);
     levels = generator.getLevels();
+}
+
+void GameController::connectSlots()
+{
+    // connect protagonist position change signal to game controller
+    for (int i = 0; i < (int)levels.size(); i++) {
+        QObject::connect(&(*(levels[i]->protagonist)), &Protagonist::posChanged, this, &GameController::protagonistPositionUpdated);
+    }
+}
+
+void GameController::protagonistPositionUpdated(int xPos, int yPos)
+{
+    qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
 }

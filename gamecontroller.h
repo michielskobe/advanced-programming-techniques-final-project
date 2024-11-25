@@ -5,10 +5,12 @@
 #include "gamegenerator.h"
 
 
-class GameController
+class GameController: public QObject
 {
+    Q_OBJECT
 public: // constructor/destructor
     GameController();
+    ~GameController() override = default;
 
 public: // attributes
     Protagonist protagonist;
@@ -24,6 +26,10 @@ public: // methods
 
     void addLevel();
     void initialGameLoad();
+    void connectSlots();
+
+public slots:
+    void protagonistPositionUpdated(int xPos, int yPos);
 };
 
 #endif // GAMECONTROLLER_H
