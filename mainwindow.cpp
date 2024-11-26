@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
-    ui->graphicsView->setScene(scene);;
+    ui->graphicsView->setScene(scene);
 
     QString imageFile = ":/images/world_images/maze1.png";
     world.createWorld(imageFile, 1, 1, 0.25f);

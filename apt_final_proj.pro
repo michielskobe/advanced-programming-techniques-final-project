@@ -10,6 +10,7 @@ CONFIG += c++17 console
 
 
 SOURCES += \
+    customqgraphicsview.cpp \
     enemyview.cpp \
     gamecontroller.cpp \
     gamegenerator.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     view.cpp
 
 HEADERS += \
+    customqgraphicsview.h \
     enemyview.h \
     gamecontroller.h \
     gamegenerator.h \
