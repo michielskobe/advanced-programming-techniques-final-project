@@ -19,11 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     ui->graphicsView_2->setScene(scene);
 
-    QString imageFile = ":/images/world_images/maze1.png";
+    QString imageFile = ":/images/world_images/maze2.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
     QPainter p = QPainter();
     ui->graphicsView_2->drawBackground(&p, scene->sceneRect());
-    //setupWorldGrid();
+    setupWorldGrid();
 
     // self.invalidate(self.sceneRect(), QGraphicsScene.ForegroundLayer)
     // ui->graphicsView_2->invalidateScene(ui->graphicsView_2->sceneRect(), QGraphicsScene::BackgroundLayer);

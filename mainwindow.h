@@ -25,7 +25,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     World world;
-    int tileSize = 1;
+    int tileSize = 3;
     GameController gameController = GameController();
 
     void setupWorldGrid();
