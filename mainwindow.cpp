@@ -78,7 +78,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch (event->key()){
         case Qt::Key_Z:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
-            gameController.moveProtagonistRelative(0,1);
+            gameController.moveProtagonistRelative(0,-1);
             protagonistView->renderModel(scene, currentXPos,currentYPos-1);
             break;
         case Qt::Key_Q:
@@ -88,7 +88,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
         case Qt::Key_S:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
-            gameController.moveProtagonistRelative(0,-1);
+            gameController.moveProtagonistRelative(0,1);
             protagonistView->renderModel(scene, currentXPos,currentYPos+1);
             break;
         case Qt::Key_D:
