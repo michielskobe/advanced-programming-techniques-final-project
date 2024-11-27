@@ -12,7 +12,9 @@ public:
     GraphicRender(QGraphicsPixmapItem* pixmapItem);
     ~GraphicRender() = default;
 
-    void render(QGraphicsScene* scene, int xPos, int yPos) override;
+    void render(int xPos, int yPos) override;
+
+    QGraphicsPixmapItem *pixmapItem() const;
 
 private:
     QGraphicsPixmapItem* m_pixmapItem;

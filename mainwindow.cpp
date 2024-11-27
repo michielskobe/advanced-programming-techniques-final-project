@@ -16,13 +16,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
-    protagonistView = new ProtagonistView(scene);
+
+    protagonistView = new ProtagonistView();
     TextRender* protagonistTextRender = new TextRender(new QTextEdit);
     GraphicRender* protagonistGraphicRender = new GraphicRender(new QGraphicsPixmapItem(QPixmap(":/images/protagonist.png")));
     std::vector<std::shared_ptr<RenderMethod>> protagonistRender;
     protagonistRender.emplace_back(protagonistTextRender);
     protagonistRender.emplace_back(protagonistGraphicRender);
     protagonistView->setRenderMethods(protagonistRender);
+    scene->addItem(protagonistGraphicRender->pixmapItem());
+
     ui->graphicsView->setScene(scene);
     ui->graphicsView_2->setScene(scene);
 
@@ -79,22 +82,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Z:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
             gameController.moveProtagonistRelative(0,-1);
-            protagonistView->renderModel(scene, currentXPos,currentYPos-1);
+            protagonistView->renderModel(currentXPos, currentYPos-1);
             break;
         case Qt::Key_Q:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
             gameController.moveProtagonistRelative(-1,0);
-            protagonistView->renderModel(scene, currentXPos-1,currentYPos);
+            protagonistView->renderModel(currentXPos-1, currentYPos);
             break;
         case Qt::Key_S:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
             gameController.moveProtagonistRelative(0,1);
-            protagonistView->renderModel(scene, currentXPos,currentYPos+1);
+            protagonistView->renderModel(currentXPos, currentYPos+1);
             break;
         case Qt::Key_D:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
             gameController.moveProtagonistRelative(1,0);
-            protagonistView->renderModel(scene, currentXPos+1,currentYPos);
+            protagonistView->renderModel(currentXPos+1, currentYPos);
             break;
         default:
             qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";

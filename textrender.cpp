@@ -4,5 +4,5 @@
 TextRender::TextRender(QTextEdit* textEdit)
     : m_textEdit(textEdit) {}
 
-void TextRender::render(QGraphicsScene* scene, int xPos, int yPos) {
+void TextRender::render(int xPos, int yPos) {
 }

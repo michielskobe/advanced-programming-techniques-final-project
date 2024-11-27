@@ -10,7 +10,7 @@ public:
     TextRender(QTextEdit* textEdit);
     ~TextRender() = default;
 
-    void render(QGraphicsScene* scene, int xPos, int yPos) override;
+    void render(int xPos, int yPos) override;
 
 private:
     QTextEdit* m_textEdit;

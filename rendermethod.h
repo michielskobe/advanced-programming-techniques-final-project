@@ -8,7 +8,7 @@ public:
     RenderMethod();
     virtual ~RenderMethod() = default;
 
-    virtual void render(QGraphicsScene* scene, int xPos, int yPos) = 0;
+    virtual void render(int xPos, int yPos) = 0;
 };
 
 #endif // RENDERMETHOD_H

@@ -2,6 +2,6 @@
 
 TileView::TileView() {}
 
-void TileView::renderModel(QGraphicsScene* scene, int xPos, int yPos){
-    renderMethods[activeRenderMethod]->render(scene, xPos, yPos);
+void TileView::renderModel(int xPos, int yPos){
+    renderMethods[activeRenderMethod]->render(xPos, yPos);
 }
