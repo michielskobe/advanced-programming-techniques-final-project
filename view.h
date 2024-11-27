@@ -4,6 +4,8 @@
 #include "rendermethod.h"
 #include <memory>
 #include <vector>
+#include <QGraphicsPixmapItem>
+#include <QTextEdit>
 
 class View
 {
@@ -14,7 +16,7 @@ public:
     std::vector<std::shared_ptr<RenderMethod>> renderMethods;
     int activeRenderMethod;
 
-    virtual void renderModel() = 0;
+    virtual void renderModel(QGraphicsScene* scene, int xPos, int yPos) = 0;
     void setRenderMethods(const std::vector<std::shared_ptr<RenderMethod>> &newRenderMethods);
     int getActiveRenderMethod() const;
     void setActiveRenderMethod(int newActiveRenderMethod);

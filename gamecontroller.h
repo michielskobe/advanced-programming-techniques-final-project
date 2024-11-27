@@ -3,6 +3,9 @@
 #include "world.h"
 #include "level.h"
 #include "gamegenerator.h"
+#include "protagonistview.h"
+#include "textrender.h"
+#include "graphicrender.h"
 
 
 class GameController: public QObject

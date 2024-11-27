@@ -3,14 +3,19 @@
 #include <QtLogging>
 #include <QLoggingCategory>
 #include "rendermethod.h"
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 
 class GraphicRender : public QGraphicsPixmapItem, public RenderMethod
 {
 public:
-    GraphicRender();
+    GraphicRender(QGraphicsPixmapItem* pixmapItem);
     ~GraphicRender() = default;
 
-    void render() override;
+    void render(QGraphicsScene* scene, int xPos, int yPos) override;
+
+private:
+    QGraphicsPixmapItem* m_pixmapItem;
 };
 
 #endif // GRAPHICRENDER_H

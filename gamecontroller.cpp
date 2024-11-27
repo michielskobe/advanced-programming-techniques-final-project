@@ -2,7 +2,7 @@
 
 QLoggingCategory gameControllerCat("gameController");
 
-GameController::GameController() {
+GameController::GameController(){
     initialGameLoad();
     connectSlots();
 }

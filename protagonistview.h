@@ -6,10 +6,12 @@
 class ProtagonistView : public View
 {
 public:
-    ProtagonistView();
+    ProtagonistView(QGraphicsScene* scene);
     ~ProtagonistView() = default;
 
-    void renderModel() override;
-};
+    void renderModel(QGraphicsScene* scene, int xPos, int yPos) override;
 
+private:
+    QGraphicsScene* m_scene;
+};
 #endif // PROTAGONISTVIEW_H

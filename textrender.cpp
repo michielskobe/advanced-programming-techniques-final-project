@@ -1,5 +1,8 @@
 #include "textrender.h"
+#include <QString>
 
-TextRender::TextRender() {}
+TextRender::TextRender(QTextEdit* textEdit)
+    : m_textEdit(textEdit) {}
 
-void TextRender::render(){}
+void TextRender::render(QGraphicsScene* scene, int xPos, int yPos) {
+}

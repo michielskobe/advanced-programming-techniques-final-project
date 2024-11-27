@@ -9,7 +9,7 @@ public:
     TileView();
     ~TileView() = default;
 
-    void renderModel() override;
+    void renderModel(QGraphicsScene* scene, int xPos, int yPos) override;
 };
 
 #endif // TILEVIEW_H

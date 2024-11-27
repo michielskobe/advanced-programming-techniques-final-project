@@ -16,8 +16,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
+    protagonistView = new ProtagonistView(scene);
+    TextRender* protagonistTextRender = new TextRender(new QTextEdit);
+    GraphicRender* protagonistGraphicRender = new GraphicRender(new QGraphicsPixmapItem(QPixmap(":/images/protagonist.png")));
+    std::vector<std::shared_ptr<RenderMethod>> protagonistRender;
+    protagonistRender.emplace_back(protagonistTextRender);
+    protagonistRender.emplace_back(protagonistGraphicRender);
+    protagonistView->setRenderMethods(protagonistRender);
     ui->graphicsView->setScene(scene);
     ui->graphicsView_2->setScene(scene);
+
 
     QString imageFile = ":/images/world_images/maze2.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
@@ -65,22 +73,28 @@ void MainWindow::setupWorldGrid() {
  */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    int currentXPos = gameController.levels[gameController.activeLevelIndex]->protagonist->getXPos();
+    int currentYPos = gameController.levels[gameController.activeLevelIndex]->protagonist->getYPos();
     switch (event->key()){
         case Qt::Key_Z:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
             gameController.moveProtagonistRelative(0,1);
+            protagonistView->renderModel(scene, currentXPos,currentYPos-1);
             break;
         case Qt::Key_Q:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
             gameController.moveProtagonistRelative(-1,0);
+            protagonistView->renderModel(scene, currentXPos-1,currentYPos);
             break;
         case Qt::Key_S:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
             gameController.moveProtagonistRelative(0,-1);
+            protagonistView->renderModel(scene, currentXPos,currentYPos+1);
             break;
         case Qt::Key_D:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
             gameController.moveProtagonistRelative(1,0);
+            protagonistView->renderModel(scene, currentXPos+1,currentYPos);
             break;
         default:
             qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";

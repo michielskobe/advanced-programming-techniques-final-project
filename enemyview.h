@@ -9,7 +9,7 @@ public:
     EnemyView();
     ~EnemyView() = default;
 
-    void renderModel() override;
+    void renderModel(QGraphicsScene* scene, int xPos, int yPos) override;
 };
 
 #endif // ENEMYVIEW_H
