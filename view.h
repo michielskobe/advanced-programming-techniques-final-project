@@ -17,7 +17,7 @@ public:
     int activeRenderMethod;
 
     virtual void renderModel(int xPos, int yPos) = 0;
-    void setRenderMethods(const std::vector<std::shared_ptr<RenderMethod>> &newRenderMethods);
+    void addRenderMethod(const std::shared_ptr<RenderMethod> &newRenderMethod);
     int getActiveRenderMethod() const;
     void setActiveRenderMethod(int newActiveRenderMethod);
 };
