@@ -2,12 +2,12 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17 console
+CONFIG += c++20 console
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
+QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 
 SOURCES += \
     customqgraphicsview.cpp \
@@ -19,6 +19,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     overlayrender.cpp \
+    pathfinderhelper.cpp \
+    pathfindernode.cpp \
     protagonistview.cpp \
     rendermethod.cpp \
     textrender.cpp \
@@ -35,6 +37,9 @@ HEADERS += \
     mainwindow.h \
     mainwindow.h \
     overlayrender.h \
+    pathfinder_class.h \
+    pathfinderhelper.h \
+    pathfindernode.h \
     protagonistview.h \
     rendermethod.h \
     textrender.h \
