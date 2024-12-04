@@ -17,6 +17,16 @@ void GameController::setActiveLevelIndex(int newActiveLevelIndex)
     *activeLevelIndex = newActiveLevelIndex;
 }
 
+float GameController::getActiveProtagonistHealth() const
+{
+    return (*levels)[*activeLevelIndex]->getProtagonistHealth();
+}
+
+float GameController::getActiveProtagonistEnergy() const
+{
+    return (*levels)[*activeLevelIndex]->getProtagonistEnergy();
+}
+
 /*
  * Move the protagonist relatively in the active level
  */
@@ -61,5 +71,6 @@ void GameController::protagonistPositionUpdated(int xPos, int yPos)
 {
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
     //protagonistView->renderModel(xPos,yPos);
+    emit updateUI();
 
 }

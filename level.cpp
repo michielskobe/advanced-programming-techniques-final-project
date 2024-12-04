@@ -34,3 +34,14 @@ void Level::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     protagonist->setPos(absoluteX, absoluteY);
 }
+
+float Level::getProtagonistHealth() const
+{
+    return protagonist->getHealth();
+}
+
+float Level::getProtagonistEnergy() const
+{
+    return protagonist->getEnergy();
+}
+

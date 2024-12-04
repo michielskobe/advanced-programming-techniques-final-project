@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // self.invalidate(self.sceneRect(), QGraphicsScene.ForegroundLayer)
     // ui->graphicsView_2->invalidateScene(ui->graphicsView_2->sceneRect(), QGraphicsScene::BackgroundLayer);
+    QObject::connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
 
     qCInfo(MainWindowCat) << "Making game controller.";
 
@@ -102,4 +103,11 @@ void MainWindow::zoomIn()
 void MainWindow::zoomOut()
 {
     --tileSize;
+}
+
+void MainWindow::updateMainUI()
+{
+    qCInfo(MainWindowCat) << "Updating main window!";
+    ui->energy_bar->setValue((int)gameController.getActiveProtagonistEnergy());
+    ui->health_bar->setValue((int)gameController.getActiveProtagonistHealth());
 }

@@ -28,6 +28,8 @@ public: // methods
     void moveProtagonistAbsolute(int absoluteX, int absoluteY);
     std::shared_ptr<int> getActiveLevelIndex() const;
     void setActiveLevelIndex(int newActiveLevelIndex);
+    float getActiveProtagonistHealth() const;
+    float getActiveProtagonistEnergy() const;
 
     void addLevel();
     void initialGameLoad();
@@ -35,6 +37,9 @@ public: // methods
 
 public slots:
     void protagonistPositionUpdated(int xPos, int yPos);
+
+signals:
+    void updateUI();
 };
 
 #endif // GAMECONTROLLER_H

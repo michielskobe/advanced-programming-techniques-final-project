@@ -27,6 +27,9 @@ public: //attributes
 public: // methods
     void moveProtagonistRelative(int relativeX, int relativeY);
     void moveProtagonistAbsolute(int absoluteX, int absoluteY);
+    float getProtagonistHealth() const;
+    float getProtagonistEnergy() const;
+
 };
 
 #endif // LEVEL_H
