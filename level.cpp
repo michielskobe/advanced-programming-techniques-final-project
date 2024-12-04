@@ -45,3 +45,13 @@ float Level::getProtagonistEnergy() const
     return protagonist->getEnergy();
 }
 
+void Level::setProtagonistHealth(const float newHealth)
+{
+    protagonist->setHealth(newHealth);
+}
+
+void Level::setProtagonistEnergy(const float newEnergy)
+{
+    protagonist->setEnergy(newEnergy);
+}
+

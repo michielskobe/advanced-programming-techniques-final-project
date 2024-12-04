@@ -29,6 +29,8 @@ public: // methods
     void moveProtagonistAbsolute(int absoluteX, int absoluteY);
     float getProtagonistHealth() const;
     float getProtagonistEnergy() const;
+    void setProtagonistHealth(const float newHealth);
+    void setProtagonistEnergy(const float newEnergy);
 
 };
 

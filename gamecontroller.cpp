@@ -33,7 +33,10 @@ float GameController::getActiveProtagonistEnergy() const
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
+    // Move the protagonist
     (*levels)[*activeLevelIndex]->moveProtagonistRelative(relativeX, relativeY);
+    // update energy based on movement
+    (*levels)[*activeLevelIndex]->setProtagonistEnergy((*levels)[*activeLevelIndex]->getProtagonistEnergy()-2.0f);
 }
 
 /*
