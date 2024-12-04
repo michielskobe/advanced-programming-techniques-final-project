@@ -45,8 +45,9 @@ void GameController::initialGameLoad()
     fileNames.push_back(":/images/world_images/maze1.png");
     fileNames.push_back(":/images/world_images/maze2.png");
 
-    GameGenerator generator = GameGenerator(fileNames);
-    levels = std::make_shared<std::vector<std::unique_ptr<Level>>>(generator.getLevels());
+    LevelManager* levelManager = LevelManager::GetInstance();
+    levelManager->setLevels(fileNames);
+    levels = levelManager->getLevels();
 }
 
 void GameController::connectSlots()
@@ -60,6 +61,5 @@ void GameController::connectSlots()
 void GameController::protagonistPositionUpdated(int xPos, int yPos)
 {
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
-    //protagonistView->renderModel(xPos,yPos);
 
 }

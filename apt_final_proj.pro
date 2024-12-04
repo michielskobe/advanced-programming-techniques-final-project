@@ -13,9 +13,9 @@ SOURCES += \
     customqgraphicsview.cpp \
     enemyview.cpp \
     gamecontroller.cpp \
-    gamegenerator.cpp \
     graphicrender.cpp \
     level.cpp \
+    levelmanager.cpp \
     main.cpp \
     mainwindow.cpp \
     overlayrender.cpp \
@@ -31,9 +31,9 @@ HEADERS += \
     customqgraphicsview.h \
     enemyview.h \
     gamecontroller.h \
-    gamegenerator.h \
     graphicrender.h \
     level.h \
+    levelmanager.h \
     mainwindow.h \
     mainwindow.h \
     overlayrender.h \
