@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::shared_ptr<GraphicRender> protagonistGraphicRender = std::make_shared<GraphicRender>(new QGraphicsPixmapItem(QPixmap(":/images/protagonist.png")));
     protagonistView->addRenderMethod(protagonistTextRender);
     protagonistView->addRenderMethod(protagonistGraphicRender);
+    protagonistView->connectSlots();
     scene->addItem(protagonistGraphicRender->pixmapItem());
 
     QString imageFile = ":/images/world_images/maze2.png";

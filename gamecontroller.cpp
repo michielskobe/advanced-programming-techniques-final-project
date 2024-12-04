@@ -61,5 +61,4 @@ void GameController::connectSlots()
 void GameController::protagonistPositionUpdated(int xPos, int yPos)
 {
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
-
 }
