@@ -17,8 +17,8 @@ public: // constructor/destructor
 
 public: // attributes
     Protagonist protagonist;
-    std::vector<std::unique_ptr<Level>> levels;
-    int activeLevelIndex = 0;
+    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
+    std::shared_ptr<int> activeLevelIndex;
 
 public: // methods
     void startAutoPlay();
@@ -26,7 +26,7 @@ public: // methods
 
     void moveProtagonistRelative(int relativeX, int relativeY);
     void moveProtagonistAbsolute(int absoluteX, int absoluteY);
-    int getActiveLevelIndex() const;
+    std::shared_ptr<int> getActiveLevelIndex() const;
     void setActiveLevelIndex(int newActiveLevelIndex);
 
     void addLevel();
