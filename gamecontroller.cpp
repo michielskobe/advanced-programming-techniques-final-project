@@ -29,6 +29,7 @@ float GameController::getActiveProtagonistEnergy() const
 
 /*
  * Move the protagonist relatively in the active level
+ * This also updates the energy of the protagonist, since movement has a cost associated with it
  */
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
@@ -41,6 +42,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 
 /*
  * Move the protagonist absolutely in the active level
+ * This does NOT update the energy of the protagonist
  */
 void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
