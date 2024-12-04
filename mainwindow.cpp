@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
 
     qCInfo(MainWindowCat) << "Making game controller.";
+    updateMainUI();
 
 }
 

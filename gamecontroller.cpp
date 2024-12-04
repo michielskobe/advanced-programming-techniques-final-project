@@ -5,6 +5,7 @@ QLoggingCategory gameControllerCat("gameController");
 GameController::GameController(){
     initialGameLoad();
     connectSlots();
+    emit updateUI();
 }
 
 std::shared_ptr<int> GameController::getActiveLevelIndex() const
