@@ -3,14 +3,19 @@
 
 #include "view.h"
 #include "levelmanager.h"
+#include "textrender.h"
+#include "graphicrender.h"
+#include <QGraphicsPixmapItem>
 
 class ProtagonistView : public View, public QObject
 {
 public:
-    ProtagonistView();
+    ProtagonistView(QString protagonistImage);
     ~ProtagonistView() = default;
 
     void connectSlots();
+
+    QGraphicsPixmapItem* pixmap;
 
 public slots:
     void renderModel(int xPos, int yPos) override;

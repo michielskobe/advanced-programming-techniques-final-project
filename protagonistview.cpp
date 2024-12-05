@@ -1,9 +1,17 @@
 #include "protagonistview.h"
 
-ProtagonistView::ProtagonistView(){}
+ProtagonistView::ProtagonistView(QString protagonistImage){
+    pixmap = new QGraphicsPixmapItem(QPixmap(protagonistImage));
+    std::shared_ptr<GraphicRender> protagonistGraphicRender = std::make_shared<GraphicRender>(pixmap);
+    std::shared_ptr<TextRender> protagonistTextRender = std::make_shared<TextRender>(new QTextEdit);
+    addRenderMethod(protagonistGraphicRender);
+    addRenderMethod(protagonistTextRender);
+    connectSlots();
+    activeRenderMethod = 0;
+}
 
 void ProtagonistView::renderModel(int xPos, int yPos) {
-    renderMethods[1]->render(xPos, yPos);
+    renderMethods[activeRenderMethod]->render(xPos, yPos);
 }
 
 void ProtagonistView::connectSlots()

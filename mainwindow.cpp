@@ -17,27 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(scene);
-    ui->graphicsView_2->setScene(scene);
+    ui->textView->setScene(scene);
 
-    protagonistView = new ProtagonistView();
-    std::shared_ptr<TextRender> protagonistTextRender = std::make_shared<TextRender>(new QTextEdit);
-    std::shared_ptr<GraphicRender> protagonistGraphicRender = std::make_shared<GraphicRender>(new QGraphicsPixmapItem(QPixmap(":/images/protagonist.png")));
-    protagonistView->addRenderMethod(protagonistTextRender);
-    protagonistView->addRenderMethod(protagonistGraphicRender);
-    protagonistView->connectSlots();
-    scene->addItem(protagonistGraphicRender->pixmapItem());
-
-    QString imageFile = ":/images/world_images/maze2.png";
-    world.createWorld(imageFile, 1, 1, 0.25f);
-    QPainter p = QPainter();
-    ui->graphicsView_2->drawBackground(&p, scene->sceneRect());
     setupWorldGrid();
 
-    // self.invalidate(self.sceneRect(), QGraphicsScene.ForegroundLayer)
-    // ui->graphicsView_2->invalidateScene(ui->graphicsView_2->sceneRect(), QGraphicsScene::BackgroundLayer);
-
     qCInfo(MainWindowCat) << "Making game controller.";
-
 }
 
 MainWindow::~MainWindow()
@@ -46,26 +30,13 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setupWorldGrid() {
-    auto tiles = world.getTiles();
+    protagonistView = new ProtagonistView(":/images/protagonist.png");
+    protagonistView->pixmap->setScale(0.2);
+    scene->addItem(protagonistView->pixmap);
 
-    // GraphicRender *method = new GraphicRender();
-    // scene->addItem(method);
-
-    for (auto& tilePtr : tiles) {
-        // Tile& tile = *tilePtr;
-        int tileXPos = tilePtr->getXPos();
-        int tileYPos = tilePtr->getYPos();
-        float tileValue = tilePtr->getValue() == INFINITY ? 0 : tilePtr->getValue();
-
-
-        int greyValue = static_cast<int>(tileValue * 255);
-        QColor color(greyValue, greyValue, greyValue);
-
-        QGraphicsRectItem *tileItem = new QGraphicsRectItem(tileXPos * tileSize, tileYPos * tileSize, tileSize, tileSize);
-        tileItem->setBrush(color);
-        tileItem->setPen(Qt::NoPen);
-        scene->addItem(tileItem);
-    }
+    QString imageFile = ":/images/world_images/worldmap.png";
+    world.createWorld(imageFile, 1, 1, 0.25f);
+    scene->addPixmap(QPixmap(imageFile))->setScale(50);
 }
 
 /*
@@ -76,19 +47,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch (event->key()){
         case Qt::Key_Z:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
-            gameController.moveProtagonistRelative(0,-1);
+            gameController.moveProtagonistRelative(0,-50);
             break;
         case Qt::Key_Q:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
-            gameController.moveProtagonistRelative(-1,0);
+            gameController.moveProtagonistRelative(-50,0);
             break;
         case Qt::Key_S:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
-            gameController.moveProtagonistRelative(0,1);
+            gameController.moveProtagonistRelative(0,50);
             break;
         case Qt::Key_D:
             qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
-            gameController.moveProtagonistRelative(1,0);
+            gameController.moveProtagonistRelative(50,0);
             break;
         default:
             qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";

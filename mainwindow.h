@@ -33,6 +33,8 @@ private:
     ProtagonistView *protagonistView;
 
     void setupWorldGrid();
+    void setupProtagonist();
+    void setupEnemiesAndHealthPacks();
     void keyPressEvent(QKeyEvent *event) override;
 
 public slots:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1199</width>
-    <height>673</height>
+    <width>1113</width>
+    <height>906</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,12 +19,12 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>971</width>
-      <height>621</height>
+      <width>811</width>
+      <height>850</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="graphic_tab">
      <attribute name="title">
@@ -35,8 +35,8 @@
        <rect>
         <x>0</x>
         <y>10</y>
-        <width>961</width>
-        <height>571</height>
+        <width>800</width>
+        <height>800</height>
        </rect>
       </property>
      </widget>
@@ -45,13 +45,13 @@
      <attribute name="title">
       <string>Text-based mode</string>
      </attribute>
-     <widget class="CustomQGraphicsView" name="graphicsView_2">
+     <widget class="CustomQGraphicsView" name="textView">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>961</width>
-        <height>581</height>
+        <y>10</y>
+        <width>800</width>
+        <height>800</height>
        </rect>
       </property>
      </widget>
@@ -60,8 +60,8 @@
    <widget class="QPushButton" name="zoomOutBtn">
     <property name="geometry">
      <rect>
-      <x>980</x>
-      <y>590</y>
+      <x>900</x>
+      <y>600</y>
       <width>87</width>
       <height>26</height>
      </rect>
@@ -73,8 +73,8 @@
    <widget class="QPushButton" name="zoomInBtn">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>590</y>
+      <x>1000</x>
+      <y>600</y>
       <width>87</width>
       <height>26</height>
      </rect>
@@ -89,7 +89,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1199</width>
+     <width>1113</width>
      <height>23</height>
     </rect>
    </property>

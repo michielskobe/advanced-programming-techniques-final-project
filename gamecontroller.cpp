@@ -32,7 +32,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
-    (*levels)[*activeLevelIndex]->moveProtagonistRelative(absoluteX, absoluteY);
+    (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
 }
 
 
