@@ -40,5 +40,6 @@ private:
 public slots:
     void zoomIn();
     void zoomOut();
+    void updateMainUI();
 };
 #endif // MAINWINDOW_H
