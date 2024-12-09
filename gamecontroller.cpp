@@ -58,7 +58,7 @@ void GameController::initialGameLoad()
     activeLevelIndex = std::make_shared<int>(0);
     // get levels from GameGenerator;
     std::vector<QString> fileNames;
-    fileNames.push_back(":/images/world_images/maze1.png");
+    fileNames.push_back(":/images/world_images/worldmap.png");
     fileNames.push_back(":/images/world_images/maze2.png");
 
     LevelManager* levelManager = LevelManager::GetInstance();

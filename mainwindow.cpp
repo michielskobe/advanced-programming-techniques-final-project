@@ -40,6 +40,23 @@ void MainWindow::setupWorldGrid() {
     protagonistView->pixmap->setScale(0.2);
     scene->addItem(protagonistView->pixmap);
 
+    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels = LevelManager::GetInstance()->getLevels();
+
+    for (int i = 0; i < (int)levels->size(); i++) {
+        for (auto& enemy :(*levels)[*(gameController.activeLevelIndex)]->enemies){
+            EnemyView* enemyView = new EnemyView(":/images/enemy.png");
+            enemyView->pixmap->setScale(0.09);
+            scene->addItem(enemyView->pixmap);
+            enemyView->renderModel(enemy->getXPos(), enemy->getYPos());
+        }
+        for (auto& hp :(*levels)[*(gameController.activeLevelIndex)]->healthPacks){
+            HealthPackView* healthPackView = new HealthPackView(":/images/health_pack.png");
+            healthPackView->pixmap->setScale(0.2);
+            scene->addItem(healthPackView->pixmap);
+            healthPackView->renderModel(hp->getXPos(),hp->getYPos());
+        }
+    }
+
     QString imageFile = ":/images/world_images/worldmap.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
     scene->addPixmap(QPixmap(imageFile))->setScale(50);

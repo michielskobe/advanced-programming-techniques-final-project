@@ -9,6 +9,8 @@
 #include "world.h"
 #include "gamecontroller.h"
 #include "protagonistview.h"
+#include "enemyview.h"
+#include "healthpackview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

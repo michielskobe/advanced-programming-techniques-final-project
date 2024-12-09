@@ -1,16 +1,16 @@
-#ifndef ENEMYVIEW_H
-#define ENEMYVIEW_H
+#ifndef HEALTHPACKVIEW_H
+#define HEALTHPACKVIEW_H
 
 #include "view.h"
 #include "levelmanager.h"
 #include "textrender.h"
 #include "graphicrender.h"
 
-class EnemyView : public View, public QObject
+class HealthPackView : public View, public QObject
 {
 public:
-    EnemyView(QString enemyImage);
-    ~EnemyView() = default;
+    HealthPackView(QString healthPackImage);
+    ~HealthPackView() = default;
 
     void connectSlots();
 
@@ -20,4 +20,4 @@ public slots:
     void renderModel(int xPos, int yPos) override;
 };
 
-#endif // ENEMYVIEW_H
+#endif // HEALTHPACKVIEW_H

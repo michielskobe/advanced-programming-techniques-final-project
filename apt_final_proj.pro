@@ -14,6 +14,7 @@ SOURCES += \
     enemyview.cpp \
     gamecontroller.cpp \
     graphicrender.cpp \
+    healthpackview.cpp \
     level.cpp \
     levelmanager.cpp \
     main.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     enemyview.h \
     gamecontroller.h \
     graphicrender.h \
+    healthpackview.h \
     level.h \
     levelmanager.h \
     mainwindow.h \

@@ -7,7 +7,6 @@
 #include "graphicrender.h"
 #include "levelmanager.h"
 
-
 class GameController: public QObject
 {
     Q_OBJECT
