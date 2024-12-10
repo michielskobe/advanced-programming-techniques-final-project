@@ -12,6 +12,7 @@
 #include "enemyview.h"
 #include "healthpackview.h"
 #include <QTextEdit>
+#include <QCompleter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +32,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *grahpicsScene;
     QTextEdit *textScene;
+    QCompleter* completer;
     World world;
     int tileSize = 3;
     GameController gameController = GameController();

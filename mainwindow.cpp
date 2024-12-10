@@ -9,12 +9,13 @@
 #include "rendermethod.h"
 #include "graphicrender.h"
 #include <QLineEdit>
+#include <QStringListModel>
 
 QLoggingCategory MainWindowCat("MainWindow");
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), grahpicsScene(new QGraphicsScene(this)), textScene(new QTextEdit(this))
+    , ui(new Ui::MainWindow), grahpicsScene(new QGraphicsScene(this)), textScene(new QTextEdit(this)), completer(nullptr)
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(grahpicsScene);
@@ -22,6 +23,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
     ui->tabWidget->setCurrentIndex(0);
+
+    QStringList commands = {
+        "up",
+        "down",
+        "left",
+        "right"
+    };
+
+    completer = new QCompleter(commands, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    ui->commandInput->setCompleter(completer);
 
     levels = LevelManager::GetInstance()->getLevels();
     setupWorldGrid();
