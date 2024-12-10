@@ -11,6 +11,7 @@
 #include "protagonistview.h"
 #include "enemyview.h"
 #include "healthpackview.h"
+#include <QTextEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,20 +29,25 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *scene;
+    QGraphicsScene *grahpicsScene;
+    QTextEdit *textScene;
     World world;
     int tileSize = 3;
     GameController gameController = GameController();
     ProtagonistView *protagonistView;
+    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 
     void setupWorldGrid();
     void setupProtagonist();
     void setupEnemiesAndHealthPacks();
     void keyPressEvent(QKeyEvent *event) override;
+    QString generateTextRepresentation();
 
 public slots:
     void zoomIn();
     void zoomOut();
     void updateMainUI();
+    void processCommand();
+    void onTabChanged(int index);
 };
 #endif // MAINWINDOW_H

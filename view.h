@@ -20,6 +20,7 @@ public:
     void addRenderMethod(const std::shared_ptr<RenderMethod> &newRenderMethod);
     int getActiveRenderMethod() const;
     void setActiveRenderMethod(int newActiveRenderMethod);
+    void toggleRenderMethod();
 };
 
 #endif // VIEW_H

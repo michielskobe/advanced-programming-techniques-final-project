@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="graphic_tab">
      <attribute name="title">
@@ -45,14 +45,40 @@
      <attribute name="title">
       <string>Text-based mode</string>
      </attribute>
-     <widget class="CustomQGraphicsView" name="textView">
+     <widget class="QTextEdit" name="textView">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>10</y>
-        <width>800</width>
-        <height>800</height>
+        <y>0</y>
+        <width>771</width>
+        <height>771</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="commandInput">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>780</y>
+        <width>531</width>
+        <height>26</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>780</y>
+        <width>231</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Please enter your command here:</string>
       </property>
      </widget>
     </widget>
@@ -157,13 +183,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>CustomQGraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>customqgraphicsview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
