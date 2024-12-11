@@ -37,8 +37,15 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
     // Move the protagonist
     (*levels)[*activeLevelIndex]->moveProtagonistRelative(relativeX, relativeY);
+
+    // get the value of the destination tile
+    float tileEnergy = (*levels)[*activeLevelIndex]->getTileValue((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
+    tileEnergy = 1/tileEnergy; // invert the tile value
+
+    tileEnergy = tileEnergy * 0.2; // Make the game more easy TODO: Make difficulty modes for this if there is time
+
     // update energy based on movement
-    (*levels)[*activeLevelIndex]->setProtagonistEnergy((*levels)[*activeLevelIndex]->getProtagonistEnergy()-2.0f);
+    (*levels)[*activeLevelIndex]->setProtagonistEnergy(((*levels)[*activeLevelIndex]->getProtagonistEnergy())-tileEnergy);
 }
 
 /*

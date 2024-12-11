@@ -55,3 +55,24 @@ void Level::setProtagonistEnergy(const float newEnergy)
     protagonist->setEnergy(newEnergy);
 }
 
+float Level::getTileValue(const int absoluteX, const int absoluteY) const
+{
+    // check for non valid positions
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY/50 >= cols || absoluteX/50 >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not get energy for position x=" << absoluteX << " y=" << absoluteY;
+        return 0.0f;
+    }
+
+    // Calculate tile index:
+    const int index = absoluteX/50 + absoluteY/50 * cols;
+
+    // check if index is out of bounds
+    if (index < 0 || index >= cols*rows){
+        qCInfo(LevelCat) << "Tile index is out of bounds, can not get energy for position x=" << absoluteX << " y=" << absoluteY;
+        return 0.0f;
+    }
+
+    // Get the value of the requested tile
+    return tiles[index].get()->getValue();
+}
+
