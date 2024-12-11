@@ -24,7 +24,9 @@ Level::Level(QString fileName)
  */
 void Level::moveProtagonistRelative(int relativeX, int relativeY)
 {
-    protagonist->setPos(protagonist->getXPos() + relativeX, protagonist ->getYPos() + relativeY);
+    int absoluteX = protagonist->getXPos() + relativeX;
+    int absoluteY = protagonist ->getYPos() + relativeY;
+    moveProtagonistAbsolute(absoluteX, absoluteY);
 }
 
 /*
@@ -32,7 +34,13 @@ void Level::moveProtagonistRelative(int relativeX, int relativeY)
  */
 void Level::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
-    protagonist->setPos(absoluteX, absoluteY);
+    // first check if this is a valid position
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY/50 >= cols || absoluteX/50 >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not move Protagonist to x=" << absoluteX << " y=" << absoluteY;
+    }
+    else  {
+        protagonist->setPos(absoluteX, absoluteY);
+    }
 }
 
 float Level::getProtagonistHealth() const
