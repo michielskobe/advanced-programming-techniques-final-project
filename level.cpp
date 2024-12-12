@@ -35,7 +35,7 @@ void Level::moveProtagonistRelative(int relativeX, int relativeY)
 void Level::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     // first check if this is a valid position
-    if (absoluteX < 0 || absoluteY < 0 || absoluteY/50 >= cols || absoluteX/50 >= rows){
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
         qCInfo(LevelCat) << "Invalid tile position, can not move Protagonist to x=" << absoluteX << " y=" << absoluteY;
     }
     else  {
@@ -66,13 +66,13 @@ void Level::setProtagonistEnergy(const float newEnergy)
 float Level::getTileValue(const int absoluteX, const int absoluteY) const
 {
     // check for non valid positions
-    if (absoluteX < 0 || absoluteY < 0 || absoluteY/50 >= cols || absoluteX/50 >= rows){
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
         qCInfo(LevelCat) << "Invalid tile position, can not get energy for position x=" << absoluteX << " y=" << absoluteY;
         return 0.0f;
     }
 
     // Calculate tile index:
-    const int index = absoluteX/50 + absoluteY/50 * cols;
+    const int index = absoluteX + absoluteY * cols;
 
     // check if index is out of bounds
     if (index < 0 || index >= cols*rows){
