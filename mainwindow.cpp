@@ -17,28 +17,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(grahpicsScene);
-    ui->textView->setText(textScene->toPlainText());
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
-    ui->tabWidget->setCurrentIndex(0);
 
-    QStringList commands = {
-        "up",
-        "down",
-        "left",
-        "right"
-    };
-
+    QStringList commands = {"up", "down", "left", "right"};
     completer = new QCompleter(commands, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->commandInput->setCompleter(completer);
 
     levels = LevelManager::GetInstance()->getLevels();
-    setupWorldGrid();
 
-    // self.invalidate(self.sceneRect(), QGraphicsScene.ForegroundLayer)
-    // ui->graphicsView_2->invalidateScene(ui->graphicsView_2->sceneRect(), QGraphicsScene::BackgroundLayer);
+    graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene(), ":/images/world_images/worldmap.png");
+    textualWorldView = new TextualWorldView(ui->textView);
+    currentWorldView = graphicalWorldView;
+
     connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
     connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
@@ -50,12 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::setupWorldGrid() {
-    QString imageFile = ":/images/world_images/worldmap.png";
-    world.createWorld(imageFile, 1, 1, 0.25f);
-    grahpicsScene->addPixmap(QPixmap(imageFile))->setScale(50);
 }
 
 /*
@@ -116,6 +103,7 @@ void MainWindow::updateMainUI()
     qCInfo(MainWindowCat) << "Updating main window!";
     ui->energy_bar->setValue((int)gameController.getActiveProtagonistEnergy());
     ui->health_bar->setValue((int)gameController.getActiveProtagonistHealth());
+    currentWorldView->updateView();
 }
 
 void MainWindow::onTabChanged(int index)
@@ -123,31 +111,11 @@ void MainWindow::onTabChanged(int index)
     if (index == 0) {
         // Graphical view tab selected
         qCInfo(MainWindowCat) << "Switched to Graphical View.";
+        currentWorldView = graphicalWorldView;
     } else if (index == 1) {
         // Text view tab selected
         qCInfo(MainWindowCat) << "Switched to Text View.";
-
-        QString textRepresentation = generateTextRepresentation();
-        ui->textView->setPlainText(textRepresentation);
+        currentWorldView = textualWorldView;
     }
-}
-
-QString MainWindow::generateTextRepresentation() {
-    // Define the size of the grid
-    const int gridWidth = (*levels)[*(gameController.activeLevelIndex)]->cols;
-    const int gridHeight = (*levels)[*(gameController.activeLevelIndex)]->rows;
-    QVector<QVector<QString>> grid(gridHeight, QVector<QString>(gridWidth, " ")); // Empty grid
-
-    // Create string representation of the grid
-    QString representation;
-    for (int y = 0; y < gridHeight; ++y) {
-        representation += QString("+---").repeated(gridWidth) + "+\n"; // Top border
-        for (int x = 0; x < gridWidth; ++x) {
-            representation += "| " + grid[y][x] + " ";
-        }
-        representation += "|\n"; // End of row
-    }
-    representation += QString("+---").repeated(gridWidth) + "+\n"; // Bottom border
-
-    return representation;
+    currentWorldView->updateView();
 }

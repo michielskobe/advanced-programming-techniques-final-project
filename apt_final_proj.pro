@@ -12,17 +12,22 @@ QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 SOURCES += \
     customqgraphicsview.cpp \
     gamecontroller.cpp \
+    graphicalworldview.cpp \
     level.cpp \
     levelmanager.cpp \
     main.cpp \
     mainwindow.cpp \
     overlayrender.cpp \
     pathfinderhelper.cpp \
-    pathfindernode.cpp
+    pathfindernode.cpp \
+    textualworldview.cpp \
+    view.cpp \
+    worldview.cpp
 
 HEADERS += \
     customqgraphicsview.h \
     gamecontroller.h \
+    graphicalworldview.h \
     level.h \
     levelmanager.h \
     mainwindow.h \
@@ -30,7 +35,10 @@ HEADERS += \
     overlayrender.h \
     pathfinder_class.h \
     pathfinderhelper.h \
-    pathfindernode.h
+    pathfindernode.h \
+    textualworldview.h \
+    view.h \
+    worldview.h
 
 FORMS += \
     mainwindow.ui

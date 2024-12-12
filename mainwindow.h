@@ -10,6 +10,9 @@
 #include "gamecontroller.h"
 #include <QTextEdit>
 #include <QCompleter>
+#include "worldview.h"
+#include "graphicalworldview.h"
+#include "textualworldview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +34,9 @@ private:
     QTextEdit *textScene;
     QCompleter* completer;
     World world;
+    WorldView* currentWorldView;
+    GraphicalWorldView* graphicalWorldView;
+    TextualWorldView* textualWorldView;
     int tileSize = 3;
     GameController gameController = GameController();
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
