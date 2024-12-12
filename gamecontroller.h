@@ -35,6 +35,8 @@ public: // methods
     void setActiveLevelIndex(int newActiveLevelIndex);
     float getActiveProtagonistHealth() const;
     float getActiveProtagonistEnergy() const;
+    bool calculateValidMove(const int absoluteX, const int absoluteY);
+    bool tileContainsPEnemy(const int absoluteX, const int absoluteY);
 
     void addLevel();
     void initialGameLoad();

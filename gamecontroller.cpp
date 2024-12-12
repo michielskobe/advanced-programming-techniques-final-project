@@ -38,6 +38,41 @@ float GameController::getActiveProtagonistEnergy() const
     return (*levels)[*activeLevelIndex]->getProtagonistEnergy();
 }
 
+bool GameController::calculateValidMove(const int absoluteX, const int absoluteY)
+{
+    qCInfo(gameControllerCat) << "Checking move validity of tile x=" << absoluteX << " y=" << absoluteY;
+    // we assume a move is valid, and perform checks to (dis)prove this
+    bool isValidMove = true;
+
+    // Check for a PEnemy on a destination tile.
+    if(tileContainsPEnemy(absoluteX, absoluteY)){
+        qCInfo(gameControllerCat) << "Tile contains PEnemy";
+        isValidMove = false;
+        // Attack the enemy
+        // TODO: IMPLEMENT ATTACK OF PENEMY
+    }
+
+    return isValidMove;
+}
+
+bool GameController::tileContainsPEnemy(const int absoluteX, const int absoluteY)
+{
+    bool containsPEnemy = false; // we assume there is no enemy, and perform checks to (dis)prove this
+    for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
+        auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
+        auto temp = dynamic_cast<PEnemy*>(reference);
+        if (temp != nullptr){
+            // succesfully casted to a PEnemy at runtime
+            // check if it is at the right place
+            if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
+                // found a PEnemy at the targetposition
+                containsPEnemy = true;
+            }
+        }
+    }
+    return containsPEnemy;
+}
+
 /*
  * Move the protagonist relatively in the active level
  * This also updates the energy of the protagonist, since movement has a cost associated with it
@@ -70,7 +105,9 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
-    (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
+    if(calculateValidMove(absoluteX, absoluteY)){
+        (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
+    }
 }
 
 
