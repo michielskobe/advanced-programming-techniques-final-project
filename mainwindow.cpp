@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(grahpicsScene);
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
-    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->setCurrentIndex(1);
 
     QStringList commands = {"up", "down", "left", "right"};
     completer = new QCompleter(commands, this);
@@ -29,8 +29,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     levels = LevelManager::GetInstance()->getLevels();
 
+    // Set up world view
     graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene());
     textualWorldView = new TextualWorldView(ui->textView);
+    textualWorldView->updateView();
+
+    // Set up protagonist views
+    graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
+    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView->getGrid());
     currentWorldView = graphicalWorldView;
 
     connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
@@ -54,19 +60,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch (event->key()){
     case Qt::Key_Z:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
-        gameController.moveProtagonistRelative(0,-50);
+        gameController.moveProtagonistRelative(0,-1);
         break;
     case Qt::Key_Q:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
-        gameController.moveProtagonistRelative(-50,0);
+        gameController.moveProtagonistRelative(-1,0);
         break;
     case Qt::Key_S:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
-        gameController.moveProtagonistRelative(0,50);
+        gameController.moveProtagonistRelative(0,1);
         break;
     case Qt::Key_D:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
-        gameController.moveProtagonistRelative(50,0);
+        gameController.moveProtagonistRelative(1,0);
         break;
     default:
         qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";
@@ -76,13 +82,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::processCommand() {
     QString command = ui->commandInput->text().toLower();
     if (command == "up") {
-        gameController.moveProtagonistRelative(0, -50);
+        gameController.moveProtagonistRelative(0, -1);
     } else if (command == "down") {
-        gameController.moveProtagonistRelative(0, 50);
+        gameController.moveProtagonistRelative(0, 1);
     } else if (command == "left") {
-        gameController.moveProtagonistRelative(-50, 0);
+        gameController.moveProtagonistRelative(-1, 0);
     } else if (command == "right") {
-        gameController.moveProtagonistRelative(50, 0);
+        gameController.moveProtagonistRelative(1, 0);
     } else {
         qCInfo(MainWindowCat) << "Invalid command: " << command;
     }
@@ -91,12 +97,12 @@ void MainWindow::processCommand() {
 
 void MainWindow::zoomIn()
 {
-    ++tileSize;
+
 }
 
 void MainWindow::zoomOut()
 {
-    --tileSize;
+
 }
 
 void MainWindow::updateMainUI()
@@ -105,6 +111,9 @@ void MainWindow::updateMainUI()
     ui->energy_bar->setValue((int)gameController.getActiveProtagonistEnergy());
     ui->health_bar->setValue((int)gameController.getActiveProtagonistHealth());
     currentWorldView->updateView();
+    graphicalProtagonistView->updateView();
+    textualProtagonistView->updateView();
+
 }
 
 void MainWindow::onTabChanged(int index)
@@ -118,5 +127,5 @@ void MainWindow::onTabChanged(int index)
         qCInfo(MainWindowCat) << "Switched to Text View.";
         currentWorldView = textualWorldView;
     }
-    currentWorldView->updateView();
+    updateMainUI();
 }

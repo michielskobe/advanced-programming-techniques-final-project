@@ -13,6 +13,9 @@
 #include "worldview.h"
 #include "graphicalworldview.h"
 #include "textualworldview.h"
+#include "protagonistview.h"
+#include "graphicalprotagonistview.h"
+#include "textualprotagonistview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -37,7 +40,8 @@ private:
     WorldView* currentWorldView;
     GraphicalWorldView* graphicalWorldView;
     TextualWorldView* textualWorldView;
-    int tileSize = 3;
+    GraphicalProtagonistView* graphicalProtagonistView;
+    TextualProtagonistView* textualProtagonistView;
     GameController gameController = GameController();
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 

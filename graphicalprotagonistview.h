@@ -15,6 +15,9 @@ public:
 private:
     QGraphicsScene* scene;
     QGraphicsPixmapItem* protagonistPixmapItem;
+
+    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
+    GameController* gameController;
 };
 
 #endif // GRAPHICALPROTAGONISTVIEW_H

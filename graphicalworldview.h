@@ -4,6 +4,7 @@
 #include "worldview.h"
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QPixmap>
 #include <QString>
 
 class GraphicalWorldView : public WorldView

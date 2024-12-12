@@ -7,21 +7,24 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
 }
 
 void TextualWorldView::updateView() {
-    QString textRepresentation = generateTextRepresentation();
-    textView->setPlainText(textRepresentation);
+    grid = generateTextRepresentation();
+    textView->setPlainText(grid);
 }
 
+QString& TextualWorldView::getGrid()
+{
+    return grid;
+}
 
 QString TextualWorldView::generateTextRepresentation(){
-    const int gridWidth = (*levels)[*(gameController->activeLevelIndex)]->cols;
-    const int gridHeight = (*levels)[*(gameController->activeLevelIndex)]->rows;
-    QVector<QVector<QString>> grid(gridHeight, QVector<QString>(gridWidth, " "));
+    const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+    const int gridHeight = (*levels)[*(gameController->getActiveLevelIndex())]->rows;
 
     QString gridString;
     for (int y = 0; y < gridHeight; ++y) {
         gridString += QString("+---").repeated(gridWidth) + "+\n"; // Top border
         for (int x = 0; x < gridWidth; ++x) {
-            gridString += "| " + grid[y][x] + " ";
+            gridString += "|   ";
         }
         gridString += "|\n"; // End of row
     }
