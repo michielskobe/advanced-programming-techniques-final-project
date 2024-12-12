@@ -45,8 +45,13 @@ float GameController::getActiveProtagonistEnergy() const
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
-    // Move the protagonist
-    (*levels)[*activeLevelIndex]->moveProtagonistRelative(relativeX, relativeY);
+    int newXPos = (*levels)[*activeLevelIndex]->protagonist->getXPos() + relativeX;
+    int newYPos = (*levels)[*activeLevelIndex]->protagonist->getYPos() + relativeY;
+    moveProtagonistAbsolute(newXPos, newYPos);
+
+    /*
+     * When moving relatively, we need to take into account the energy loss
+     */
 
     // get the value of the destination tile
     float tileEnergy = (*levels)[*activeLevelIndex]->getTileValue((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
