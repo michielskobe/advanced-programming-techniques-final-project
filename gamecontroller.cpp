@@ -73,6 +73,22 @@ bool GameController::tileContainsPEnemy(const int absoluteX, const int absoluteY
     return containsPEnemy;
 }
 
+void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
+{
+    for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->healthPacks).size(); i++) {
+        auto reference = (&(*((*levels)[*activeLevelIndex]->healthPacks[i])));
+        if (reference->getXPos() == absoluteX && reference->getYPos() == absoluteY){
+            qCInfo(gameControllerCat) << "Healthpack detected";
+            // Set stats to max
+            (*levels)[*activeLevelIndex]->setProtagonistEnergy(100.f);
+            (*levels)[*activeLevelIndex]->setProtagonistHealth(100.f);
+
+            // Remove healthpack
+            (*levels)[*activeLevelIndex]->healthPacks.erase((*levels)[*activeLevelIndex]->healthPacks.begin()+i);
+        }
+    }
+}
+
 /*
  * Move the protagonist relatively in the active level
  * This also updates the energy of the protagonist, since movement has a cost associated with it
@@ -106,6 +122,7 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
     if(calculateValidMove(absoluteX, absoluteY)){
+        healthPackLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
     }
 }
