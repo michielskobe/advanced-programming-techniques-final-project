@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(grahpicsScene);
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
+    ui->tabWidget->setCurrentIndex(0);
 
     QStringList commands = {"up", "down", "left", "right"};
     completer = new QCompleter(commands, this);
@@ -28,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     levels = LevelManager::GetInstance()->getLevels();
 
-    graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene(), ":/images/world_images/worldmap.png");
+    graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene());
     textualWorldView = new TextualWorldView(ui->textView);
     currentWorldView = graphicalWorldView;
 

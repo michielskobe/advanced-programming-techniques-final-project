@@ -4,12 +4,12 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
     : textView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
-    QString textRepresentation = generateTextRepresentation();
-    textView->setPlainText(textRepresentation);
-
 }
 
-void TextualWorldView::updateView() {}
+void TextualWorldView::updateView() {
+    QString textRepresentation = generateTextRepresentation();
+    textView->setPlainText(textRepresentation);
+}
 
 
 QString TextualWorldView::generateTextRepresentation(){

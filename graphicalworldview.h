@@ -9,7 +9,7 @@
 class GraphicalWorldView : public WorldView
 {
 public:
-    GraphicalWorldView(QGraphicsScene* scene, const QString& imageFile);
+    GraphicalWorldView(QGraphicsScene* scene);
 
     void updateView() override;
 
