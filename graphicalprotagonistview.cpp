@@ -15,4 +15,5 @@ GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
 void GraphicalProtagonistView::updateView() {
     auto& levelProtagonist = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist;
     protagonistPixmapItem->setPos(levelProtagonist->getXPos()*50, levelProtagonist->getYPos()*50);
+    scene->addItem(protagonistPixmapItem);
 }
