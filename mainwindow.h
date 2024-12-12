@@ -16,6 +16,9 @@
 #include "protagonistview.h"
 #include "graphicalprotagonistview.h"
 #include "textualprotagonistview.h"
+#include "enemyview.h"
+#include "graphicalenemyview.h"
+#include "textualenemyview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,6 +45,8 @@ private:
     TextualWorldView* textualWorldView;
     GraphicalProtagonistView* graphicalProtagonistView;
     TextualProtagonistView* textualProtagonistView;
+    GraphicalEnemyView* graphicalEnemyView;
+    TextualEnemyView* textualEnemyView;
     GameController gameController = GameController();
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 

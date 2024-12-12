@@ -11,7 +11,9 @@ QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 
 SOURCES += \
     customqgraphicsview.cpp \
+    enemyview.cpp \
     gamecontroller.cpp \
+    graphicalenemyview.cpp \
     graphicalprotagonistview.cpp \
     graphicalworldview.cpp \
     level.cpp \
@@ -22,6 +24,7 @@ SOURCES += \
     pathfinderhelper.cpp \
     pathfindernode.cpp \
     protagonistview.cpp \
+    textualenemyview.cpp \
     textualprotagonistview.cpp \
     textualworldview.cpp \
     view.cpp \
@@ -29,7 +32,9 @@ SOURCES += \
 
 HEADERS += \
     customqgraphicsview.h \
+    enemyview.h \
     gamecontroller.h \
+    graphicalenemyview.h \
     graphicalprotagonistview.h \
     graphicalworldview.h \
     level.h \
@@ -41,6 +46,7 @@ HEADERS += \
     pathfinderhelper.h \
     pathfindernode.h \
     protagonistview.h \
+    textualenemyview.h \
     textualprotagonistview.h \
     textualworldview.h \
     view.h \

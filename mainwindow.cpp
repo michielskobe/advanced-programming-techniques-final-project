@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(grahpicsScene);
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
-    ui->tabWidget->setCurrentIndex(1);
+    ui->tabWidget->setCurrentIndex(0);
 
     QStringList commands = {"up", "down", "left", "right"};
     completer = new QCompleter(commands, this);
@@ -34,9 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     textualWorldView = new TextualWorldView(ui->textView);
     textualWorldView->updateView();
 
+    // Set up enemy views
+    graphicalEnemyView = new GraphicalEnemyView(ui->graphicsView->scene());
+    textualEnemyView = new TextualEnemyView(ui->textView, textualWorldView);
+
     // Set up protagonist views
     graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
-    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView->getGrid());
+    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
+
     currentWorldView = graphicalWorldView;
 
     connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
@@ -111,8 +116,17 @@ void MainWindow::updateMainUI()
     ui->energy_bar->setValue((int)gameController.getActiveProtagonistEnergy());
     ui->health_bar->setValue((int)gameController.getActiveProtagonistHealth());
     currentWorldView->updateView();
-    graphicalProtagonistView->updateView();
-    textualProtagonistView->updateView();
+    if (currentWorldView == graphicalWorldView){
+        graphicalEnemyView->updateView();
+        graphicalProtagonistView->updateView();
+    }
+    else if (currentWorldView == textualWorldView){
+        textualEnemyView->updateView();
+        textualProtagonistView->updateView();
+    }
+
+
+
 
 }
 

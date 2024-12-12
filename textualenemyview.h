@@ -1,15 +1,15 @@
-#ifndef TEXTUALPROTAGONISTVIEW_H
-#define TEXTUALPROTAGONISTVIEW_H
+#ifndef TEXTUALENEMYVIEW_H
+#define TEXTUALENEMYVIEW_H
 
-#include "protagonistview.h"
+#include "enemyview.h"
 #include <QTextEdit>
 #include <QString>
 #include "textualworldview.h"
 
-class TextualProtagonistView : public ProtagonistView
+class TextualEnemyView : public EnemyView
 {
 public:
-    TextualProtagonistView(QTextEdit* textView, TextualWorldView* worldView);
+    TextualEnemyView(QTextEdit* textView, TextualWorldView* worldView);
 
     void updateView() override;
 
@@ -20,4 +20,4 @@ private:
     GameController* gameController;
 };
 
-#endif // TEXTUALPROTAGONISTVIEW_H
+#endif // TEXTUALENEMYVIEW_H

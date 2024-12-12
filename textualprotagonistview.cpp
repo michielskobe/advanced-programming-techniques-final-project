@@ -1,14 +1,15 @@
 #include "textualprotagonistview.h"
 
-TextualProtagonistView::TextualProtagonistView(QTextEdit* textView, QString& grid)
-    : textView(textView), grid(grid) {
+TextualProtagonistView::TextualProtagonistView(QTextEdit* textView, TextualWorldView *worldView)
+    : textView(textView), worldView(worldView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }
 
 void TextualProtagonistView::updateView() {
     // Modify the grid to place the protagonist at the specified coordinates
-    QString updatedGrid = grid;
+    QString updatedGrid = worldView->getWorldGrid();
+
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
     const int xPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos();
     const int yPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
@@ -21,5 +22,6 @@ void TextualProtagonistView::updateView() {
         updatedGrid[pos] = 'P';
     }
 
+    worldView->setWorldGrid(updatedGrid);
     textView->setPlainText(updatedGrid);
 }

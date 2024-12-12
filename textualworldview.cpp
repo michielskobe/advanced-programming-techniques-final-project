@@ -7,13 +7,18 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
 }
 
 void TextualWorldView::updateView() {
-    grid = generateTextRepresentation();
-    textView->setPlainText(grid);
+    worldGrid = generateTextRepresentation();
+    textView->setPlainText(worldGrid);
 }
 
-QString& TextualWorldView::getGrid()
+QString& TextualWorldView::getWorldGrid()
 {
-    return grid;
+    return worldGrid;
+}
+
+void TextualWorldView::setWorldGrid(const QString &newWorldGrid)
+{
+    worldGrid = newWorldGrid;
 }
 
 QString TextualWorldView::generateTextRepresentation(){
