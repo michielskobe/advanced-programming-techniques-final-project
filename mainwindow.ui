@@ -47,7 +47,7 @@
      </attribute>
      <widget class="QTextEdit" name="textView">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -56,6 +56,9 @@
         <width>771</width>
         <height>771</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="commandInput">
@@ -86,7 +89,7 @@
    <widget class="QPushButton" name="zoomOutBtn">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>880</x>
       <y>600</y>
       <width>87</width>
       <height>26</height>
@@ -99,7 +102,7 @@
    <widget class="QPushButton" name="zoomInBtn">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>980</x>
       <y>600</y>
       <width>87</width>
       <height>26</height>
@@ -112,7 +115,7 @@
    <widget class="QProgressBar" name="energy_bar">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>880</x>
       <y>560</y>
       <width>191</width>
       <height>23</height>
@@ -125,7 +128,7 @@
    <widget class="QLabel" name="energy_label">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>880</x>
       <y>540</y>
       <width>66</width>
       <height>18</height>
@@ -138,7 +141,7 @@
    <widget class="QProgressBar" name="health_bar">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>880</x>
       <y>510</y>
       <width>191</width>
       <height>23</height>
@@ -160,7 +163,7 @@
    <widget class="QLabel" name="health_label">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>880</x>
       <y>490</y>
       <width>66</width>
       <height>18</height>
