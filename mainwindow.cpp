@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <QtLogging>
 #include <QLoggingCategory>
-#include "rendermethod.h"
-#include "graphicrender.h"
 #include <QLineEdit>
 #include <QStringListModel>
 
@@ -55,25 +53,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setupWorldGrid() {
-    protagonistView = new ProtagonistView(":/images/protagonist.png");
-    protagonistView->pixmap->setScale(0.2);
-    grahpicsScene->addItem(protagonistView->pixmap);
-
-    for (int i = 0; i < (int)levels->size(); i++) {
-        for (auto& enemy :(*levels)[*(gameController.activeLevelIndex)]->enemies){
-            EnemyView* enemyView = new EnemyView(":/images/enemy.png");
-            enemyView->pixmap->setScale(0.09);
-            grahpicsScene->addItem(enemyView->pixmap);
-            enemyView->renderModel(enemy->getXPos(), enemy->getYPos());
-        }
-        for (auto& hp :(*levels)[*(gameController.activeLevelIndex)]->healthPacks){
-            HealthPackView* healthPackView = new HealthPackView(":/images/health_pack.png");
-            healthPackView->pixmap->setScale(0.2);
-            grahpicsScene->addItem(healthPackView->pixmap);
-            healthPackView->renderModel(hp->getXPos(),hp->getYPos());
-        }
-    }
-
     QString imageFile = ":/images/world_images/worldmap.png";
     world.createWorld(imageFile, 1, 1, 0.25f);
     grahpicsScene->addPixmap(QPixmap(imageFile))->setScale(50);
@@ -158,28 +137,6 @@ QString MainWindow::generateTextRepresentation() {
     const int gridWidth = (*levels)[*(gameController.activeLevelIndex)]->cols;
     const int gridHeight = (*levels)[*(gameController.activeLevelIndex)]->rows;
     QVector<QVector<QString>> grid(gridHeight, QVector<QString>(gridWidth, " ")); // Empty grid
-
-    // Add protagonist
-    int px = gameController.protagonist.getXPos();
-    int py = gameController.protagonist.getYPos();
-    if (px >= 0 && px < gridWidth && py >= 0 && py < gridHeight)
-        grid[py][px] = "P";
-
-    // Add enemies
-    for (const auto& enemy : (*levels)[*(gameController.activeLevelIndex)]->enemies) {
-        int ex = enemy->getXPos();
-        int ey = enemy->getYPos();
-        if (ex >= 0 && ex < gridWidth && ey >= 0 && ey < gridHeight)
-            grid[ey][ex] = "E";
-    }
-
-    // Add health packs
-    for (const auto& hp : (*levels)[*(gameController.activeLevelIndex)]->healthPacks) {
-        int hx = hp->getXPos();
-        int hy = hp->getYPos();
-        if (hx >= 0 && hx < gridWidth && hy >= 0 && hy < gridHeight)
-            grid[hy][hx] = "H";
-    }
 
     // Create string representation of the grid
     QString representation;

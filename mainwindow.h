@@ -8,9 +8,6 @@
 #include <QPixmap>
 #include "world.h"
 #include "gamecontroller.h"
-#include "protagonistview.h"
-#include "enemyview.h"
-#include "healthpackview.h"
 #include <QTextEdit>
 #include <QCompleter>
 
@@ -36,7 +33,6 @@ private:
     World world;
     int tileSize = 3;
     GameController gameController = GameController();
-    ProtagonistView *protagonistView;
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 
     void setupWorldGrid();
