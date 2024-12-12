@@ -13,12 +13,13 @@
 #include "worldview.h"
 #include "graphicalworldview.h"
 #include "textualworldview.h"
-#include "protagonistview.h"
 #include "graphicalprotagonistview.h"
 #include "textualprotagonistview.h"
-#include "enemyview.h"
 #include "graphicalenemyview.h"
 #include "textualenemyview.h"
+#include "graphicalhealthpackview.h"
+#include "textualhealthpackview.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -47,6 +48,8 @@ private:
     TextualProtagonistView* textualProtagonistView;
     GraphicalEnemyView* graphicalEnemyView;
     TextualEnemyView* textualEnemyView;
+    GraphicalHealthpackView* graphicalHealthpackView;
+    TextualHealthpackView* textualHealthpackView;
     GameController gameController = GameController();
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 

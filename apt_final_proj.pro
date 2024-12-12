@@ -14,8 +14,10 @@ SOURCES += \
     enemyview.cpp \
     gamecontroller.cpp \
     graphicalenemyview.cpp \
+    graphicalhealthpackview.cpp \
     graphicalprotagonistview.cpp \
     graphicalworldview.cpp \
+    healthpackview.cpp \
     level.cpp \
     levelmanager.cpp \
     main.cpp \
@@ -25,6 +27,7 @@ SOURCES += \
     pathfindernode.cpp \
     protagonistview.cpp \
     textualenemyview.cpp \
+    textualhealthpackview.cpp \
     textualprotagonistview.cpp \
     textualworldview.cpp \
     view.cpp \
@@ -35,8 +38,10 @@ HEADERS += \
     enemyview.h \
     gamecontroller.h \
     graphicalenemyview.h \
+    graphicalhealthpackview.h \
     graphicalprotagonistview.h \
     graphicalworldview.h \
+    healthpackview.h \
     level.h \
     levelmanager.h \
     mainwindow.h \
@@ -47,6 +52,7 @@ HEADERS += \
     pathfindernode.h \
     protagonistview.h \
     textualenemyview.h \
+    textualhealthpackview.h \
     textualprotagonistview.h \
     textualworldview.h \
     view.h \

@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     graphicalEnemyView = new GraphicalEnemyView(ui->graphicsView->scene());
     textualEnemyView = new TextualEnemyView(ui->textView, textualWorldView);
 
+    // Set up healthpack views
+    graphicalHealthpackView = new GraphicalHealthpackView(ui->graphicsView->scene());
+    textualHealthpackView = new TextualHealthpackView(ui->textView, textualWorldView);
+
     // Set up protagonist views
     graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
     textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
@@ -119,10 +123,12 @@ void MainWindow::updateMainUI()
     if (currentWorldView == graphicalWorldView){
         graphicalEnemyView->updateView();
         graphicalProtagonistView->updateView();
+        graphicalHealthpackView->updateView();
     }
     else if (currentWorldView == textualWorldView){
         textualEnemyView->updateView();
         textualProtagonistView->updateView();
+        textualHealthpackView->updateView();
     }
 
 
