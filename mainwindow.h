@@ -8,11 +8,14 @@
 #include <QPixmap>
 #include "world.h"
 #include "gamecontroller.h"
-#include "protagonistview.h"
-#include "enemyview.h"
-#include "healthpackview.h"
 #include <QTextEdit>
 #include <QCompleter>
+#include "worldview.h"
+#include "graphicalworldview.h"
+#include "textualworldview.h"
+#include "protagonistview.h"
+#include "graphicalprotagonistview.h"
+#include "textualprotagonistview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,9 +37,12 @@ private:
     QTextEdit *textScene;
     QCompleter* completer;
     World world;
-    int tileSize = 3;
+    WorldView* currentWorldView;
+    GraphicalWorldView* graphicalWorldView;
+    TextualWorldView* textualWorldView;
+    GraphicalProtagonistView* graphicalProtagonistView;
+    TextualProtagonistView* textualProtagonistView;
     GameController gameController = GameController();
-    ProtagonistView *protagonistView;
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 
     void setupWorldGrid();

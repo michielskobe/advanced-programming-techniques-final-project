@@ -8,6 +8,16 @@ GameController::GameController(){
     emit updateUI();
 }
 
+GameController* GameController::gameController= nullptr;
+
+GameController *GameController::GetInstance()
+{
+    if(gameController==nullptr){
+        gameController = new GameController();
+    }
+    return gameController;
+}
+
 std::shared_ptr<int> GameController::getActiveLevelIndex() const
 {
     return activeLevelIndex;
