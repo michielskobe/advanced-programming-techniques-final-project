@@ -38,6 +38,7 @@ public: // methods
     bool calculateValidMove(const int absoluteX, const int absoluteY);
     bool tileContainsPEnemy(const int absoluteX, const int absoluteY);
     void healthPackLogic(const int absoluteX, const int absoluteY);
+    bool attackPEnemy(const int absoluteX, const int absoluteY);
 
     void addLevel();
     void initialGameLoad();

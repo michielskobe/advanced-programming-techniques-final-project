@@ -46,10 +46,9 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
 
     // Check for a PEnemy on a destination tile.
     if(tileContainsPEnemy(absoluteX, absoluteY)){
-        qCInfo(gameControllerCat) << "Tile contains PEnemy";
         isValidMove = false;
         // Attack the enemy
-        // TODO: IMPLEMENT ATTACK OF PENEMY
+        attackPEnemy(absoluteX, absoluteY);
     }
 
     return isValidMove;
@@ -89,6 +88,32 @@ void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
     }
 }
 
+bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
+{
+    qCInfo(gameControllerCat) << "Attacking PEnemy";
+    for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
+        auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
+        auto temp = dynamic_cast<PEnemy*>(reference);
+        if (temp != nullptr){
+            // succesfully casted to a PEnemy at runtime
+            // check if it is at the right place
+            if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
+                if(!temp->getDefeated()){ // check if the enemy is still alive
+                    float newPLevel = temp->getPoisonLevel() - 10.0f; // TODO: this can change with dificulty level (hopefully)
+                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -10.0f);
+                    temp->setPoisonLevel(newPLevel);
+                    if(newPLevel <= 0.0f){
+                        temp->setDefeated(true);
+                    }
+                } else {
+                    qCInfo(gameControllerCat) << "Turns out PEnemy is dead ¯\_(ツ)_/¯";
+                }
+            }
+        }
+    }
+    return true;
+}
+
 /*
  * Move the protagonist relatively in the active level
  * This also updates the energy of the protagonist, since movement has a cost associated with it
@@ -125,6 +150,7 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
         healthPackLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
     }
+    emit updateUI(); // update UI after calculating changes due to attempted move
 }
 
 
