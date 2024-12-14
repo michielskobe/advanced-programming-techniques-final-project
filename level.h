@@ -32,6 +32,7 @@ public: // methods
     void setProtagonistHealth(const float newHealth);
     void setProtagonistEnergy(const float newEnergy);
     float getTileValue(const int absoluteX, const int absoluteY) const;
+    void makePoisonTile(const int tileIndex);
 
 };
 

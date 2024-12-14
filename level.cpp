@@ -1,5 +1,6 @@
 #include "level.h"
 #include "world.h"
+#include "poisontile.h"
 QLoggingCategory LevelCat("level");
 
 Level::Level(QString fileName)
@@ -82,5 +83,13 @@ float Level::getTileValue(const int absoluteX, const int absoluteY) const
 
     // Get the value of the requested tile
     return tiles[index].get()->getValue();
+}
+
+void Level::makePoisonTile(const int tileIndex)
+{
+    const int tileXPos = tiles[tileIndex].get()->getXPos();
+    const int tileYPos = tiles[tileIndex].get()->getYPos();
+    const float tileValue = tiles[tileIndex].get()->getValue();
+    tiles[tileIndex].reset(new PoisonTile(tileXPos, tileYPos, tileValue));
 }
 

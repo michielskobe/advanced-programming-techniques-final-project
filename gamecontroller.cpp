@@ -103,6 +103,7 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
                     (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -10.0f);
                     temp->setPoisonLevel(newPLevel);
                     temp->poison();
+                    setPoisonTiles(absoluteX, absoluteY, 2);
                     if(newPLevel <= 0.0f){
                         temp->setDefeated(true);
                     }
@@ -113,6 +114,26 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
         }
     }
     return true;
+}
+
+void GameController::setPoisonTiles(const int centerX, const int centerY, const int radius)
+{
+    const int centerIndex = centerX + centerY * (*levels)[*activeLevelIndex]->cols;
+    std::vector<int> indexes;
+    indexes.reserve(radius*radius);
+    for (int y = -radius; y <= radius; ++y) {
+        for (int x = -radius; x <= radius; ++x) {
+            const int index = y*(*levels)[*activeLevelIndex]->cols+x + centerIndex;
+            if(index < (*levels)[*activeLevelIndex]->cols * (*levels)[*activeLevelIndex]->rows && index >= 0){
+                indexes.push_back(index);
+            }
+        }
+    }
+
+    for(auto index : indexes)
+    {
+        (*levels)[*activeLevelIndex]->makePoisonTile(index);
+    }
 }
 
 /*

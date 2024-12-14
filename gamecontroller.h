@@ -39,6 +39,7 @@ public: // methods
     bool tileContainsPEnemy(const int absoluteX, const int absoluteY);
     void healthPackLogic(const int absoluteX, const int absoluteY);
     bool attackPEnemy(const int absoluteX, const int absoluteY);
+    void setPoisonTiles(const int centerX, const int centerY, const int radius);
 
     void addLevel();
     void initialGameLoad();
