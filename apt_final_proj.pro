@@ -32,7 +32,8 @@ SOURCES += \
     textualprotagonistview.cpp \
     textualworldview.cpp \
     view.cpp \
-    worldview.cpp
+    worldview.cpp \
+    xenemy.cpp
 
 HEADERS += \
     customqgraphicsview.h \
@@ -58,7 +59,8 @@ HEADERS += \
     textualprotagonistview.h \
     textualworldview.h \
     view.h \
-    worldview.h
+    worldview.h \
+    xenemy.h
 
 FORMS += \
     mainwindow.ui

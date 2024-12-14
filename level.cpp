@@ -1,6 +1,7 @@
 #include "level.h"
 #include "world.h"
 #include "poisontile.h"
+#include "xenemy.h"
 QLoggingCategory LevelCat("level");
 
 Level::Level(QString fileName)
@@ -8,7 +9,7 @@ Level::Level(QString fileName)
     qCInfo(LevelCat) << "Generating level for " << fileName << ".";
     // add world to stack, generate what we need, and then add it to level
     World world = World();
-    world.createWorld(fileName, 5, 5, 0.25f);
+    world.createWorld(fileName, 5, 5, 0.50f);
 
     tiles = world.getTiles();
     enemies = world.getEnemies();
@@ -17,6 +18,7 @@ Level::Level(QString fileName)
     cols = world.getCols();
     protagonist = world.getProtagonist();
     worldImageLocation = fileName;
+    initXEnemy();
 
 }
 
@@ -118,5 +120,19 @@ float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
     }
     return 0.0f;
 
+}
+
+void Level::initXEnemy()
+{
+    for (int i = 0; i < (int)(enemies).size(); i++) {
+        auto reference = (&(*(enemies[i])));
+        auto temp = dynamic_cast<PEnemy*>(reference);
+        if (temp == nullptr){ // We have a regular enemy
+            const int xpos = enemies[i]->getXPos();
+            const int ypos = enemies[i]->getYPos();
+            const float value = enemies[i]->getValue();
+            enemies[i].reset(new XEnemy(xpos, ypos, value));
+        }
+    }
 }
 
