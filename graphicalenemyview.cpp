@@ -8,7 +8,12 @@ GraphicalEnemyView::GraphicalEnemyView(QGraphicsScene* scene)
 
 void GraphicalEnemyView::updateView() {
     for (auto& enemy : (*levels)[*(gameController->getActiveLevelIndex())]->enemies) {
-        QGraphicsPixmapItem* enemyPixmapItem = new QGraphicsPixmapItem(QPixmap(":/images/enemy.png"));
+        QString image = ":/images/enemy.png";
+        auto temp = dynamic_cast<PEnemy*>(&(*enemy));
+        if (temp == nullptr){
+            image = ":/images/XEnemy.png";
+        }
+        QGraphicsPixmapItem* enemyPixmapItem = new QGraphicsPixmapItem(QPixmap(image));
         enemyPixmapItem->setPos(enemy->getXPos() * 50, enemy->getYPos() * 50);
         enemyPixmapItem->setZValue(1);
         enemyPixmapItem->setScale(0.09);
