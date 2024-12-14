@@ -25,6 +25,7 @@ SOURCES += \
     overlayrender.cpp \
     pathfinderhelper.cpp \
     pathfindernode.cpp \
+    poisontile.cpp \
     protagonistview.cpp \
     textualenemyview.cpp \
     textualhealthpackview.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     pathfinder_class.h \
     pathfinderhelper.h \
     pathfindernode.h \
+    poisontile.h \
     protagonistview.h \
     textualenemyview.h \
     textualhealthpackview.h \
