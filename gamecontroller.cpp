@@ -102,6 +102,7 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
                     float newPLevel = temp->getPoisonLevel() - 10.0f; // TODO: this can change with dificulty level (hopefully)
                     (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -10.0f);
                     temp->setPoisonLevel(newPLevel);
+                    temp->poison();
                     if(newPLevel <= 0.0f){
                         temp->setDefeated(true);
                     }
