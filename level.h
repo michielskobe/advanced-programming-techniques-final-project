@@ -33,6 +33,7 @@ public: // methods
     void setProtagonistEnergy(const float newEnergy);
     float getTileValue(const int absoluteX, const int absoluteY) const;
     void makePoisonTile(const int tileIndex);
+    float getDamageMultiplier(const int absoluteX, const int absoluteY);
 
 };
 

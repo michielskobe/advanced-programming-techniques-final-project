@@ -93,3 +93,30 @@ void Level::makePoisonTile(const int tileIndex)
     tiles[tileIndex].reset(new PoisonTile(tileXPos, tileYPos, tileValue));
 }
 
+float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
+{
+    // check for non valid positions
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not get poison status for position x=" << absoluteX << " y=" << absoluteY;
+        return 0.0f;
+    }
+
+    // Calculate tile index:
+    const int index = absoluteX + absoluteY * cols;
+
+    // check if index is out of bounds
+    if (index < 0 || index >= cols*rows){
+        qCInfo(LevelCat) << "Tile index is out of bounds, can not get poison status for position x=" << absoluteX << " y=" << absoluteY;
+        return 0.0f;
+    }
+
+    auto reference = (&(*(tiles[index])));
+    auto temp = dynamic_cast<PoisonTile*>(reference);
+    if (temp != nullptr){
+        qCInfo(LevelCat) << "Poison tile detected, damage multiplier of it is: " << temp->getDamageMultiplier();
+        return temp->getDamageMultiplier();
+    }
+    return 0.0f;
+
+}
+
