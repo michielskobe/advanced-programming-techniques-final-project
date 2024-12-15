@@ -48,6 +48,7 @@ public: // methods
 
 public slots:
     void protagonistPositionUpdated(int xPos, int yPos);
+    void requestUpdateUI();
 
 signals:
     void updateUI();

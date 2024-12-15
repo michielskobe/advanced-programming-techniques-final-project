@@ -1,5 +1,6 @@
 #include "gamecontroller.h"
 #include "pathfinderhelper.h"
+#include "xenemy.h"
 
 QLoggingCategory gameControllerCat("gameController");
 
@@ -207,6 +208,16 @@ void GameController::connectSlots()
     // connect protagonist position change signal to game controller
     for (int i = 0; i < (int)(*levels).size(); i++) {
         QObject::connect(&(*((*levels)[i]->protagonist)), &Protagonist::posChanged, this, &GameController::protagonistPositionUpdated);
+
+        for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
+            auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
+            auto temp = dynamic_cast<XEnemy*>(reference);
+            if (temp != nullptr){
+                // succesfully casted to a XEnemy at runtime
+                // connect slots
+                QObject::connect(temp, &XEnemy::positionXEnemyUpdated, this, &GameController::requestUpdateUI);
+            }
+        }
     }
 }
 
@@ -214,5 +225,11 @@ void GameController::protagonistPositionUpdated(int xPos, int yPos)
 {
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
     //protagonistView->renderModel(xPos,yPos);
+    emit updateUI();
+}
+
+void GameController::requestUpdateUI()
+{
+    qCInfo(gameControllerCat) << "An update of the UI has been requested";
     emit updateUI();
 }

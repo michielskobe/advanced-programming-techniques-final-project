@@ -21,8 +21,12 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength): Enemy(xPosition, y
     health = 100.0f; // this should be determined by difficulty (hopefully)
 
     qCInfo(XEnemyCat) <<  "Created an XEnemy";
+
+
     constexpr const int initUpdateTime = 10;
     QTimer::singleShot(initUpdateTime * 1000, this, SLOT(updateXEnemyPosition()));
+
+
 }
 
 bool XEnemy::getUpdatePositionAllowed() const
@@ -69,6 +73,9 @@ void XEnemy::updatePosition(int path)
     default:
         break;
     }
+    emit(positionXEnemyUpdated());
+
+
 }
 
 void XEnemy::updateXEnemyPosition()

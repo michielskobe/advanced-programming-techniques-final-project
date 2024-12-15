@@ -2,6 +2,7 @@
 #include "world.h"
 #include "poisontile.h"
 #include "xenemy.h"
+#include "gamecontroller.h"
 QLoggingCategory LevelCat("level");
 
 Level::Level(QString fileName)
@@ -131,7 +132,8 @@ void Level::initXEnemy()
             const int xpos = enemies[i]->getXPos();
             const int ypos = enemies[i]->getYPos();
             const float value = enemies[i]->getValue();
-            enemies[i].reset(new XEnemy(xpos, ypos, value));
+            auto newEnemy = new XEnemy(xpos, ypos, value);
+            enemies[i].reset(newEnemy);
         }
     }
 }
