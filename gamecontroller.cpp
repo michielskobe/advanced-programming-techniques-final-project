@@ -143,6 +143,23 @@ void GameController::setPoisonTiles(const int centerX, const int centerY, const 
     }
 }
 
+void GameController::detectXEnemyColision(const int absoluteX, const int absoluteY)
+{
+    for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
+        auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
+        auto temp = dynamic_cast<XEnemy*>(reference);
+        if (temp != nullptr){
+            // succesfully casted to a XEnemy at runtime
+            // check if it is at the right place
+            if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
+                // found a XEnemy at the targetposition
+                qCInfo(gameControllerCat) << "Protagonist has been caught by XEnemy";
+                (*levels)[*activeLevelIndex]->setProtagonistHealth(0.0f);
+            }
+        }
+    }
+}
+
 /*
  * Move the protagonist relatively in the active level
  * This also updates the energy of the protagonist, since movement has a cost associated with it
@@ -226,10 +243,12 @@ void GameController::protagonistPositionUpdated(int xPos, int yPos)
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
     //protagonistView->renderModel(xPos,yPos);
     emit updateUI();
+    detectXEnemyColision(xPos, yPos);
 }
 
 void GameController::requestUpdateUI()
 {
     qCInfo(gameControllerCat) << "An update of the UI has been requested";
     emit updateUI();
+    detectXEnemyColision((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
 }
