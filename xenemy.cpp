@@ -80,7 +80,7 @@ void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
     const int updateTime = 10; // this should be determined by difficulty (hopefully)
-    QTimer::singleShot(updateTime * 10, this, SLOT(updateXEnemyPosition()));
+    QTimer::singleShot(updateTime * 100, this, SLOT(updateXEnemyPosition()));
 
     if (getUpdatePositionAllowed() && !getDefeated()){
         PathFinderHelper pfHelper = PathFinderHelper();

@@ -7,7 +7,7 @@ std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Til
     std::vector<PathFinderNode> nodes;
     convNodes(tiles, nodes);
     Comparator<PathFinderNode> nodeComparator = [](const PathFinderNode& a, const PathFinderNode& b) {
-        return a.getValue() > b.getValue();
+        return a.getValue() < b.getValue();
     };
 
     helper_func<PathFinderNode> costFunction = [](const PathFinderNode& p1, const PathFinderNode& p2) {
