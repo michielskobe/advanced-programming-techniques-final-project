@@ -183,13 +183,6 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
     }
     emit updateUI(); // update UI after calculating changes due to attempted move
-
-    /*
-     * THIS IS A TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
-    PathFinderHelper help = PathFinderHelper();
-    std::vector<int> test = help.getPath((*levels)[*activeLevelIndex]->tiles, 50,300, (*levels)[*activeLevelIndex]->cols);
-    qCInfo(gameControllerCat) << test;
 }
 
 

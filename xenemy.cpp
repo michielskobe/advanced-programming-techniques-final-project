@@ -41,14 +41,15 @@ void XEnemy::updateXEnemyPosition()
     const int updateTime = 1; // this should be determined by difficulty (hopefully)
     QTimer::singleShot(updateTime * 1000, this, SLOT(updateXEnemyPosition()));
 
-    // if (getUpdatePositionAllowed()){
-    if (true){
+    if (getUpdatePositionAllowed()){
         PathFinderHelper pfHelper = PathFinderHelper();
         LevelManager* levelManager = LevelManager::GetInstance();
         auto levels = levelManager->getLevels();
         GameController* gctrl = GameController::GetInstance();
         auto activeIndex = gctrl->getActiveLevelIndex();
-        auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, 50, 300, (*levels)[*activeIndex]->cols);
+        const int ownIndex = xPos + yPos*(*levels)[*activeIndex]->cols;
+        const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getXPos()*(*levels)[*activeIndex]->cols;
+        auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
         qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
     }
 }
