@@ -35,10 +35,13 @@ void XEnemy::setUpdatePositionAllowed(bool newUpdatePositionAllowed)
 
 void XEnemy::updateXEnemyPosition()
 {
-    qCInfo(XEnemyCat) <<  "Update position of XEnemy";
-
+    // restart timer for updating
     const int updateTime = 1; // this should be determined by difficulty (hopefully)
     QTimer::singleShot(updateTime * 1000, this, SLOT(updateXEnemyPosition()));
+
+    if (getUpdatePositionAllowed()){
+        qCInfo(XEnemyCat) <<  "Update position of XEnemy";
+    }
 }
 
 float XEnemy::getHealth() const
