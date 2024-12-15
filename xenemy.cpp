@@ -35,6 +35,42 @@ void XEnemy::setUpdatePositionAllowed(bool newUpdatePositionAllowed)
     updatePositionAllowed = newUpdatePositionAllowed;
 }
 
+void XEnemy::updatePosition(int path)
+{
+    switch (path) {
+    case 0:
+        yPos = yPos-1;
+        break;
+    case 1:
+        yPos = yPos-1;
+        xPos = xPos+1;
+        break;
+    case 2:
+        xPos = xPos+1;
+        break;
+    case 3:
+        yPos = yPos+1;
+        xPos = xPos+1;
+        break;
+    case 4:
+        yPos = yPos+1;
+        break;
+    case 5:
+        yPos = yPos+1;
+        xPos = xPos-1;
+        break;
+    case 6:
+        xPos = xPos-1;
+        break;
+    case 7:
+        yPos = yPos-1;
+        xPos = xPos-1;
+        break;
+    default:
+        break;
+    }
+}
+
 void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
@@ -50,6 +86,9 @@ void XEnemy::updateXEnemyPosition()
         const int ownIndex = xPos + yPos*(*levels)[*activeIndex]->cols;
         const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getXPos()*(*levels)[*activeIndex]->cols;
         auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
+        if (!moves.empty()){
+            updatePosition(moves[0]);
+        }
         qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
     }
 }

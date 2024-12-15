@@ -18,6 +18,7 @@ public:// methods
     void setHealth(float newHealth);
     bool getUpdatePositionAllowed() const;
     void setUpdatePositionAllowed(bool newUpdatePositionAllowed);
+    void updatePosition(int path);
 
 public slots:
     void updateXEnemyPosition();

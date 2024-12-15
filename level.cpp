@@ -136,3 +136,25 @@ void Level::initXEnemy()
     }
 }
 
+void Level::setActiveLevel()
+{
+    for (int i = 0; i < (int)(enemies).size(); i++) {
+        auto reference = (&(*(enemies[i])));
+        auto temp = dynamic_cast<XEnemy*>(reference);
+        if (temp != nullptr){
+            temp->setUpdatePositionAllowed(true);
+        }
+    }
+}
+
+void Level::setInActiveLevel()
+{
+    for (int i = 0; i < (int)(enemies).size(); i++) {
+        auto reference = (&(*(enemies[i])));
+        auto temp = dynamic_cast<XEnemy*>(reference);
+        if (temp != nullptr){
+            temp->setUpdatePositionAllowed(false);
+        }
+    }
+}
+

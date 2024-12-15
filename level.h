@@ -35,6 +35,8 @@ public: // methods
     void makePoisonTile(const int tileIndex);
     float getDamageMultiplier(const int absoluteX, const int absoluteY);
     void initXEnemy();
+    void setActiveLevel();
+    void setInActiveLevel();
 
 };
 

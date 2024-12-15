@@ -198,6 +198,8 @@ void GameController::initialGameLoad()
     LevelManager* levelManager = LevelManager::GetInstance();
     levelManager->setLevels(fileNames);
     levels = levelManager->getLevels();
+    // TODO: TEMP FIX FOR ENABLING XENEMY IN FIRST LEVEL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    (*levels)[*activeLevelIndex]->setActiveLevel();
 }
 
 void GameController::connectSlots()
