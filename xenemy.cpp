@@ -11,7 +11,9 @@
 #include <sstream>
 #include <QtLogging>
 #include <QLoggingCategory>
-
+#include "levelmanager.h"
+#include "gamecontroller.h"
+#include "pathfinderhelper.h"
 QLoggingCategory XEnemyCat("XEnemy");
 
 XEnemy::XEnemy(int xPosition, int yPosition, float strength): Enemy(xPosition, yPosition, strength)
@@ -39,8 +41,15 @@ void XEnemy::updateXEnemyPosition()
     const int updateTime = 1; // this should be determined by difficulty (hopefully)
     QTimer::singleShot(updateTime * 1000, this, SLOT(updateXEnemyPosition()));
 
-    if (getUpdatePositionAllowed()){
-        qCInfo(XEnemyCat) <<  "Update position of XEnemy";
+    // if (getUpdatePositionAllowed()){
+    if (true){
+        PathFinderHelper pfHelper = PathFinderHelper();
+        LevelManager* levelManager = LevelManager::GetInstance();
+        auto levels = levelManager->getLevels();
+        GameController* gctrl = GameController::GetInstance();
+        auto activeIndex = gctrl->getActiveLevelIndex();
+        auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, 50, 300, (*levels)[*activeIndex]->cols);
+        qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
     }
 }
 

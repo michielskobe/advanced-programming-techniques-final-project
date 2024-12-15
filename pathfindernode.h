@@ -16,7 +16,7 @@ public: // attributes
     float h; // heuristic cost
     bool visited;
     bool closed;
-    PathFinderNode* prev;
+    PathFinderNode* prev = nullptr;
 
 };
 

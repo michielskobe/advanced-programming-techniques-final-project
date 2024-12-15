@@ -188,7 +188,7 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
      * THIS IS A TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      */
     PathFinderHelper help = PathFinderHelper();
-    std::vector<int> test = help.getPath((*levels)[*activeLevelIndex]->tiles, 1, 10);
+    std::vector<int> test = help.getPath((*levels)[*activeLevelIndex]->tiles, 50,300, (*levels)[*activeLevelIndex]->cols);
     qCInfo(gameControllerCat) << test;
 }
 
