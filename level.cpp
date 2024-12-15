@@ -133,6 +133,7 @@ void Level::initXEnemy()
             const int ypos = enemies[i]->getYPos();
             const float value = enemies[i]->getValue();
             auto newEnemy = new XEnemy(xpos, ypos, value);
+            newEnemy->setHealth(cols*rows);
             enemies[i].reset(newEnemy);
         }
     }

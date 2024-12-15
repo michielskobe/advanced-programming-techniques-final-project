@@ -22,11 +22,8 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength): Enemy(xPosition, y
 
     qCInfo(XEnemyCat) <<  "Created an XEnemy";
 
-
     constexpr const int initUpdateTime = 10;
     QTimer::singleShot(initUpdateTime * 1000, this, SLOT(updateXEnemyPosition()));
-
-
 }
 
 bool XEnemy::getUpdatePositionAllowed() const
@@ -73,6 +70,7 @@ void XEnemy::updatePosition(int path)
     default:
         break;
     }
+    setHealth(getHealth()-0.5f);
     emit(positionXEnemyUpdated());
 
 
@@ -82,9 +80,9 @@ void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
     const int updateTime = 10; // this should be determined by difficulty (hopefully)
-    QTimer::singleShot(updateTime * 100, this, SLOT(updateXEnemyPosition()));
+    QTimer::singleShot(updateTime * 10, this, SLOT(updateXEnemyPosition()));
 
-    if (getUpdatePositionAllowed()){
+    if (getUpdatePositionAllowed() && !getDefeated()){
         PathFinderHelper pfHelper = PathFinderHelper();
         LevelManager* levelManager = LevelManager::GetInstance();
         auto levels = levelManager->getLevels();
@@ -109,6 +107,7 @@ void XEnemy::setHealth(float newHealth)
 {
     health = newHealth;
     if(newHealth <= 0.5f){
+        setDefeated(true);
         emit(dead());
     }
 }
