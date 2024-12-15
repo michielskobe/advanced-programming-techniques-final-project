@@ -4,7 +4,8 @@ PathFinderHelper::PathFinderHelper() {}
 
 std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Tile> > &tiles, const int startPos, const int destPos)
 {
-    auto nodes = convNodes(tiles);
+    std::vector<PathFinderNode> nodes;
+    convNodes(tiles, nodes);
     Comparator<PathFinderNode> nodeComparator = [](const PathFinderNode& a, const PathFinderNode& b) {
         return a.getValue() < b.getValue(); // Ascending order
     };
@@ -22,12 +23,12 @@ std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Til
     float heuristicWeight = 1.0f;
 
     a_star = new PathFinder(nodes, &nodes[startPos], &nodes[destPos], nodeComparator, weight, costFunction, distFunction, heuristicWeight);
-    return std::vector<int>(1);
+    auto res = a_star->A_star();
+    return res;
 }
 
-std::vector<PathFinderNode> PathFinderHelper::convNodes(const std::vector<std::unique_ptr<Tile> > &tiles)
+void PathFinderHelper::convNodes(const std::vector<std::unique_ptr<Tile> > &tiles, std::vector<PathFinderNode> &nodes)
 {
-    std::vector<PathFinderNode> nodes;
     nodes.reserve(tiles.size());
 
     for (int i = 0; i < (int)(tiles).size(); i++) {
@@ -37,5 +38,4 @@ std::vector<PathFinderNode> PathFinderHelper::convNodes(const std::vector<std::u
         const float tileValue = tile->getValue();
         nodes.push_back(PathFinderNode(xPos, yPos, tileValue));
     }
-    return nodes;
 }

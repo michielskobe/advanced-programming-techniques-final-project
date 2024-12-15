@@ -16,7 +16,7 @@ public:// attributes
 
 public:// methods
     std::vector<int> getPath(const std::vector<std::unique_ptr<Tile>>& tiles, const int startPos, const int destPos);
-    std::vector<PathFinderNode> convNodes(const std::vector<std::unique_ptr<Tile>>& tiles);
+    void convNodes(const std::vector<std::unique_ptr<Tile> > &tiles, std::vector<PathFinderNode> &nodes);
 
 };
 
