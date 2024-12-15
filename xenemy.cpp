@@ -81,8 +81,8 @@ void XEnemy::updatePosition(int path)
 void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
-    const int updateTime = 1; // this should be determined by difficulty (hopefully)
-    QTimer::singleShot(updateTime * 1000, this, SLOT(updateXEnemyPosition()));
+    const int updateTime = 10; // this should be determined by difficulty (hopefully)
+    QTimer::singleShot(updateTime * 100, this, SLOT(updateXEnemyPosition()));
 
     if (getUpdatePositionAllowed()){
         PathFinderHelper pfHelper = PathFinderHelper();
@@ -91,7 +91,7 @@ void XEnemy::updateXEnemyPosition()
         GameController* gctrl = GameController::GetInstance();
         auto activeIndex = gctrl->getActiveLevelIndex();
         const int ownIndex = xPos + yPos*(*levels)[*activeIndex]->cols;
-        const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getXPos()*(*levels)[*activeIndex]->cols;
+        const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getYPos()*(*levels)[*activeIndex]->cols;
         auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
         if (!moves.empty()){
             updatePosition(moves[0]);
