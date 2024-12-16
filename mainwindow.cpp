@@ -8,6 +8,7 @@
 #include <QLoggingCategory>
 #include <QLineEdit>
 #include <QStringListModel>
+#include "difficultycontroller.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
@@ -156,5 +157,11 @@ void MainWindow::on_activeLevelBox_valueChanged(int arg1)
 {
     gameController->setActiveLevelIndex(arg1);
     updateMainUI();
+}
+
+
+void MainWindow::on_difficultyBox_valueChanged(int arg1)
+{
+    DifficultyController::GetInstance()->setDifficultySetting(arg1);
 }
 
