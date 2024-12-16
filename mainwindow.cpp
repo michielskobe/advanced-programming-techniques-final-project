@@ -155,5 +155,6 @@ void MainWindow::onTabChanged(int index)
 void MainWindow::on_activeLevelBox_valueChanged(int arg1)
 {
     gameController->setActiveLevelIndex(arg1);
+    updateMainUI();
 }
 
