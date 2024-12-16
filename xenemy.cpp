@@ -106,6 +106,7 @@ void XEnemy::setHealth(float newHealth)
 {
     health = newHealth;
     if(newHealth <= 0.5f){
+        qCInfo(XEnemyCat) <<  "XEnemy has died (⌐■_■)︻╦╤─ (╥﹏╥)";
         setDefeated(true);
         emit(dead());
     }

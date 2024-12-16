@@ -36,10 +36,10 @@ public: // methods
     float getActiveProtagonistHealth() const;
     float getActiveProtagonistEnergy() const;
     bool calculateValidMove(const int absoluteX, const int absoluteY);
-    bool tileContainsPEnemy(const int absoluteX, const int absoluteY);
+    bool tileContainsEnemy(const int absoluteX, const int absoluteY);
     void healthPackLogic(const int absoluteX, const int absoluteY);
     void PoisonTileLogic(const int absoluteX, const int absoluteY);
-    bool attackPEnemy(const int absoluteX, const int absoluteY);
+    bool attackEnemy(const int absoluteX, const int absoluteY);
     void setPoisonTiles(const int centerX, const int centerY, const int radius);
     void detectXEnemyColision(const int absoluteX, const int absoluteY);
     bool detectWall(const int absoluteX, const int absoluteY);

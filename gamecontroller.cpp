@@ -56,10 +56,10 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
     bool isValidMove = true;
 
     // Check for a PEnemy on a destination tile.
-    if(tileContainsPEnemy(absoluteX, absoluteY)){
+    if(tileContainsEnemy(absoluteX, absoluteY)){
         isValidMove = false;
         // Attack the enemy
-        attackPEnemy(absoluteX, absoluteY);
+        attackEnemy(absoluteX, absoluteY);
     }
 
     // detect wall
@@ -70,22 +70,17 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
     return isValidMove;
 }
 
-bool GameController::tileContainsPEnemy(const int absoluteX, const int absoluteY)
+bool GameController::tileContainsEnemy(const int absoluteX, const int absoluteY)
 {
-    bool containsPEnemy = false; // we assume there is no enemy, and perform checks to (dis)prove this
+    bool containsEnemy = false; // we assume there is no enemy, and perform checks to (dis)prove this
     for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
-        auto temp = dynamic_cast<PEnemy*>(reference);
-        if (temp != nullptr){
-            // succesfully casted to a PEnemy at runtime
-            // check if it is at the right place
-            if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
-                // found a PEnemy at the targetposition
-                containsPEnemy = true;
-            }
+        if (reference->getXPos() == absoluteX && reference->getYPos() == absoluteY){
+            // found an Enemy at the target position
+            containsEnemy = true;
         }
     }
-    return containsPEnemy;
+    return containsEnemy;
 }
 
 void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
@@ -109,9 +104,9 @@ void GameController::PoisonTileLogic(const int absoluteX, const int absoluteY)
 
 }
 
-bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
+bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
 {
-    qCInfo(gameControllerCat) << "Attacking PEnemy";
+    qCInfo(gameControllerCat) << "Attacking Enemy";
     for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
         auto temp = dynamic_cast<PEnemy*>(reference);
@@ -120,6 +115,7 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
             // check if it is at the right place
             if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
                 if(!temp->getDefeated()){ // check if the enemy is still alive
+                    qCInfo(gameControllerCat) << "this is a PEnemy";
                     float newPLevel = temp->getPoisonLevel() - DifficultyController::GetInstance()->getPEnemyHealthLossAttack();
                     (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
                     temp->setPoisonLevel(newPLevel);
@@ -130,6 +126,23 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
                     }
                 } else {
                     qCInfo(gameControllerCat) << "Turns out PEnemy is dead ¯\_(ツ)_/¯";
+                }
+                return true;
+            }
+        } else {
+
+        }
+
+        auto temp2 = dynamic_cast<XEnemy*>(reference);
+        if(temp2 == nullptr){
+            // we have a regular enemy.
+            if (reference->getXPos() == absoluteX && reference->getYPos() == absoluteY){
+                if(!reference->getDefeated()){
+                    qCInfo(gameControllerCat) << "this is an Enemy";
+                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
+                    reference->setDefeated(true);
+                } else {
+                    qCInfo(gameControllerCat) << "Turns out regular Enemy is dead ¯\_(ツ)_/¯";
                 }
             }
         }
