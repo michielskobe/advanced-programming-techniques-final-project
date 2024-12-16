@@ -11,14 +11,17 @@
 #include <sstream>
 #include <QtLogging>
 #include <QLoggingCategory>
+#include "difficultycontroller.h"
 
 QLoggingCategory poisonTileCat("PoisonTile");
 
 PoisonTile::PoisonTile(int xPosition, int yPosition, float tileWeight) : Tile(xPosition, yPosition, tileWeight)
 {
-    int t = rand() % 20; // should be dependent on game difficulty (hopefully)
+    int t = rand() % DifficultyController::GetInstance()->getPoisonTileLingeringTime(); // should be dependent on game difficulty (hopefully)
+    setDamageMultiplier(DifficultyController::GetInstance()->getPoisonTileDamageMul());
     qCInfo(poisonTileCat) <<  "starting timer for " << t << " seconds for PoisonTile x=" << xPos << ", y=" << yPos;
     QTimer::singleShot(t * 1000, this, SLOT(removePoison()));
+
 }
 
 float PoisonTile::getDamageMultiplier() const

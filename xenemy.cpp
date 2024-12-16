@@ -14,6 +14,7 @@
 #include "levelmanager.h"
 #include "gamecontroller.h"
 #include "pathfinderhelper.h"
+#include "difficultycontroller.h"
 QLoggingCategory XEnemyCat("XEnemy");
 
 XEnemy::XEnemy(int xPosition, int yPosition, float strength): Enemy(xPosition, yPosition, strength)
@@ -70,16 +71,14 @@ void XEnemy::updatePosition(int path)
     default:
         break;
     }
-    setHealth(getHealth()-0.5f);
+    setHealth(getHealth()-DifficultyController::GetInstance()->getXEnemyHealthLossMove());
     emit(positionXEnemyUpdated());
-
-
 }
 
 void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
-    const int updateTime = 10; // this should be determined by difficulty (hopefully)
+    const int updateTime = DifficultyController::GetInstance()->getXEnemyUpdateTime();
     QTimer::singleShot(updateTime * 100, this, SLOT(updateXEnemyPosition()));
 
     if (getUpdatePositionAllowed() && !getDefeated()){

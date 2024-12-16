@@ -1,6 +1,7 @@
 #include "gamecontroller.h"
 #include "pathfinderhelper.h"
 #include "xenemy.h"
+#include "difficultycontroller.h"
 
 QLoggingCategory gameControllerCat("gameController");
 
@@ -119,11 +120,11 @@ bool GameController::attackPEnemy(const int absoluteX, const int absoluteY)
             // check if it is at the right place
             if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
                 if(!temp->getDefeated()){ // check if the enemy is still alive
-                    float newPLevel = temp->getPoisonLevel() - 10.0f; // TODO: this can change with dificulty level (hopefully)
-                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -10.0f);
+                    float newPLevel = temp->getPoisonLevel() - DifficultyController::GetInstance()->getPEnemyHealthLossAttack();
+                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
                     temp->setPoisonLevel(newPLevel);
                     temp->poison();
-                    setPoisonTiles(absoluteX, absoluteY, 2);
+                    setPoisonTiles(absoluteX, absoluteY, DifficultyController::GetInstance()->getPoisonTileSpreadRadius());
                     if(newPLevel <= 0.0f){
                         temp->setDefeated(true);
                     }
@@ -204,7 +205,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
     float dmgmul = (*levels)[*activeLevelIndex]->getDamageMultiplier((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
     tileEnergy = 1/tileEnergy; // invert the tile value
 
-    tileEnergy = tileEnergy * 0.2; // Make the game more easy TODO: Make difficulty modes for this if there is time
+    tileEnergy = tileEnergy * DifficultyController::GetInstance()->getWalkingEnergyLoss(); // Make the game more easy TODO: Make difficulty modes for this if there is time
 
     // update energy based on movement
     (*levels)[*activeLevelIndex]->setProtagonistEnergy(((*levels)[*activeLevelIndex]->getProtagonistEnergy())-tileEnergy);
