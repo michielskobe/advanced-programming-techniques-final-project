@@ -10,7 +10,7 @@ Level::Level(QString fileName)
     qCInfo(LevelCat) << "Generating level for " << fileName << ".";
     // add world to stack, generate what we need, and then add it to level
     World world = World();
-    world.createWorld(fileName, 5, 5, 0.50f);
+    world.createWorld(fileName, 20, 5, 0.50f);
 
     tiles = world.getTiles();
     enemies = world.getEnemies();
@@ -135,6 +135,8 @@ void Level::initXEnemy()
             auto newEnemy = new XEnemy(xpos, ypos, value);
             newEnemy->setHealth(cols*rows);
             enemies[i].reset(newEnemy);
+            // stop making XEnemy after 1 has been made, leave the rest as regular enemy
+            break;
         }
     }
 }
