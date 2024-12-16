@@ -42,6 +42,7 @@ public: // methods
     bool attackPEnemy(const int absoluteX, const int absoluteY);
     void setPoisonTiles(const int centerX, const int centerY, const int radius);
     void detectXEnemyColision(const int absoluteX, const int absoluteY);
+    bool detectWall(const int absoluteX, const int absoluteY);
 
     void addLevel();
     void initialGameLoad();

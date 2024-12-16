@@ -61,6 +61,11 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
         attackPEnemy(absoluteX, absoluteY);
     }
 
+    // detect wall
+    if(detectWall(absoluteX, absoluteY)){
+        isValidMove = false;
+    }
+
     return isValidMove;
 }
 
@@ -166,6 +171,16 @@ void GameController::detectXEnemyColision(const int absoluteX, const int absolut
             }
         }
     }
+}
+
+bool GameController::detectWall(const int absoluteX, const int absoluteY)
+{
+    bool isWallPresent{false};
+    float tileValue = (*levels)[*activeLevelIndex]->getTileValue(absoluteX, absoluteY);
+    if(tileValue == std::numeric_limits<float>::infinity()){
+        isWallPresent = true;
+    }
+    return isWallPresent;
 }
 
 /*
