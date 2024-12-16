@@ -28,6 +28,13 @@ std::shared_ptr<int> GameController::getActiveLevelIndex() const
 void GameController::setActiveLevelIndex(int newActiveLevelIndex)
 {
     *activeLevelIndex = newActiveLevelIndex;
+    for (int i = 0; i < (int)(*levels).size(); i++) {
+        if(i == newActiveLevelIndex){
+            (*levels)[i]->setActiveLevel();
+        } else {
+            (*levels)[i]->setInActiveLevel();
+        }
+    }
 }
 
 float GameController::getActiveProtagonistHealth() const
@@ -216,8 +223,7 @@ void GameController::initialGameLoad()
     LevelManager* levelManager = LevelManager::GetInstance();
     levelManager->setLevels(fileNames);
     levels = levelManager->getLevels();
-    // TODO: TEMP FIX FOR ENABLING XENEMY IN FIRST LEVEL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    (*levels)[*activeLevelIndex]->setActiveLevel();
+    setActiveLevelIndex(0);
 }
 
 void GameController::connectSlots()
