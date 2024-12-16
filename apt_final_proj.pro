@@ -11,6 +11,7 @@ QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 
 SOURCES += \
     customqgraphicsview.cpp \
+    difficultycontroller.cpp \
     enemyview.cpp \
     gamecontroller.cpp \
     graphicalenemyview.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 
 HEADERS += \
     customqgraphicsview.h \
+    difficultycontroller.h \
     enemyview.h \
     gamecontroller.h \
     graphicalenemyview.h \
