@@ -50,7 +50,7 @@ private:
     TextualEnemyView* textualEnemyView;
     GraphicalHealthpackView* graphicalHealthpackView;
     TextualHealthpackView* textualHealthpackView;
-    GameController gameController = GameController();
+    GameController* gameController;
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 
     void setupWorldGrid();
@@ -65,5 +65,7 @@ public slots:
     void updateMainUI();
     void processCommand();
     void onTabChanged(int index);
+private slots:
+    void on_activeLevelBox_valueChanged(int arg1);
 };
 #endif // MAINWINDOW_H

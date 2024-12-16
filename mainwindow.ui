@@ -173,6 +173,32 @@
      <string>Health</string>
     </property>
    </widget>
+   <widget class="QSpinBox" name="activeLevelBox">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>30</y>
+      <width>45</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="health_label_2">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>30</y>
+      <width>81</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Active Level</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

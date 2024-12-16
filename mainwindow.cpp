@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->commandInput->setCompleter(completer);
 
+    gameController = GameController::GetInstance();
+
     levels = LevelManager::GetInstance()->getLevels();
 
     // Set up world view
@@ -48,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     currentWorldView = graphicalWorldView;
 
-    connect(&gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
+    connect(gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
     connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
 
@@ -69,19 +71,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch (event->key()){
     case Qt::Key_Z:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST UP";
-        gameController.moveProtagonistRelative(0,-1);
+        gameController->moveProtagonistRelative(0,-1);
         break;
     case Qt::Key_Q:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST LEFT";
-        gameController.moveProtagonistRelative(-1,0);
+        gameController->moveProtagonistRelative(-1,0);
         break;
     case Qt::Key_S:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST DOWN";
-        gameController.moveProtagonistRelative(0,1);
+        gameController->moveProtagonistRelative(0,1);
         break;
     case Qt::Key_D:
         qCInfo(MainWindowCat) << "Detected input: MOVE PROTAGONIST RIGHT";
-        gameController.moveProtagonistRelative(1,0);
+        gameController->moveProtagonistRelative(1,0);
         break;
     default:
         qCDebug(MainWindowCat) << "Detected " << event->key() << " being pressed. This currently does not have an action binding.";
@@ -91,13 +93,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::processCommand() {
     QString command = ui->commandInput->text().toLower();
     if (command == "up") {
-        gameController.moveProtagonistRelative(0, -1);
+        gameController->moveProtagonistRelative(0, -1);
     } else if (command == "down") {
-        gameController.moveProtagonistRelative(0, 1);
+        gameController->moveProtagonistRelative(0, 1);
     } else if (command == "left") {
-        gameController.moveProtagonistRelative(-1, 0);
+        gameController->moveProtagonistRelative(-1, 0);
     } else if (command == "right") {
-        gameController.moveProtagonistRelative(1, 0);
+        gameController->moveProtagonistRelative(1, 0);
     } else {
         qCInfo(MainWindowCat) << "Invalid command: " << command;
     }
@@ -117,8 +119,8 @@ void MainWindow::zoomOut()
 void MainWindow::updateMainUI()
 {
     qCInfo(MainWindowCat) << "Updating main window!";
-    ui->energy_bar->setValue((int)gameController.getActiveProtagonistEnergy());
-    ui->health_bar->setValue((int)gameController.getActiveProtagonistHealth());
+    ui->energy_bar->setValue((int)gameController->getActiveProtagonistEnergy());
+    ui->health_bar->setValue((int)gameController->getActiveProtagonistHealth());
     currentWorldView->updateView();
     if (currentWorldView == graphicalWorldView){
         graphicalEnemyView->updateView();
@@ -149,3 +151,9 @@ void MainWindow::onTabChanged(int index)
     }
     updateMainUI();
 }
+
+void MainWindow::on_activeLevelBox_valueChanged(int arg1)
+{
+    gameController->setActiveLevelIndex(arg1);
+}
+

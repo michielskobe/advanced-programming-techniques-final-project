@@ -27,6 +27,7 @@ std::shared_ptr<int> GameController::getActiveLevelIndex() const
 
 void GameController::setActiveLevelIndex(int newActiveLevelIndex)
 {
+    qCInfo(gameControllerCat) << "Setting new active level to: " << newActiveLevelIndex;
     *activeLevelIndex = newActiveLevelIndex;
     for (int i = 0; i < (int)(*levels).size(); i++) {
         if(i == newActiveLevelIndex){
@@ -173,6 +174,7 @@ void GameController::detectXEnemyColision(const int absoluteX, const int absolut
  */
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
+    qCInfo(gameControllerCat) << "Moving player on level: " << *getActiveLevelIndex();
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
     int newXPos = (*levels)[*activeLevelIndex]->protagonist->getXPos() + relativeX;
     int newYPos = (*levels)[*activeLevelIndex]->protagonist->getYPos() + relativeY;
@@ -218,12 +220,12 @@ void GameController::initialGameLoad()
     // get levels from GameGenerator;
     std::vector<QString> fileNames;
     fileNames.push_back(":/images/world_images/worldmap.png");
-    fileNames.push_back(":/images/world_images/maze2.png");
+    fileNames.push_back(":/images/world_images/maze1.png");
 
     LevelManager* levelManager = LevelManager::GetInstance();
     levelManager->setLevels(fileNames);
     levels = levelManager->getLevels();
-    setActiveLevelIndex(0);
+    setActiveLevelIndex(*activeLevelIndex);
 }
 
 void GameController::connectSlots()
