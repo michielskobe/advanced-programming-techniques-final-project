@@ -80,6 +80,14 @@ void XEnemy::updatePosition(int path)
     emit(positionXEnemyUpdated());
 }
 
+float XEnemy::getAttacked(const float damage)
+{
+    // You can not attack an XEnemy, it can only die from walking around too much.
+    // Once you touch the XEnemy, you die.
+    // This implementation does not punish you if you try to attack it without knowing the result of getting caught
+    return 0.0f;
+}
+
 void XEnemy::updateXEnemyPosition()
 {
     // restart timer for updating
