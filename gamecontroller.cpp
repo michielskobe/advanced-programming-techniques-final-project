@@ -127,7 +127,7 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
                         temp->setDefeated(true);
                     }
                 } else {
-                    qCInfo(gameControllerCat) << "Turns out PEnemy is dead ¯\_(ツ)_/¯";
+                    qCInfo(gameControllerCat) << "Turns out PEnemy is dead ¯\\_(ツ)_/¯";
                 }
                 return true;
             }
@@ -144,7 +144,7 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
                     (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
                     reference->setDefeated(true);
                 } else {
-                    qCInfo(gameControllerCat) << "Turns out regular Enemy is dead ¯\_(ツ)_/¯";
+                    qCInfo(gameControllerCat) << "Turns out regular Enemy is dead ¯\\_(ツ)_/¯";
                 }
             }
         }

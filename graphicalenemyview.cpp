@@ -1,5 +1,8 @@
 #include "graphicalenemyview.h"
 #include "xenemy.h"
+#include "ownenemy.h"
+#include "ownpenemy.h"
+
 
 GraphicalEnemyView::GraphicalEnemyView(QGraphicsScene* scene)
     : scene(scene) {
@@ -12,7 +15,7 @@ void GraphicalEnemyView::updateView() {
         QString image = ":/images/Enemy_Idle.png";
         if (enemy->getDefeated()){
             image = ":/images/Enemy_Dead.png";
-            auto temp = dynamic_cast<PEnemy*>(&(*enemy));
+            auto temp = dynamic_cast<OwnPEnemy*>(&(*enemy));
             if (temp != nullptr){
                 image = ":/images/PEnemy_Dead.png";
             }
@@ -21,7 +24,7 @@ void GraphicalEnemyView::updateView() {
                 image = ":/images/XEnemy.png";
             }
         } else {
-            auto temp = dynamic_cast<PEnemy*>(&(*enemy));
+            auto temp = dynamic_cast<OwnPEnemy*>(&(*enemy));
             if (temp != nullptr){
                 image = ":/images/PEnemy_Idle.png";
             }
