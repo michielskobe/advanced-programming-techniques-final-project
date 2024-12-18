@@ -17,7 +17,17 @@
 #include "difficultycontroller.h"
 QLoggingCategory XEnemyCat("XEnemy");
 
-XEnemy::XEnemy(int xPosition, int yPosition, float strength): Enemy(xPosition, yPosition, strength)
+XEnemy::XEnemy(int xPosition, int yPosition, float strength): OwnEnemy(xPosition, yPosition, strength)
+{
+    health = 100.0f; // this should be determined by difficulty (hopefully)
+
+    qCInfo(XEnemyCat) <<  "Created an XEnemy";
+
+    constexpr const int initUpdateTime = 10;
+    QTimer::singleShot(initUpdateTime * 1000, this, SLOT(updateXEnemyPosition()));
+}
+
+XEnemy::XEnemy(const Enemy &enemy): OwnEnemy(enemy)
 {
     health = 100.0f; // this should be determined by difficulty (hopefully)
 

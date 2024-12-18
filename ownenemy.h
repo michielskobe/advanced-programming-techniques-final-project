@@ -6,6 +6,7 @@ class OwnEnemy : public Enemy
 {
     Q_OBJECT
 public:
+    OwnEnemy(int xPos, int yPos, int strength);
     OwnEnemy(const Enemy& worldEnemy);
     ~OwnEnemy() override = default;
 

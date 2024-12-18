@@ -1,6 +1,11 @@
 #include "ownenemy.h"
 #include "difficultycontroller.h"
 
+OwnEnemy::OwnEnemy(int xPos, int yPos, int strength): Enemy(xPos, yPos, strength)
+{
+
+}
+
 OwnEnemy::OwnEnemy(const Enemy &worldEnemy): Enemy(worldEnemy.getXPos(), worldEnemy.getYPos(), worldEnemy.getValue())
 {
 }
