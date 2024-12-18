@@ -25,6 +25,7 @@ SOURCES += \
     mainwindow.cpp \
     overlayrender.cpp \
     ownenemy.cpp \
+    ownpenemy.cpp \
     pathfinderhelper.cpp \
     pathfindernode.cpp \
     poisontile.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     mainwindow.h \
     overlayrender.h \
     ownenemy.h \
+    ownpenemy.h \
     pathfinder_class.h \
     pathfinderhelper.h \
     pathfindernode.h \
