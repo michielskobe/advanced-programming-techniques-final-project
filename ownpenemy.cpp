@@ -10,7 +10,7 @@
 #include <limits>
 #include <random>
 #include <sstream>
-
+#include "gamecontroller.h"
 
 OwnPEnemy::OwnPEnemy(const PEnemy &worldPEnemy): OwnEnemy(worldPEnemy), poisonLevel{worldPEnemy.getPoisonLevel()}
 {
@@ -46,7 +46,10 @@ float OwnPEnemy::getAttacked(const float damage)
             setDefeated(true);
             setValue(0.0f);
         } else {
-            setValue(getValue()-damage);
+            setValue(newValue);
+            setPoisonLevel(getPoisonLevel() -damage);
+            poison();
+            GameController::GetInstance()->setPoisonTiles(getXPos(), getYPos(), DifficultyController::GetInstance()->getPoisonTileSpreadRadius());
         }
 
         return DifficultyController::GetInstance()->getProtagonistHealthLossAttack();
