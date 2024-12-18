@@ -8,8 +8,11 @@
         <file>images/world_images/worldmap.png</file>
         <file>images/test2.jpg</file>
         <file>images/protagonist.png</file>
-        <file>images/enemy.png</file>
         <file>images/healthpack.png</file>
         <file>images/XEnemy.png</file>
+        <file>images/Enemy_Dead.png</file>
+        <file>images/Enemy_Idle.png</file>
+        <file>images/PEnemy_Dead.png</file>
+        <file>images/PEnemy_Idle.png</file>
     </qresource>
 </RCC>
