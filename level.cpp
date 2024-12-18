@@ -3,6 +3,8 @@
 #include "poisontile.h"
 #include "xenemy.h"
 #include "gamecontroller.h"
+#include "ownenemy.h"
+#include "ownpenemy.h"
 QLoggingCategory LevelCat("level");
 
 Level::Level(QString fileName)
@@ -13,7 +15,18 @@ Level::Level(QString fileName)
     world.createWorld(fileName, 20, 5, 0.50f);
 
     tiles = world.getTiles();
-    enemies = world.getEnemies();
+    auto tempEnemies = world.getEnemies();
+    for (int i = 0; i < (int)(tempEnemies).size(); i++) {
+        auto reference = (&(*(tempEnemies[i])));
+        auto temp = dynamic_cast<PEnemy*>(reference);
+        if (temp != nullptr) {
+            auto newEnemy = new OwnPEnemy(*temp);
+            enemies.emplace_back(newEnemy);
+        }else {
+            auto newEnemy = new OwnEnemy(*reference);
+            enemies.emplace_back(newEnemy);
+        }
+    }
     healthPacks = world.getHealthPacks();
     rows = world.getRows();
     cols = world.getCols();
@@ -127,7 +140,7 @@ void Level::initXEnemy()
 {
     for (int i = 0; i < (int)(enemies).size(); i++) {
         auto reference = (&(*(enemies[i])));
-        auto temp = dynamic_cast<PEnemy*>(reference);
+        auto temp = dynamic_cast<OwnPEnemy*>(reference);
         if (temp == nullptr){ // We have a regular enemy
             const int xpos = enemies[i]->getXPos();
             const int ypos = enemies[i]->getYPos();

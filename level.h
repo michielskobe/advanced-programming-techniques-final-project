@@ -8,6 +8,7 @@
 #include "world.h"
 #include <QtLogging>
 #include <QLoggingCategory>
+#include <ownenemy.h>
 
 class Level
 {
@@ -17,7 +18,7 @@ public: //ctor + dctor
 
 public: //attributes
     std::vector<std::unique_ptr<Tile>> tiles;
-    std::vector<std::unique_ptr<Enemy>> enemies;
+    std::vector<std::unique_ptr<OwnEnemy>> enemies;
     std::vector<std::unique_ptr<Tile>> healthPacks;
     int rows;
     int cols;

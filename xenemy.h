@@ -1,12 +1,14 @@
 #ifndef XENEMY_H
 #define XENEMY_H
 #include "world.h"
+#include "ownenemy.h"
 
-class XEnemy : public Enemy
+class XEnemy : public OwnEnemy
 {
     Q_OBJECT
 public:// constructors / destructors
     XEnemy(int xPosition, int yPosition, float strength);
+    XEnemy(const Enemy& enemy);
     ~XEnemy() override = default;
 
 public:// attributes
