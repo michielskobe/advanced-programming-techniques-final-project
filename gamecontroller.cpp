@@ -2,6 +2,8 @@
 #include "pathfinderhelper.h"
 #include "xenemy.h"
 #include "difficultycontroller.h"
+#include "ownenemy.h"
+#include "ownpenemy.h"
 
 QLoggingCategory gameControllerCat("gameController");
 
@@ -109,7 +111,7 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
     qCInfo(gameControllerCat) << "Attacking Enemy";
     for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
-        auto temp = dynamic_cast<PEnemy*>(reference);
+        auto temp = dynamic_cast<OwnPEnemy*>(reference);
         if (temp != nullptr){
             // succesfully casted to a PEnemy at runtime
             // check if it is at the right place
