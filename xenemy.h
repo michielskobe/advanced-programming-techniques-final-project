@@ -21,6 +21,7 @@ public:// methods
     bool getUpdatePositionAllowed() const;
     void setUpdatePositionAllowed(bool newUpdatePositionAllowed);
     void updatePosition(int path);
+    float getAttacked(const float damage) override;
 
 public slots:
     void updateXEnemyPosition();

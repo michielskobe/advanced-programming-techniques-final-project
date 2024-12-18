@@ -111,42 +111,10 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
     qCInfo(gameControllerCat) << "Attacking Enemy";
     for (int i = 0; i < (int)((*levels)[*activeLevelIndex]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*activeLevelIndex]->enemies[i])));
-        auto temp = dynamic_cast<OwnPEnemy*>(reference);
-        if (temp != nullptr){
-            // succesfully casted to a PEnemy at runtime
-            // check if it is at the right place
-            if (temp->getXPos() == absoluteX && temp->getYPos() == absoluteY){
-                if(!temp->getDefeated()){ // check if the enemy is still alive
-                    qCInfo(gameControllerCat) << "this is a PEnemy";
-                    float newPLevel = temp->getPoisonLevel() - DifficultyController::GetInstance()->getPEnemyHealthLossAttack();
-                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
-                    temp->setPoisonLevel(newPLevel);
-                    temp->poison();
-                    setPoisonTiles(absoluteX, absoluteY, DifficultyController::GetInstance()->getPoisonTileSpreadRadius());
-                    if(newPLevel <= 0.0f){
-                        temp->setDefeated(true);
-                    }
-                } else {
-                    qCInfo(gameControllerCat) << "Turns out PEnemy is dead ¯\\_(ツ)_/¯";
-                }
-                return true;
-            }
-        } else {
 
-        }
-
-        auto temp2 = dynamic_cast<XEnemy*>(reference);
-        if(temp2 == nullptr){
-            // we have a regular enemy.
-            if (reference->getXPos() == absoluteX && reference->getYPos() == absoluteY){
-                if(!reference->getDefeated()){
-                    qCInfo(gameControllerCat) << "this is an Enemy";
-                    (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() -DifficultyController::GetInstance()->getProtagonistHealthLossAttack());
-                    reference->setDefeated(true);
-                } else {
-                    qCInfo(gameControllerCat) << "Turns out regular Enemy is dead ¯\\_(ツ)_/¯";
-                }
-            }
+        if (reference->getXPos() == absoluteX && reference->getYPos() == absoluteY){
+            const float healthLoss = reference->getAttacked(DifficultyController::GetInstance()->getPEnemyHealthLossAttack());
+            (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() - healthLoss);
         }
     }
     return true;
