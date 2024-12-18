@@ -1,11 +1,20 @@
 #include "pathfinderhelper.h"
+#include <chrono>
+using namespace std::chrono;
+
+QLoggingCategory pathFinderHelperCat("PathFinderHelper");
 
 PathFinderHelper::PathFinderHelper() {}
 
 std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Tile> > &tiles, const int startPos, const int destPos, const int width)
 {
     std::vector<PathFinderNode> nodes;
+    auto start = high_resolution_clock::now();
     convNodes(tiles, nodes);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    qCInfo(pathFinderHelperCat) << "It took this many microseconds to convert tiles to nodes: " << duration.count();
+
     Comparator<PathFinderNode> nodeComparator = [](const PathFinderNode& a, const PathFinderNode& b) {
         return a.getValue() < b.getValue();
     };
@@ -19,9 +28,13 @@ std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Til
     };
 
     float heuristicWeight = 1.0f;
-
+    start = high_resolution_clock::now();
     a_star = new PathFinder(nodes, &nodes[startPos], &nodes[destPos], nodeComparator, width, costFunction, distFunction, heuristicWeight);
     auto res = a_star->A_star();
+    free(a_star);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    qCInfo(pathFinderHelperCat) << "It took this many microseconds to find a path: " << duration.count();
     return res;
 }
 

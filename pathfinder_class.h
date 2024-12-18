@@ -112,7 +112,7 @@ public:
         {
             currentX = currentPathNode->getXPos();
             currentY = currentPathNode->getYPos();
-            qCDebug(pathfinderCategory) << "Node to continue... (" << currentX << "," << currentY << ")";
+            //qCDebug(pathfinderCategory) << "Node to continue... (" << currentX << "," << currentY << ")";
 
             //process neighbors
             checkNeighbour(currentX-1, currentY-1, currentPathNode);
@@ -127,7 +127,7 @@ public:
             //this means no path is possible, so we return an empty vector
             if (openList.empty())
             {
-                qCDebug(pathfinderCategory) << "Unable to find path";
+                //qCDebug(pathfinderCategory) << "Unable to find path";
                 return std::vector<int>();
             }
             //update next node to process
@@ -136,18 +136,18 @@ public:
                 currentPathNode = &(nodes.at(openList.top().getYPos()*width+openList.top().getXPos()));
                 currentPathNode->closed = true;
                 openList.pop();
-                qCDebug(pathfinderCategory) << "currentPathNode from openlist: (" << currentPathNode->getXPos() << "," << currentPathNode->getYPos() << ") --> f:" << currentPathNode->f << ", g:" << currentPathNode->g << ", h:" << currentPathNode->h;
-                qCDebug(pathfinderCategory) << "Next node on top of openlist: (" << openList.top().getXPos() << "," << openList.top().getYPos() << ") --> f:" << openList.top().f << ", g:" << openList.top().g << ", h:" << openList.top().h;
-                qCDebug(pathfinderCategory) << "Size of openlist: " << openList.size();
+                // qCDebug(pathfinderCategory) << "currentPathNode from openlist: (" << currentPathNode->getXPos() << "," << currentPathNode->getYPos() << ") --> f:" << currentPathNode->f << ", g:" << currentPathNode->g << ", h:" << currentPathNode->h;
+                // qCDebug(pathfinderCategory) << "Next node on top of openlist: (" << openList.top().getXPos() << "," << openList.top().getYPos() << ") --> f:" << openList.top().f << ", g:" << openList.top().g << ", h:" << openList.top().h;
+                // qCDebug(pathfinderCategory) << "Size of openlist: " << openList.size();
             }
         }
 
         auto endTime = std::chrono::high_resolution_clock::now();
-        qDebug() << "path found after" << std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime).count() << "mS";
+        //qDebug() << "path found after" << std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime).count() << "mS";
         startTime = endTime;
-        qDebug() << "first time:" << nodesAddedFirstTime << "reparented:" <<  nodesReparented << "reparent rejected:" << nodesReparentRejected << "out of bounds:" << nodesOutOfBounds << "walls:" << nodesWalls;
-        qDebug() << "total:" << nodesChecked << "sum of all:" << nodesAddedFirstTime + nodesReparented + nodesReparentRejected + nodesOutOfBounds + nodesWalls;
-        qDebug() << "reparented when closed:" << nodesReparentedWhenClosed << "reparent rejected when closed:" << nodesReparentRejectedWhenClosed;
+        // qDebug() << "first time:" << nodesAddedFirstTime << "reparented:" <<  nodesReparented << "reparent rejected:" << nodesReparentRejected << "out of bounds:" << nodesOutOfBounds << "walls:" << nodesWalls;
+        // qDebug() << "total:" << nodesChecked << "sum of all:" << nodesAddedFirstTime + nodesReparented + nodesReparentRejected + nodesOutOfBounds + nodesWalls;
+        // qDebug() << "reparented when closed:" << nodesReparentedWhenClosed << "reparent rejected when closed:" << nodesReparentRejectedWhenClosed;
 
         //return list of path to reach destination
         T * dest = currentPathNode;
@@ -157,7 +157,7 @@ public:
             int deltaX = dest->prev->getXPos() - dest->getXPos();
             int deltaY = dest->prev->getYPos() - dest->getYPos();
             int newMove = deltaX+10*deltaY;
-            qCDebug(pathfinderCategory) << "X:" << deltaX << ", Y:" << deltaY;
+            // qCDebug(pathfinderCategory) << "X:" << deltaX << ", Y:" << deltaY;
             switch (newMove)
             {
             case -10: path.push_back(4); break;
@@ -175,7 +175,7 @@ public:
         std::reverse(path.begin(), path.end());
 
         endTime = std::chrono::high_resolution_clock::now();
-        qDebug() << "path constructed after" << std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime).count() << "mS";
+        // qDebug() << "path constructed after" << std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime).count() << "mS";
 
         return path;
     }
@@ -188,7 +188,7 @@ public:
 private:
     void checkNeighbour(int nX, int nY, T* parent)
     {
-        qCDebug(pathfinderCategory) << "Checking neighbour : (" << nX << "," << nY << ")";
+        // qCDebug(pathfinderCategory) << "Checking neighbour : (" << nX << "," << nY << ")";
         ++nodesChecked;
 
         if (nX >= 0 && nX < width && nY >= 0 && nY < height) //out of bounds
@@ -197,7 +197,7 @@ private:
 
             if ( nextNode.getValue()!=std::numeric_limits<float>::infinity() && !nextNode.closed ) //wall
             {
-                qCDebug(pathfinderCategory) << "Node present at (" << nX << "," << nY << "), val =" << nextNode.getValue();
+                // qCDebug(pathfinderCategory) << "Node present at (" << nX << "," << nY << "), val =" << nextNode.getValue();
 
                 float parentG = parent->g;
                 float traverseCost = costf(*parent, nextNode);
@@ -214,21 +214,21 @@ private:
                     nextNode.prev = parent;
                     nextNode.visited = true;
 
-                    qCDebug(pathfinderCategory) << "New node! parent g =" << parentG << ", traverse cost =" << traverseCost << ", h =" << nextNode.h
-                                                << "--> new f =" << nextNode.f;
-                    qCDebug(pathfinderCategory)<< "Pushing in openlist... (" << nX << "," << nY << ") --> f =" << nextNode.f;
+                    // qCDebug(pathfinderCategory) << "New node! parent g =" << parentG << ", traverse cost =" << traverseCost << ", h =" << nextNode.h
+                    //                             << "--> new f =" << nextNode.f;
+                    // qCDebug(pathfinderCategory)<< "Pushing in openlist... (" << nX << "," << nY << ") --> f =" << nextNode.f;
                     openList.push(nextNode);
                     ++nodesAddedFirstTime;
                 }
                 else //node already visited
                 {
                     //check if current path is better than previous
-                    qCDebug(pathfinderCategory) << "Revisiting node! parent g =" << parentG << ", traverse cost =" << traverseCost << ", h =" << nextNode.h
-                                                << "--> new f =" << parentG + traverseCost + heurWeight * nextNode.h;
-                    qCDebug(pathfinderCategory) << "Check if this path is better, cur g =" << nextNode.g << ", new g =" << parentG + traverseCost;
+                    // qCDebug(pathfinderCategory) << "Revisiting node! parent g =" << parentG << ", traverse cost =" << traverseCost << ", h =" << nextNode.h
+                    //                             << "--> new f =" << parentG + traverseCost + heurWeight * nextNode.h;
+                    // qCDebug(pathfinderCategory) << "Check if this path is better, cur g =" << nextNode.g << ", new g =" << parentG + traverseCost;
                     if (parentG + traverseCost < nextNode.g)
                     {
-                        qCDebug(pathfinderCategory) << "This path is better, reparenting.";
+                        // qCDebug(pathfinderCategory) << "This path is better, reparenting.";
                         nextNode.g = parentG + traverseCost;
                         nextNode.f = nextNode.g + heurWeight * nextNode.h;
                         nextNode.prev = parent;
@@ -242,7 +242,7 @@ private:
                     }
                     else
                     {
-                        qCDebug(pathfinderCategory) << "not better, ignore";
+                        // qCDebug(pathfinderCategory) << "not better, ignore";
                         ++nodesReparentRejected;
                         if( nextNode.closed )
                         {
@@ -254,13 +254,13 @@ private:
             else
             {
                 ++nodesWalls;
-                qCDebug(pathfinderCategory) << "Wall at: (" << nX << "," << nY << ")";
+                // qCDebug(pathfinderCategory) << "Wall at: (" << nX << "," << nY << ")";
             }
         }
         else
         {
             ++nodesOutOfBounds;
-            qCDebug(pathfinderCategory) << "Out of bounds: (" << nX << "," << nY << ")";
+            // qCDebug(pathfinderCategory) << "Out of bounds: (" << nX << "," << nY << ")";
         }
     }
 };
