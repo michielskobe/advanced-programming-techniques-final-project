@@ -21,11 +21,59 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
 
-    QStringList commands = {"up", "down", "left", "right"};
+    QStringList commands = {"up", "down", "left", "right", "goto", "attack nearest enemy", "take nearest health pack", "help"};
     completer = new QCompleter(commands, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->commandInput->setCompleter(completer);
+
+    commandHandlers["up"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(0, -1);
+        qCInfo(MainWindowCat) << "Moving up";
+    };
+    commandHandlers["down"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(0, 1);
+        qCInfo(MainWindowCat) << "Moving down";
+    };
+    commandHandlers["left"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(-1, 0);
+        qCInfo(MainWindowCat) << "Moving left";
+    };
+    commandHandlers["right"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(1, 0);
+        qCInfo(MainWindowCat) << "Moving right";
+    };
+    commandHandlers["goto"] = [this](const QStringList &args) {
+        if (args.size() != 2) {
+            qCInfo(MainWindowCat) << "Usage: goto x y";
+            return;
+        }
+        bool okX, okY;
+        int x = args[0].toInt(&okX);
+        int y = args[1].toInt(&okY);
+
+        if (!okX || !okY) {
+            qCInfo(MainWindowCat) << "Invalid coordinates";
+            return;
+        }
+
+        // TODO: MOVE PROTAGONIST TO GIVEN LOCATION
+        qCInfo(MainWindowCat) << "Moving protagonist to:" << x << y;
+    };
+    commandHandlers["attack nearest enemy"] = [this](const QStringList &) {
+        // TODO: ATTACK NEAREST ENEMY
+        qCInfo(MainWindowCat) << "Attacking nearest enemy";
+    };
+    commandHandlers["take nearest health pack"] = [this](const QStringList &) {
+        // TODO: TAKE NEAREST HEALTH PACK
+        qCInfo(MainWindowCat) << "Taking nearest health pack";
+    };
+    commandHandlers["help"] = [this](const QStringList &) {
+        qCInfo(MainWindowCat) << "Available commands:";
+        for (const auto &command : commandHandlers.keys()) {
+            qCInfo(MainWindowCat) << " - " << command;
+        }
+    };
 
     // Create instances of singletons
     gameController = GameController::GetInstance();
@@ -111,20 +159,24 @@ void MainWindow::protagonistStatus(float health, float energy)
 }
 
 void MainWindow::processCommand() {
-    QString command = ui->commandInput->text().toLower();
-    if (command == "up") {
-        gameController->moveProtagonistRelative(0, -1);
-    } else if (command == "down") {
-        gameController->moveProtagonistRelative(0, 1);
-    } else if (command == "left") {
-        gameController->moveProtagonistRelative(-1, 0);
-    } else if (command == "right") {
-        gameController->moveProtagonistRelative(1, 0);
+    QString commandLine = ui->commandInput->text().toLower();
+
+    if (commandHandlers.contains(commandLine)) {
+        commandHandlers[commandLine]({});
     } else {
-        qCInfo(MainWindowCat) << "Invalid command: " << command;
+        QStringList parts = commandLine.split(" ");
+        QString command = parts.takeFirst();
+        QStringList args = parts;
+
+        if (commandHandlers.contains(command)) {
+            commandHandlers[command](args);
+        } else {
+            qCInfo(MainWindowCat) << "Invalid command: " << command;
+        }
     }
     ui->commandInput->clear();
 }
+
 
 void MainWindow::zoomIn()
 {

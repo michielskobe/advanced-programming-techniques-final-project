@@ -19,6 +19,8 @@
 #include "textualenemyview.h"
 #include "graphicalhealthpackview.h"
 #include "textualhealthpackview.h"
+#include <QHash>
+#include <functional>
 
 
 QT_BEGIN_NAMESPACE
@@ -52,6 +54,7 @@ private:
     TextualHealthpackView* textualHealthpackView;
     GameController* gameController;
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
+    QHash<QString, std::function<void(const QStringList&)>> commandHandlers;
 
     void setupWorldGrid();
     void setupProtagonist();
