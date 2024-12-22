@@ -164,6 +164,8 @@ void MainWindow::updateMainUI()
         textualProtagonistView->updateView();
         textualHealthpackView->updateView();
     }
+    QPointF protagonistPos((*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos()*50, (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos()*50);
+    ui->graphicsView->centerOn(protagonistPos);
 }
 
 void MainWindow::onTabChanged(int index)
