@@ -54,6 +54,12 @@ public slots:
 
 signals:
     void updateUI();
+    void protagonistIdle();
+    void protagonistMove();
+    void protagonistAttack();
+    void protagonistHealth();
+    void protagonistPoison();
+    void protagonistDeath();
 };
 
 #endif // GAMECONTROLLER_H

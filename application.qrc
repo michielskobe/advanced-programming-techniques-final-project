@@ -14,5 +14,6 @@
         <file>images/Enemy_Idle.png</file>
         <file>images/PEnemy_Dead.png</file>
         <file>images/PEnemy_Idle.png</file>
+        <file>images/Protagonist.png</file>
     </qresource>
 </RCC>

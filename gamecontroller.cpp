@@ -97,13 +97,14 @@ void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
 
             // Remove healthpack
             (*levels)[*activeLevelIndex]->healthPacks.erase((*levels)[*activeLevelIndex]->healthPacks.begin()+i);
+            emit protagonistHealth();
         }
     }
 }
 
 void GameController::PoisonTileLogic(const int absoluteX, const int absoluteY)
 {
-
+    emit protagonistPoison();
 }
 
 bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
@@ -117,6 +118,7 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
             (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() - healthLoss);
         }
     }
+    emit protagonistAttack();
     return true;
 }
 
@@ -152,6 +154,7 @@ void GameController::detectXEnemyColision(const int absoluteX, const int absolut
                 // found a XEnemy at the targetposition
                 qCInfo(gameControllerCat) << "Protagonist has been caught by XEnemy";
                 (*levels)[*activeLevelIndex]->setProtagonistHealth(0.0f);
+                emit protagonistDeath();
             }
         }
     }
@@ -204,6 +207,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
+    emit protagonistMove();
     if(calculateValidMove(absoluteX, absoluteY)){
         healthPackLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
@@ -249,6 +253,7 @@ void GameController::protagonistPositionUpdated(int xPos, int yPos)
 {
     qCInfo(gameControllerCat) << "Detected new protagonist location: x=" << xPos << " y=" << yPos;
     //protagonistView->renderModel(xPos,yPos);
+
     emit updateUI();
     detectXEnemyColision(xPos, yPos);
 }
