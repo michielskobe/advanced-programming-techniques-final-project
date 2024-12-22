@@ -21,7 +21,7 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength): OwnEnemy(xPosition
 {
     health = 100.0f; // this should be determined by difficulty (hopefully)
     idleImage = ":/images/XEnemy.png";
-    deadImage = ":/images/XEnemy.png";
+    deadImage = ":/images/XEnemy_Dead.png";
 
     qCInfo(XEnemyCat) <<  "Created an XEnemy";
 
