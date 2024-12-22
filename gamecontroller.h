@@ -55,7 +55,10 @@ public slots:
 signals:
     void updateUI();
     void protagonistIdleVisualisation();
-    void protagonistMoveVisualisation();
+    void protagonistMoveUpVisualisation();
+    void protagonistMoveDownVisualisation();
+    void protagonistMoveLeftVisualisation();
+    void protagonistMoveRightVisualisation();
     void protagonistAttackVisualisation();
     void protagonistHealthVisualisation();
     void protagonistPoisonVisualisation();
