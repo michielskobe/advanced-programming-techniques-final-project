@@ -69,6 +69,11 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
         isValidMove = false;
     }
 
+    // can protagonist move?
+    if((*levels)[*activeLevelIndex]->getProtagonistHealth() == 0.0f || (*levels)[*activeLevelIndex]->getProtagonistEnergy() == 0.0f){
+        isValidMove = false;
+    }
+
     return isValidMove;
 }
 
