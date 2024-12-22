@@ -72,7 +72,7 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
     // can protagonist move?
     if((*levels)[*activeLevelIndex]->getProtagonistHealth() == 0.0f || (*levels)[*activeLevelIndex]->getProtagonistEnergy() == 0.0f){
         isValidMove = false;
-        emit protagonistDeath();
+        emit protagonistDeathVisualisation();
     }
 
     return isValidMove;
@@ -103,14 +103,15 @@ void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
 
             // Remove healthpack
             (*levels)[*activeLevelIndex]->healthPacks.erase((*levels)[*activeLevelIndex]->healthPacks.begin()+i);
-            emit protagonistHealth();
+            emit protagonistHealthVisualisation();
         }
     }
 }
 
 void GameController::PoisonTileLogic(const int absoluteX, const int absoluteY)
 {
-    emit protagonistPoison();
+
+    emit protagonistPoisonVisualisation();
 }
 
 bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
@@ -124,7 +125,7 @@ bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
             (*levels)[*activeLevelIndex]->setProtagonistHealth((*levels)[*activeLevelIndex]->getProtagonistHealth() - healthLoss);
         }
     }
-    emit protagonistAttack();
+    emit protagonistAttackVisualisation();
     return true;
 }
 
@@ -160,7 +161,7 @@ void GameController::detectXEnemyColision(const int absoluteX, const int absolut
                 // found a XEnemy at the targetposition
                 qCInfo(gameControllerCat) << "Protagonist has been caught by XEnemy";
                 (*levels)[*activeLevelIndex]->setProtagonistHealth(0.0f);
-                emit protagonistDeath();
+                emit protagonistDeathVisualisation();
             }
         }
     }
@@ -213,7 +214,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
-    emit protagonistMove();
+    emit protagonistMoveVisualisation();
     if(calculateValidMove(absoluteX, absoluteY)){
         healthPackLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);

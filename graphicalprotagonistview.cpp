@@ -18,12 +18,12 @@ void GraphicalProtagonistView::initializeProtagonistView(){
 }
 
 void GraphicalProtagonistView::connectSlots(){
-    QObject::connect(gameController, &GameController::protagonistIdle, this, &GraphicalProtagonistView::updateForIdle);
-    QObject::connect(gameController, &GameController::protagonistMove, this, &GraphicalProtagonistView::updateForMoving);
-    QObject::connect(gameController, &GameController::protagonistAttack, this, &GraphicalProtagonistView::updateForAttacking);
-    QObject::connect(gameController, &GameController::protagonistHealth, this, &GraphicalProtagonistView::updateForHealthPack);
-    QObject::connect(gameController, &GameController::protagonistPoison, this, &GraphicalProtagonistView::updateForPoisoned);
-    QObject::connect(gameController, &GameController::protagonistDeath, this, &GraphicalProtagonistView::updateForDying);
+    QObject::connect(gameController, &GameController::protagonistIdleVisualisation, this, &GraphicalProtagonistView::updateForIdle);
+    QObject::connect(gameController, &GameController::protagonistMoveVisualisation, this, &GraphicalProtagonistView::updateForMoving);
+    QObject::connect(gameController, &GameController::protagonistAttackVisualisation, this, &GraphicalProtagonistView::updateForAttacking);
+    QObject::connect(gameController, &GameController::protagonistHealthVisualisation, this, &GraphicalProtagonistView::updateForHealthPack);
+    QObject::connect(gameController, &GameController::protagonistPoisonVisualisation, this, &GraphicalProtagonistView::updateForPoisoned);
+    QObject::connect(gameController, &GameController::protagonistDeathVisualisation, this, &GraphicalProtagonistView::updateForDying);
 
 }
 
