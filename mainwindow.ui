@@ -225,6 +225,22 @@
      <number>2</number>
     </property>
    </widget>
+   <widget class="QLabel" name="protagonist_label">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>140</y>
+      <width>271</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Protagonist has died</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

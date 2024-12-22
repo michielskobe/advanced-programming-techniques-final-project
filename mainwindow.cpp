@@ -91,6 +91,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::setStatBars(float health, float energy)
+{
+    ui->energy_bar->setValue((int)energy);
+    ui->health_bar->setValue((int)health);
+}
+
+void MainWindow::protagonistStatus(float health, float energy)
+{
+    if(health == 0.0f || energy == 0.0f){
+        ui->protagonist_label->setHidden(false);
+    } else {
+        ui->protagonist_label->setHidden(true);
+    }
+}
+
 void MainWindow::processCommand() {
     QString command = ui->commandInput->text().toLower();
     if (command == "up") {
@@ -120,8 +135,8 @@ void MainWindow::zoomOut()
 void MainWindow::updateMainUI()
 {
     qCInfo(MainWindowCat) << "Updating main window!";
-    ui->energy_bar->setValue((int)gameController->getActiveProtagonistEnergy());
-    ui->health_bar->setValue((int)gameController->getActiveProtagonistHealth());
+    setStatBars(gameController->getActiveProtagonistHealth(), gameController->getActiveProtagonistEnergy());
+    protagonistStatus(gameController->getActiveProtagonistHealth(), gameController->getActiveProtagonistEnergy());
     currentWorldView->updateView();
     if (currentWorldView == graphicalWorldView){
         graphicalEnemyView->updateView();
@@ -133,10 +148,6 @@ void MainWindow::updateMainUI()
         textualProtagonistView->updateView();
         textualHealthpackView->updateView();
     }
-
-
-
-
 }
 
 void MainWindow::onTabChanged(int index)

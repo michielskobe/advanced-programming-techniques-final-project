@@ -72,12 +72,20 @@ float Level::getProtagonistEnergy() const
 
 void Level::setProtagonistHealth(const float newHealth)
 {
-    protagonist->setHealth(newHealth);
+    if (newHealth <= 0.5f){ // ensuring 0 health when health gets to low
+        protagonist->setHealth(0.0f);
+    } else {
+        protagonist->setHealth(newHealth);
+    }
 }
 
 void Level::setProtagonistEnergy(const float newEnergy)
 {
-    protagonist->setEnergy(newEnergy);
+    if (newEnergy <= 0.5f){ // ensuring 0 energy when energy gets to low
+        protagonist->setEnergy(0.0f);
+    } else {
+        protagonist->setEnergy(newEnergy);
+    }
 }
 
 float Level::getTileValue(const int absoluteX, const int absoluteY) const

@@ -58,6 +58,8 @@ private:
     void setupEnemiesAndHealthPacks();
     void keyPressEvent(QKeyEvent *event) override;
     QString generateTextRepresentation();
+    void setStatBars(float health, float energy);
+    void protagonistStatus(float health, float energy);
 
 public slots:
     void zoomIn();
