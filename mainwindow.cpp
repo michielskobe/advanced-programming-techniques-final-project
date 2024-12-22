@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(grahpicsScene);
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
-    ui->tabWidget->setCurrentIndex(0);
 
     QStringList commands = {"up", "down", "left", "right"};
     completer = new QCompleter(commands, this);
@@ -28,8 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->commandInput->setCompleter(completer);
 
+    // Create instances of singletons
     gameController = GameController::GetInstance();
-
     levels = LevelManager::GetInstance()->getLevels();
 
     // Set up world view
@@ -49,11 +48,16 @@ MainWindow::MainWindow(QWidget *parent)
     graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
     textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
 
+    // Start game in graphical view
     currentWorldView = graphicalWorldView;
+    ui->tabWidget->setCurrentIndex(0);
 
     connect(gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
     connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
+    connect(ui->zoomInBtn, &QPushButton::clicked, this, &MainWindow::zoomIn);
+    connect(ui->zoomOutBtn, &QPushButton::clicked, this, &MainWindow::zoomOut);
+
 
     qCInfo(MainWindowCat) << "Making game controller.";
     updateMainUI();
@@ -124,12 +128,24 @@ void MainWindow::processCommand() {
 
 void MainWindow::zoomIn()
 {
-
+    ui->graphicsView->scale(1.1, 1.1);
 }
 
 void MainWindow::zoomOut()
 {
+    ui->graphicsView->scale(0.9, 0.9);
+}
 
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        event->accept();
+        if (event->angleDelta().y() > 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
+    }
 }
 
 void MainWindow::updateMainUI()
