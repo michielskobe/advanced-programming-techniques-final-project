@@ -1,124 +1,43 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QColor>
+#include <functional>
 #include <QDebug>
 #include <QtLogging>
 #include <QLoggingCategory>
+#include <QKeyEvent>
+#include <QPixmap>
+#include <QScrollBar>
+#include <QTextEdit>
 #include <QLineEdit>
-#include <QStringListModel>
+#include <QHash>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "difficultycontroller.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), grahpicsScene(new QGraphicsScene(this)), textScene(new QTextEdit(this)), completer(nullptr)
+    , ui(new Ui::MainWindow)
+    , graphicsScene(new QGraphicsScene(this))
+    , completer(nullptr)
 {
-    ui->setupUi(this);
-    ui->graphicsView->setScene(grahpicsScene);
-    ui->textView->setWordWrapMode(QTextOption::NoWrap);
-    ui->textView->setFont(QFont("Courier", 10));
-
-    // Set up commands for text view
-    QStringList commands = {"up", "down", "left", "right", "goto", "attack nearest enemy", "take nearest health pack", "help"};
-    completer = new QCompleter(commands, this);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setCompletionMode(QCompleter::PopupCompletion);
-    ui->commandInput->setCompleter(completer);
-
-    commandHandlers["up"] = [this](const QStringList &) {
-        gameController->moveProtagonistRelative(0, -1);
-        qCInfo(MainWindowCat) << "Moving up";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["down"] = [this](const QStringList &) {
-        gameController->moveProtagonistRelative(0, 1);
-        qCInfo(MainWindowCat) << "Moving down";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["left"] = [this](const QStringList &) {
-        gameController->moveProtagonistRelative(-1, 0);
-        qCInfo(MainWindowCat) << "Moving left";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["right"] = [this](const QStringList &) {
-        gameController->moveProtagonistRelative(1, 0);
-        qCInfo(MainWindowCat) << "Moving right";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["goto"] = [this](const QStringList &args) {
-        if (args.size() != 2) {
-            qCInfo(MainWindowCat) << "Usage: goto x y";
-            return;
-        }
-        bool validX, validY;
-        int x = args[0].toInt(&validX);
-        int y = args[1].toInt(&validY);
-
-        if (!validX || !validY) {
-            qCInfo(MainWindowCat) << "Invalid coordinates";
-            return;
-        }
-
-        // TODO: MOVE PROTAGONIST TO GIVEN LOCATION
-        qCInfo(MainWindowCat) << "Moving protagonist to:" << x << y;
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["attack nearest enemy"] = [this](const QStringList &) {
-        // TODO: ATTACK NEAREST ENEMY
-        qCInfo(MainWindowCat) << "Attacking nearest enemy";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["take nearest health pack"] = [this](const QStringList &) {
-        // TODO: TAKE NEAREST HEALTH PACK
-        qCInfo(MainWindowCat) << "Taking nearest health pack";
-        ui->help_label->setHidden(true);
-    };
-    commandHandlers["help"] = [this, commands](const QStringList &) {
-        ui->help_label->setText("Available commands:\n");
-        qCInfo(MainWindowCat) << "Available commands:";
-        for (const auto &command : commands) {
-            qCInfo(MainWindowCat) << " - " << command;
-            ui->help_label->setText(ui->help_label->text() + " - " + command + "\n");
-        }
-        ui->help_label->setHidden(false);
-    };
-
-    // Create instances of singletons
+    // Initialize singletons
     gameController = GameController::GetInstance();
     levels = LevelManager::GetInstance()->getLevels();
 
-    // Set up world view
-    graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene());
-    textualWorldView = new TextualWorldView(ui->textView);
-    textualWorldView->updateView();
+    // Setup UI
+    ui->setupUi(this);
+    setupGraphicsView();
+    setupTextView();
+    setupCommandHandler();
+    setupCommandCompleter();
 
-    // Set up enemy views
-    graphicalEnemyView = new GraphicalEnemyView(ui->graphicsView->scene());
-    textualEnemyView = new TextualEnemyView(ui->textView, textualWorldView);
+    // Initialize game components
+    initializeGameComponents();
 
-    // Set up healthpack views
-    graphicalHealthpackView = new GraphicalHealthpackView(ui->graphicsView->scene());
-    textualHealthpackView = new TextualHealthpackView(ui->textView, textualWorldView);
+    // Setup connections
+    connectSlots();
 
-    // Set up protagonist views
-    graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
-    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
-
-    // Start game in graphical view
-    currentWorldView = graphicalWorldView;
-    ui->tabWidget->setCurrentIndex(0);
-
-    // Connect signals to slots
-    connect(gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
-    connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
-    connect(ui->zoomInBtn, &QPushButton::clicked, this, &MainWindow::zoomIn);
-    connect(ui->zoomOutBtn, &QPushButton::clicked, this, &MainWindow::zoomOut);
-
-    // Update interface
+    // Initial interface update
     qCInfo(MainWindowCat) << "Making game controller.";
     updateMainUI();
 }
@@ -126,6 +45,112 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setupGraphicsView()
+{
+    ui->graphicsView->setScene(graphicsScene);
+    ui->tabWidget->setCurrentIndex(0);
+}
+
+void MainWindow::setupTextView()
+{
+    ui->textView->setWordWrapMode(QTextOption::NoWrap);
+    ui->textView->setFont(QFont("Courier", 10));
+    ui->textView->zoomIn(5);
+}
+
+void MainWindow::setupCommandCompleter()
+{
+    commands = commandHandlers.keys();
+
+    completer = new QCompleter(commands, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    ui->commandInput->setCompleter(completer);
+}
+
+void MainWindow::setupCommandHandler()
+{
+    commandHandlers["up"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(0, -1);
+        qCInfo(MainWindowCat) << "Moving up";
+    };
+    commandHandlers["down"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(0, 1);
+        qCInfo(MainWindowCat) << "Moving down";
+    };
+    commandHandlers["left"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(-1, 0);
+        qCInfo(MainWindowCat) << "Moving left";
+    };
+    commandHandlers["right"] = [this](const QStringList &) {
+        gameController->moveProtagonistRelative(1, 0);
+        qCInfo(MainWindowCat) << "Moving right";
+    };
+    commandHandlers["goto"] = [this](const QStringList &args) {
+        handleGotoCommand(args);
+    };
+    commandHandlers["help"] = [this](const QStringList &) {
+        displayHelp();
+    };
+}
+
+void MainWindow::initializeGameComponents()
+{
+    graphicalWorldView = new GraphicalWorldView(ui->graphicsView->scene());
+    textualWorldView = new TextualWorldView(ui->textView);
+    currentWorldView = graphicalWorldView;
+
+    graphicalEnemyView = new GraphicalEnemyView(ui->graphicsView->scene());
+    textualEnemyView = new TextualEnemyView(ui->textView, textualWorldView);
+
+    graphicalHealthpackView = new GraphicalHealthpackView(ui->graphicsView->scene());
+    textualHealthpackView = new TextualHealthpackView(ui->textView, textualWorldView);
+
+    graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
+    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
+}
+
+void MainWindow::connectSlots()
+{
+    connect(gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
+    connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
+    connect(ui->zoomInBtn, &QPushButton::clicked, this, &MainWindow::zoomIn);
+    connect(ui->zoomOutBtn, &QPushButton::clicked, this, &MainWindow::zoomOut);
+}
+
+void MainWindow::handleGotoCommand(const QStringList &args)
+{
+    if (args.size() != 2) {
+        qCInfo(MainWindowCat) << "Usage: goto x y";
+        return;
+    }
+
+    bool validX, validY;
+    int x = args[0].toInt(&validX);
+    int y = args[1].toInt(&validY);
+
+    if (!validX || !validY) {
+        qCInfo(MainWindowCat) << "Invalid coordinates.";
+        return;
+    }
+
+    qCInfo(MainWindowCat) << "Moving protagonist to: " << x << y;
+    // TODO: Implement move protagonist to (x, y)
+}
+
+void MainWindow::displayHelp()
+{
+    QString helpText = "Available commands:\n";
+    for (const auto &command : commands) {
+        helpText += " - " + command + "\n";
+    }
+
+    ui->help_label->setText(helpText);
+    ui->help_label->setHidden(false);
+    qCInfo(MainWindowCat) << helpText;
 }
 
 /*
@@ -155,6 +180,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::processCommand()
+{
+    QString commandLine = ui->commandInput->text().toLower();
+    QStringList parts = commandLine.split(" ");
+    QString command = parts.takeFirst();
+
+    if (commandHandlers.contains(command)) {
+        commandHandlers[command](parts);
+    } else {
+        qCInfo(MainWindowCat) << "Invalid command: " << command;
+    }
+
+    ui->commandInput->clear();
+}
+
 void MainWindow::setStatBars(float health, float energy)
 {
     ui->energy_bar->setValue((int)energy);
@@ -170,52 +210,41 @@ void MainWindow::protagonistStatus(float health, float energy)
     }
 }
 
-void MainWindow::processCommand() {
-    QString commandLine = ui->commandInput->text().toLower();
-    if (commandHandlers.contains(commandLine)) {
-        commandHandlers[commandLine]({});
-    } else {
-        QStringList parts = commandLine.split(" ");
-        QString command = parts.takeFirst();
-        QStringList args = parts;
-
-        if (commandHandlers.contains(command)) {
-            commandHandlers[command](args);
-        } else {
-            qCInfo(MainWindowCat) << "Invalid command: " << command;
-        }
-    }
-    ui->commandInput->clear();
-}
-
 
 void MainWindow::zoomIn()
 {
     ui->graphicsView->scale(1.1, 1.1);
+    ui->textView->zoomIn(2.5);
 }
 
 void MainWindow::zoomOut()
 {
     ui->graphicsView->scale(0.9, 0.9);
+    ui->textView->zoomOut(2.5);
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
         event->accept();
-        if (event->angleDelta().y() > 0) {
-            zoomIn();
-        } else {
-            zoomOut();
-        }
+        (event->angleDelta().y() > 0) ? zoomIn() : zoomOut();
     }
 }
 
 void MainWindow::updateMainUI()
 {
     qCInfo(MainWindowCat) << "Updating main window!";
+
+    int verticalScrollPos = ui->textView->verticalScrollBar()->value();
+    int horizontalScrollPos = ui->textView->horizontalScrollBar()->value();
+
+    // Update stats bars
     setStatBars(gameController->getActiveProtagonistHealth(), gameController->getActiveProtagonistEnergy());
+
+    // Update protagonist status
     protagonistStatus(gameController->getActiveProtagonistHealth(), gameController->getActiveProtagonistEnergy());
+
+    // Update world view
     currentWorldView->updateView();
     if (currentWorldView == graphicalWorldView){
         graphicalEnemyView->updateView();
@@ -227,8 +256,13 @@ void MainWindow::updateMainUI()
         textualHealthpackView->updateView();
         textualProtagonistView->updateView();
     }
+
+    // Center view on protagonist
     QPointF protagonistPos((*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos()*50, (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos()*50);
     ui->graphicsView->centerOn(protagonistPos);
+
+    ui->textView->verticalScrollBar()->setValue(verticalScrollPos);
+    ui->textView->horizontalScrollBar()->setValue(horizontalScrollPos);
 }
 
 void MainWindow::onTabChanged(int index)
@@ -257,4 +291,3 @@ void MainWindow::on_difficultyBox_valueChanged(int arg1)
 {
     DifficultyController::GetInstance()->setDifficultySetting(arg1);
 }
-

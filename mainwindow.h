@@ -3,13 +3,9 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <QKeyEvent>
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
+#include <QCompleter>
 #include "world.h"
 #include "gamecontroller.h"
-#include <QTextEdit>
-#include <QCompleter>
 #include "worldview.h"
 #include "graphicalworldview.h"
 #include "textualworldview.h"
@@ -19,9 +15,6 @@
 #include "textualenemyview.h"
 #include "graphicalhealthpackview.h"
 #include "textualhealthpackview.h"
-#include <QHash>
-#include <functional>
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -37,11 +30,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void zoomIn();
+    void zoomOut();
+    void updateMainUI();
+    void processCommand();
+    void onTabChanged(int index);
+
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *grahpicsScene;
+    QGraphicsScene *graphicsScene;
     QTextEdit *textScene;
-    QCompleter* completer;
+
+    GameController* gameController;
+    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
+
     World world;
     WorldView* currentWorldView;
     GraphicalWorldView* graphicalWorldView;
@@ -52,25 +55,24 @@ private:
     TextualEnemyView* textualEnemyView;
     GraphicalHealthpackView* graphicalHealthpackView;
     TextualHealthpackView* textualHealthpackView;
-    GameController* gameController;
-    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
-    QHash<QString, std::function<void(const QStringList&)>> commandHandlers;
 
-    void setupWorldGrid();
-    void setupProtagonist();
-    void setupEnemiesAndHealthPacks();
-    void keyPressEvent(QKeyEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
-    QString generateTextRepresentation();
+    QHash<QString, std::function<void(const QStringList&)>> commandHandlers;
+    QStringList commands;
+    QCompleter* completer;
+
+    void setupGraphicsView();
+    void setupTextView();
+    void setupCommandCompleter();
+    void setupCommandHandler();
+    void initializeGameComponents();
+    void connectSlots();
+    void handleGotoCommand(const QStringList &args);
+    void displayHelp();
     void setStatBars(float health, float energy);
     void protagonistStatus(float health, float energy);
+    void keyPressEvent(QKeyEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
-public slots:
-    void zoomIn();
-    void zoomOut();
-    void updateMainUI();
-    void processCommand();
-    void onTabChanged(int index);
 private slots:
     void on_activeLevelBox_valueChanged(int arg1);
     void on_difficultyBox_valueChanged(int arg1);
