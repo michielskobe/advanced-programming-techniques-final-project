@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textView->setWordWrapMode(QTextOption::NoWrap);
     ui->textView->setFont(QFont("Courier", 10));
 
+    // Set up commands for text view
     QStringList commands = {"up", "down", "left", "right", "goto", "attack nearest enemy", "take nearest health pack", "help"};
     completer = new QCompleter(commands, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -30,49 +31,59 @@ MainWindow::MainWindow(QWidget *parent)
     commandHandlers["up"] = [this](const QStringList &) {
         gameController->moveProtagonistRelative(0, -1);
         qCInfo(MainWindowCat) << "Moving up";
+        ui->help_label->setHidden(true);
     };
     commandHandlers["down"] = [this](const QStringList &) {
         gameController->moveProtagonistRelative(0, 1);
         qCInfo(MainWindowCat) << "Moving down";
+        ui->help_label->setHidden(true);
     };
     commandHandlers["left"] = [this](const QStringList &) {
         gameController->moveProtagonistRelative(-1, 0);
         qCInfo(MainWindowCat) << "Moving left";
+        ui->help_label->setHidden(true);
     };
     commandHandlers["right"] = [this](const QStringList &) {
         gameController->moveProtagonistRelative(1, 0);
         qCInfo(MainWindowCat) << "Moving right";
+        ui->help_label->setHidden(true);
     };
     commandHandlers["goto"] = [this](const QStringList &args) {
         if (args.size() != 2) {
             qCInfo(MainWindowCat) << "Usage: goto x y";
             return;
         }
-        bool okX, okY;
-        int x = args[0].toInt(&okX);
-        int y = args[1].toInt(&okY);
+        bool validX, validY;
+        int x = args[0].toInt(&validX);
+        int y = args[1].toInt(&validY);
 
-        if (!okX || !okY) {
+        if (!validX || !validY) {
             qCInfo(MainWindowCat) << "Invalid coordinates";
             return;
         }
 
         // TODO: MOVE PROTAGONIST TO GIVEN LOCATION
         qCInfo(MainWindowCat) << "Moving protagonist to:" << x << y;
+        ui->help_label->setHidden(true);
     };
     commandHandlers["attack nearest enemy"] = [this](const QStringList &) {
         // TODO: ATTACK NEAREST ENEMY
         qCInfo(MainWindowCat) << "Attacking nearest enemy";
+        ui->help_label->setHidden(true);
     };
     commandHandlers["take nearest health pack"] = [this](const QStringList &) {
         // TODO: TAKE NEAREST HEALTH PACK
         qCInfo(MainWindowCat) << "Taking nearest health pack";
+        ui->help_label->setHidden(true);
     };
-    commandHandlers["help"] = [this](const QStringList &) {
+    commandHandlers["help"] = [this, commands](const QStringList &) {
+        ui->help_label->setText("Available commands:\n");
         qCInfo(MainWindowCat) << "Available commands:";
-        for (const auto &command : commandHandlers.keys()) {
+        for (const auto &command : commands) {
             qCInfo(MainWindowCat) << " - " << command;
+            ui->help_label->setText(ui->help_label->text() + " - " + command + "\n");
         }
+        ui->help_label->setHidden(false);
     };
 
     // Create instances of singletons
@@ -100,13 +111,14 @@ MainWindow::MainWindow(QWidget *parent)
     currentWorldView = graphicalWorldView;
     ui->tabWidget->setCurrentIndex(0);
 
+    // Connect signals to slots
     connect(gameController, &GameController::updateUI, this, &MainWindow::updateMainUI);
     connect(ui->commandInput, &QLineEdit::returnPressed, this, &MainWindow::processCommand);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
     connect(ui->zoomInBtn, &QPushButton::clicked, this, &MainWindow::zoomIn);
     connect(ui->zoomOutBtn, &QPushButton::clicked, this, &MainWindow::zoomOut);
 
-
+    // Update interface
     qCInfo(MainWindowCat) << "Making game controller.";
     updateMainUI();
 }
@@ -160,7 +172,6 @@ void MainWindow::protagonistStatus(float health, float energy)
 
 void MainWindow::processCommand() {
     QString commandLine = ui->commandInput->text().toLower();
-
     if (commandHandlers.contains(commandLine)) {
         commandHandlers[commandLine]({});
     } else {
@@ -226,6 +237,7 @@ void MainWindow::onTabChanged(int index)
         // Graphical view tab selected
         qCInfo(MainWindowCat) << "Switched to Graphical View.";
         currentWorldView = graphicalWorldView;
+        ui->help_label->setHidden(true);
     } else if (index == 1) {
         // Text view tab selected
         qCInfo(MainWindowCat) << "Switched to Text View.";
