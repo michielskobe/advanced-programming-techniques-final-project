@@ -224,8 +224,8 @@ void MainWindow::updateMainUI()
     }
     else if (currentWorldView == textualWorldView){
         textualEnemyView->updateView();
-        textualProtagonistView->updateView();
         textualHealthpackView->updateView();
+        textualProtagonistView->updateView();
     }
     QPointF protagonistPos((*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos()*50, (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos()*50);
     ui->graphicsView->centerOn(protagonistPos);
