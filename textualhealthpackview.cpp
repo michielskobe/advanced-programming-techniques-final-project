@@ -19,9 +19,8 @@ void TextualHealthpackView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        if (pos < updatedGrid.size()) {
-            updatedGrid[pos] = 'H';
-        }
+        QString healthView = "❤";
+        updatedGrid.replace(pos, 1, healthView);
     }
 
     worldView->setWorldGrid(updatedGrid);
