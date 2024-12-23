@@ -15,6 +15,8 @@ public:
 
     QString idleImage;
     QString deadImage;
+    QString textRepresentation;
+    QString getTextRepresentation() const;
 };
 
 #endif // OWNENEMY_H

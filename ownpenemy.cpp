@@ -17,6 +17,7 @@ OwnPEnemy::OwnPEnemy(const PEnemy &worldPEnemy): OwnEnemy(worldPEnemy), poisonLe
     srand(time(nullptr));
     idleImage = ":/images/PEnemy_Idle.png";
     deadImage = ":/images/PEnemy_Dead.png";
+    textRepresentation = " P ";
 }
 
 bool OwnPEnemy::poison()

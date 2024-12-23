@@ -23,6 +23,7 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength): OwnEnemy(xPosition
 
     idleImage = ":/images/XEnemy_Idle.png";
     deadImage = ":/images/XEnemy_Dead.png";
+    textRepresentation = " X ";
 
     qCInfo(XEnemyCat) <<  "Created an XEnemy";
 

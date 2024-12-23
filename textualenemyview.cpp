@@ -19,9 +19,7 @@ void TextualEnemyView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        if (pos < updatedGrid.size()) {
-            updatedGrid[pos] = 'E';
-        }
+        updatedGrid.replace(pos-1, 3, enemy->getTextRepresentation());
     }
 
     worldView->setWorldGrid(updatedGrid);
