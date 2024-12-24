@@ -26,6 +26,16 @@ PathFinderNode::PathFinderNode(const Tile &worldTile): Tile(worldTile.getXPos(),
 
 }
 
+bool PathFinderNode::getPlayerVisited() const
+{
+    return playerVisited;
+}
+
+void PathFinderNode::setPlayerVisited(bool newPlayerVisited)
+{
+    playerVisited = newPlayerVisited;
+}
+
 float PathFinderNode::getDamageMultiplier() const
 {
     return damageMultiplier;

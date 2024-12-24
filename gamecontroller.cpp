@@ -183,7 +183,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
      * When moving relatively, we need to take into account the energy loss
      */
 
-    // get the value of the destination tile
+    // get the value of the destination tile (this can be the original tile if absolute move could not happen, that is why we get the curr pos of the prot)
     float tileEnergy = (*levels)[*activeLevelIndex]->getTileValue((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
     float dmgmul = (*levels)[*activeLevelIndex]->getDamageMultiplier((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
     tileEnergy = 1/tileEnergy; // invert the tile value
@@ -207,6 +207,7 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
     if(calculateValidMove(absoluteX, absoluteY)){
         healthPackLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
+        (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
     }
     emit updateUI(); // update UI after calculating changes due to attempted move
 }

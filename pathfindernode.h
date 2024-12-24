@@ -32,6 +32,8 @@ public: // attributes
 
 // public slots:
 //     void removePoison();
+    bool getPlayerVisited() const;
+    void setPlayerVisited(bool newPlayerVisited);
 };
 
 #endif // PATHFINDERNODE_H

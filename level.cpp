@@ -130,6 +130,28 @@ float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
     return tiles[index].get()->getDamageMultiplier();
 }
 
+void Level::markTileVisited(const int absoluteX, const int absoluteY)
+{
+    bool valid{true};
+    // check for non valid positions
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not set visitedd status for position x=" << absoluteX << " y=" << absoluteY;
+        valid = false;
+    }
+
+    // Calculate tile index:
+    const int index = absoluteX + absoluteY * cols;
+
+    // check if index is out of bounds
+    if (index < 0 || index >= cols*rows){
+        qCInfo(LevelCat) << "Tile index is out of bounds, can not set visited status for position x=" << absoluteX << " y=" << absoluteY;
+        valid = false;
+    }
+    if(valid){
+        tiles[index].get()->setPlayerVisited(true);
+    }
+}
+
 void Level::initXEnemy()
 {
     for (int i = 0; i < (int)(enemies).size(); i++) {
