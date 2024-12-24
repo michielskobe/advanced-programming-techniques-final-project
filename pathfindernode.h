@@ -4,10 +4,12 @@
 #include <memory>
 #include "world.h"
 
-class PathFinderNode : public Tile
+class PathFinderNode: public Tile
 {
+    // Q_OBJECT
 public: // constructor / destructor
     PathFinderNode(int xPosition, int yPosition, float tileWeight);
+    PathFinderNode(const Tile& worldTile);
     ~PathFinderNode() override = default;
 
 public: // attributes
@@ -18,6 +20,16 @@ public: // attributes
     bool closed;
     PathFinderNode* prev = nullptr;
 
+    float damageMultiplier{0.0f};
+    bool playerVisited;
+
+    void setPoison();
+
+    float getDamageMultiplier() const;
+    void setDamageMultiplier(float newDamageMultiplier);
+
+// public slots:
+//     void removePoison();
 };
 
 #endif // PATHFINDERNODE_H

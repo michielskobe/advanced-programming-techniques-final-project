@@ -14,7 +14,12 @@ Level::Level(QString fileName)
     World world = World();
     world.createWorld(fileName, 20, 5, 0.50f);
 
-    tiles = world.getTiles();
+    auto tempTiles = world.getTiles();
+    for (int i = 0; i < (int)(tempTiles).size(); i++){
+        auto reference = (&(*(tempTiles[i])));
+        auto pathFinderNode = new PathFinderNode(*reference);
+        tiles.emplace_back(pathFinderNode);
+    }
     auto tempEnemies = world.getEnemies();
     for (int i = 0; i < (int)(tempEnemies).size(); i++) {
         auto reference = (&(*(tempEnemies[i])));
@@ -103,10 +108,7 @@ float Level::getTileValue(const int absoluteX, const int absoluteY) const
 
 void Level::makePoisonTile(const int tileIndex)
 {
-    const int tileXPos = tiles[tileIndex].get()->getXPos();
-    const int tileYPos = tiles[tileIndex].get()->getYPos();
-    const float tileValue = tiles[tileIndex].get()->getValue();
-    tiles[tileIndex].reset(new PoisonTile(tileXPos, tileYPos, tileValue));
+    tiles[tileIndex]->setPoison();
 }
 
 float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
@@ -125,15 +127,7 @@ float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
         qCInfo(LevelCat) << "Tile index is out of bounds, can not get poison status for position x=" << absoluteX << " y=" << absoluteY;
         return 0.0f;
     }
-
-    auto reference = (&(*(tiles[index])));
-    auto temp = dynamic_cast<PoisonTile*>(reference);
-    if (temp != nullptr){
-        qCInfo(LevelCat) << "Poison tile detected, damage multiplier of it is: " << temp->getDamageMultiplier();
-        return temp->getDamageMultiplier();
-    }
-    return 0.0f;
-
+    return tiles[index].get()->getDamageMultiplier();
 }
 
 void Level::initXEnemy()
