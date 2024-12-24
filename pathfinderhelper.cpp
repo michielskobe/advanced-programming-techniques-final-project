@@ -6,14 +6,14 @@ QLoggingCategory pathFinderHelperCat("PathFinderHelper");
 
 PathFinderHelper::PathFinderHelper() {}
 
-std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Tile> > &tiles, const int startPos, const int destPos, const int width)
+std::vector<int> PathFinderHelper::getPath(std::vector<std::unique_ptr<PathFinderNode> > &tiles, const int startPos, const int destPos, const int width)
 {
     std::vector<PathFinderNode> nodes;
     auto start = high_resolution_clock::now();
-    convNodes(tiles, nodes);
+    resetNodes(tiles, nodes);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    qCInfo(pathFinderHelperCat) << "It took this many microseconds to convert tiles to nodes: " << duration.count();
+    qCInfo(pathFinderHelperCat) << "It took this many microseconds to reset the nodes: " << duration.count();
 
     Comparator<PathFinderNode> nodeComparator = [](const PathFinderNode& a, const PathFinderNode& b) {
         return a.getValue() < b.getValue();
@@ -49,4 +49,13 @@ void PathFinderHelper::convNodes(const std::vector<std::unique_ptr<Tile> > &tile
         const float tileValue = tile->getValue();
         nodes.push_back(PathFinderNode(xPos, yPos, tileValue));
     }
+}
+
+void PathFinderHelper::resetNodes(std::vector<std::unique_ptr<PathFinderNode>> &tiles, std::vector<PathFinderNode> &nodes)
+{
+    for (int i = 0; i < (int)(tiles).size(); i++) {
+        tiles[i]->resetPathFinderAttr();
+        nodes.push_back(PathFinderNode(*tiles[i]));
+    }
+
 }

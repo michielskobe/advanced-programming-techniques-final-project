@@ -28,6 +28,8 @@ public: // attributes
     float getDamageMultiplier() const;
     void setDamageMultiplier(float newDamageMultiplier);
 
+    void resetPathFinderAttr();
+
 // public slots:
 //     void removePoison();
 };

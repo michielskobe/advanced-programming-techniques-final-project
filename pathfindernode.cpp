@@ -36,6 +36,12 @@ void PathFinderNode::setDamageMultiplier(float newDamageMultiplier)
     damageMultiplier = newDamageMultiplier;
 }
 
+void PathFinderNode::resetPathFinderAttr()
+{
+    visited = false;
+    closed = false;
+}
+
 void PathFinderNode::setPoison()
 {
     // int t = rand() % DifficultyController::GetInstance()->getPoisonTileLingeringTime();

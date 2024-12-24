@@ -104,11 +104,11 @@ void XEnemy::updateXEnemyPosition()
         auto activeIndex = gctrl->getActiveLevelIndex();
         const int ownIndex = xPos + yPos*(*levels)[*activeIndex]->cols;
         const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getYPos()*(*levels)[*activeIndex]->cols;
-        //auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
-        //if (!moves.empty()){
-        //    updatePosition(moves[0]);
-        //}
-        //qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
+        auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
+        if (!moves.empty()){
+           updatePosition(moves[0]);
+        }
+        qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
     }
 }
 
