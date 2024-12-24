@@ -15,8 +15,9 @@ public:// attributes
     PathFinder<PathFinderNode, PathFinderNode>* a_star;
 
 public:// methods
-    std::vector<int> getPath(const std::vector<std::unique_ptr<Tile>>& tiles, const int startPos, const int destPos, const int width);
+    std::vector<int> getPath(std::vector<std::unique_ptr<PathFinderNode>>& tiles, const int startPos, const int destPos, const int width);
     void convNodes(const std::vector<std::unique_ptr<Tile> > &tiles, std::vector<PathFinderNode> &nodes);
+    void resetNodes(std::vector<std::unique_ptr<PathFinderNode>> &tiles, std::vector<PathFinderNode> &nodes);
 
 };
 

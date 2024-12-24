@@ -1,17 +1,26 @@
 #include "pathfinderhelper.h"
+#include <chrono>
+using namespace std::chrono;
+
+QLoggingCategory pathFinderHelperCat("PathFinderHelper");
 
 PathFinderHelper::PathFinderHelper() {}
 
-std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Tile> > &tiles, const int startPos, const int destPos, const int width)
+std::vector<int> PathFinderHelper::getPath(std::vector<std::unique_ptr<PathFinderNode> > &tiles, const int startPos, const int destPos, const int width)
 {
     std::vector<PathFinderNode> nodes;
-    convNodes(tiles, nodes);
+    auto start = high_resolution_clock::now();
+    resetNodes(tiles, nodes);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    qCInfo(pathFinderHelperCat) << "It took this many microseconds to reset the nodes: " << duration.count();
+
     Comparator<PathFinderNode> nodeComparator = [](const PathFinderNode& a, const PathFinderNode& b) {
         return a.getValue() < b.getValue();
     };
 
     helper_func<PathFinderNode> costFunction = [](const PathFinderNode& p1, const PathFinderNode& p2) {
-        return std::abs(p1.getXPos() - p2.getXPos()) + std::abs(p1.getYPos() - p2.getYPos());
+        return p2.getValue();
     };
 
     helper_func<PathFinderNode> distFunction = [](const PathFinderNode& p1, const PathFinderNode& p2) {
@@ -19,9 +28,13 @@ std::vector<int> PathFinderHelper::getPath(const std::vector<std::unique_ptr<Til
     };
 
     float heuristicWeight = 1.0f;
-
+    start = high_resolution_clock::now();
     a_star = new PathFinder(nodes, &nodes[startPos], &nodes[destPos], nodeComparator, width, costFunction, distFunction, heuristicWeight);
     auto res = a_star->A_star();
+    delete a_star;
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    qCInfo(pathFinderHelperCat) << "It took this many microseconds to find a path: " << duration.count();
     return res;
 }
 
@@ -36,4 +49,13 @@ void PathFinderHelper::convNodes(const std::vector<std::unique_ptr<Tile> > &tile
         const float tileValue = tile->getValue();
         nodes.push_back(PathFinderNode(xPos, yPos, tileValue));
     }
+}
+
+void PathFinderHelper::resetNodes(std::vector<std::unique_ptr<PathFinderNode>> &tiles, std::vector<PathFinderNode> &nodes)
+{
+    for (int i = 0; i < (int)(tiles).size(); i++) {
+        tiles[i]->resetPathFinderAttr();
+        nodes.push_back(PathFinderNode(*tiles[i]));
+    }
+
 }

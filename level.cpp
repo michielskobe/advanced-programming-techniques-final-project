@@ -14,7 +14,12 @@ Level::Level(QString fileName)
     World world = World();
     world.createWorld(fileName, 20, 5, 0.50f);
 
-    tiles = world.getTiles();
+    auto tempTiles = world.getTiles();
+    for (int i = 0; i < (int)(tempTiles).size(); i++){
+        auto reference = (&(*(tempTiles[i])));
+        auto pathFinderNode = new PathFinderNode(*reference);
+        tiles.emplace_back(pathFinderNode);
+    }
     auto tempEnemies = world.getEnemies();
     for (int i = 0; i < (int)(tempEnemies).size(); i++) {
         auto reference = (&(*(tempEnemies[i])));
@@ -111,10 +116,7 @@ float Level::getTileValue(const int absoluteX, const int absoluteY) const
 
 void Level::makePoisonTile(const int tileIndex)
 {
-    const int tileXPos = tiles[tileIndex].get()->getXPos();
-    const int tileYPos = tiles[tileIndex].get()->getYPos();
-    const float tileValue = tiles[tileIndex].get()->getValue();
-    tiles[tileIndex].reset(new PoisonTile(tileXPos, tileYPos, tileValue));
+    tiles[tileIndex]->setPoison();
 }
 
 float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
@@ -133,15 +135,29 @@ float Level::getDamageMultiplier(const int absoluteX, const int absoluteY)
         qCInfo(LevelCat) << "Tile index is out of bounds, can not get poison status for position x=" << absoluteX << " y=" << absoluteY;
         return 0.0f;
     }
+    return tiles[index].get()->getDamageMultiplier();
+}
 
-    auto reference = (&(*(tiles[index])));
-    auto temp = dynamic_cast<PoisonTile*>(reference);
-    if (temp != nullptr){
-        qCInfo(LevelCat) << "Poison tile detected, damage multiplier of it is: " << temp->getDamageMultiplier();
-        return temp->getDamageMultiplier();
+void Level::markTileVisited(const int absoluteX, const int absoluteY)
+{
+    bool valid{true};
+    // check for non valid positions
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not set visitedd status for position x=" << absoluteX << " y=" << absoluteY;
+        valid = false;
     }
-    return 0.0f;
 
+    // Calculate tile index:
+    const int index = absoluteX + absoluteY * cols;
+
+    // check if index is out of bounds
+    if (index < 0 || index >= cols*rows){
+        qCInfo(LevelCat) << "Tile index is out of bounds, can not set visited status for position x=" << absoluteX << " y=" << absoluteY;
+        valid = false;
+    }
+    if(valid){
+        tiles[index].get()->setPlayerVisited(true);
+    }
 }
 
 void Level::initXEnemy()

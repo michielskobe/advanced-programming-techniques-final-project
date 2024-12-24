@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include "world.h"
+#include "pathfindernode.h"
 #include <QtLogging>
 #include <QLoggingCategory>
 #include <ownenemy.h>
@@ -17,7 +18,7 @@ public: //ctor + dctor
     Level(QString fileName);
 
 public: //attributes
-    std::vector<std::unique_ptr<Tile>> tiles;
+    std::vector<std::unique_ptr<PathFinderNode>> tiles;
     std::vector<std::unique_ptr<OwnEnemy>> enemies;
     std::vector<std::unique_ptr<Tile>> healthPacks;
     int rows;
@@ -35,6 +36,7 @@ public: // methods
     float getTileValue(const int absoluteX, const int absoluteY) const;
     void makePoisonTile(const int tileIndex);
     float getDamageMultiplier(const int absoluteX, const int absoluteY);
+    void markTileVisited(const int absoluteX, const int absoluteY);
     void initXEnemy();
     void setActiveLevel();
     void setInActiveLevel();
