@@ -1,21 +1,15 @@
 #ifndef GRAPHICALWORLDVIEW_H
 #define GRAPHICALWORLDVIEW_H
 
-#include "worldview.h"
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
-#include <QString>
+#include "graphicalview.h"
 
-class GraphicalWorldView : public WorldView
+class GraphicalWorldView : public GraphicalView
 {
 public:
     GraphicalWorldView(QGraphicsScene* scene);
+    ~GraphicalWorldView() = default;
 
     void updateView() override;
-
-private:
-    QGraphicsScene* scene;
 };
 
 #endif // GRAPHICALWORLDVIEW_H

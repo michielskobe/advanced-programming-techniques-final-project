@@ -1,11 +1,14 @@
 #include "textualprotagonistview.h"
 #include "textualworldview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 #include <QTimer>
 
 TextualProtagonistView::TextualProtagonistView(QTextEdit* textView, TextualWorldView *worldView)
-    : textView(textView), worldView(worldView){
+    : TextualView(textView), worldView(worldView){
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
+    characterRepresentation = " ☺ ";
     connectSlots();
 }
 
@@ -21,7 +24,7 @@ void TextualProtagonistView::updateView() {
     const int colOffset = xPos * 4 + 2;
     const int pos = rowOffset + colOffset;
 
-    updatedGrid.replace(pos - 1, 3, protagonistView);
+    updatedGrid.replace(pos - 1, 3, characterRepresentation);
 
     worldView->setWorldGrid(updatedGrid);
     textView->setPlainText(updatedGrid);
@@ -53,23 +56,23 @@ void TextualProtagonistView::updateForState(const QString& state) {
 
     if (state == "Idle") {
         currentColor = QColor("black");
-        protagonistView = " ☺ ";
+        characterRepresentation = " ☺ ";
     } else if (state == "Moving") {
         currentColor = QColor("grey");
-        protagonistView = " ☺ ";
+        characterRepresentation = " ☺ ";
     } else if (state == "Attacking") {
         currentColor = QColor("brown");
-        protagonistView = " ☺/";
+        characterRepresentation = " ☺/";
     } else if (state == "HealthPack") {
         currentColor = QColor("red");
-        protagonistView = " ☺❤";
+        characterRepresentation = " ☺❤";
     } else if (state == "Poisoned") {
         currentColor = QColor("purple");
-        protagonistView = " ☺ ";
+        characterRepresentation = " ☺ ";
     } else if (state == "Dying") {
         isDead = true;
         currentColor = QColor("grey");
-        protagonistView = " † ";
+        characterRepresentation = " † ";
     }
     updateView();
     QTimer::singleShot(2000, [this]() {

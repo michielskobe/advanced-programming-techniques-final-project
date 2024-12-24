@@ -1,11 +1,9 @@
 #ifndef TEXTUALWORLDVIEW_H
 #define TEXTUALWORLDVIEW_H
 
-#include "worldview.h"
-#include <QTextEdit>
-#include <QString>
+#include "textualview.h"
 
-class TextualWorldView : public WorldView
+class TextualWorldView : public TextualView
 {
 public:
     TextualWorldView(QTextEdit* textView);
@@ -16,12 +14,9 @@ public:
     void setWorldGrid(const QString &newWorldGrid);
 
 private:
-    QTextEdit* textView;
-    QString worldGrid;
-    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
-    GameController* gameController;
-
     QString generateTextRepresentation();
+
+    QString worldGrid;
 };
 
 #endif // TEXTUALWORLDVIEW_H

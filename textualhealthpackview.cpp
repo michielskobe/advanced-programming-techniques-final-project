@@ -1,9 +1,13 @@
 #include "textualhealthpackview.h"
+#include "textualworldview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 TextualHealthpackView::TextualHealthpackView(QTextEdit* textView, TextualWorldView *worldView)
-    : textView(textView), worldView(worldView) {
+    : TextualView(textView), worldView(worldView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
+    characterRepresentation = "❤";
 }
 
 void TextualHealthpackView::updateView() {
@@ -19,8 +23,7 @@ void TextualHealthpackView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        QString healthView = "❤";
-        updatedGrid.replace(pos, 1, healthView);
+        updatedGrid.replace(pos, 1, characterRepresentation);
     }
 
     worldView->setWorldGrid(updatedGrid);

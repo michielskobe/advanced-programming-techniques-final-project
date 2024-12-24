@@ -11,12 +11,6 @@ public:
     ~OwnEnemy() override = default;
 
     virtual float getAttacked(const float damage);
-    virtual  QString getImage() const;
-
-    QString idleImage;
-    QString deadImage;
-    QString textRepresentation;
-    QString getTextRepresentation() const;
 };
 
 #endif // OWNENEMY_H

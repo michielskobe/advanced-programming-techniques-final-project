@@ -1,7 +1,9 @@
 #include "textualworldview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 TextualWorldView::TextualWorldView(QTextEdit* textView)
-    : textView(textView) {
+    : TextualView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }

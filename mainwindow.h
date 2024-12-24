@@ -6,7 +6,6 @@
 #include <QCompleter>
 #include "world.h"
 #include "gamecontroller.h"
-#include "worldview.h"
 #include "graphicalworldview.h"
 #include "textualworldview.h"
 #include "graphicalprotagonistview.h"
@@ -46,7 +45,7 @@ private:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
 
     World world;
-    WorldView* currentWorldView;
+    View* currentWorldView;
     GraphicalWorldView* graphicalWorldView;
     TextualWorldView* textualWorldView;
     GraphicalProtagonistView* graphicalProtagonistView;

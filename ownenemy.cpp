@@ -2,18 +2,10 @@
 #include "difficultycontroller.h"
 
 OwnEnemy::OwnEnemy(int xPos, int yPos, int strength): Enemy(xPos, yPos, strength)
-{
-    idleImage = ":/images/Enemy_Idle.png";
-    deadImage = ":/images/Enemy_Dead.png";
-    textRepresentation = " E ";
-}
+{}
 
 OwnEnemy::OwnEnemy(const Enemy &worldEnemy): Enemy(worldEnemy.getXPos(), worldEnemy.getYPos(), worldEnemy.getValue())
-{
-    idleImage = ":/images/Enemy_Idle.png";
-    deadImage = ":/images/Enemy_Dead.png";
-    textRepresentation = " E ";
-}
+{}
 
 /*
  * This function handles logic for getting attacked.
@@ -33,20 +25,4 @@ float OwnEnemy::getAttacked(const float damage)
         return DifficultyController::GetInstance()->getProtagonistHealthLossAttack();
     }
     return 0.0f;
-}
-
-QString OwnEnemy::getImage() const
-{
-    if(getDefeated()){
-        return deadImage;
-    }
-    return idleImage;
-}
-
-QString OwnEnemy::getTextRepresentation() const
-{
-    if(getDefeated()){
-        return textRepresentation.toLower();
-    }
-    return textRepresentation;
 }

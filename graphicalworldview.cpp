@@ -1,10 +1,9 @@
 #include "graphicalworldview.h"
 #include <QImage>
-#include <QPixmap>
 #include <QColor>
 
 GraphicalWorldView::GraphicalWorldView(QGraphicsScene* scene)
-    : scene(scene) {
+    : GraphicalView(scene) {
 }
 
 void GraphicalWorldView::updateView() {
@@ -30,5 +29,5 @@ void GraphicalWorldView::updateView() {
     }
 
     QPixmap modifiedPixmap = QPixmap::fromImage(image);
-    scene->addPixmap(modifiedPixmap)->setScale(50);
+    scene->addPixmap(modifiedPixmap)->setScale(positionScalingFactor);
 }

@@ -10,15 +10,13 @@ CONFIG += c++20 console
 QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 
 SOURCES += \
-    customqgraphicsview.cpp \
     difficultycontroller.cpp \
-    enemyview.cpp \
     gamecontroller.cpp \
     graphicalenemyview.cpp \
     graphicalhealthpackview.cpp \
     graphicalprotagonistview.cpp \
+    graphicalview.cpp \
     graphicalworldview.cpp \
-    healthpackview.cpp \
     level.cpp \
     levelmanager.cpp \
     main.cpp \
@@ -29,25 +27,22 @@ SOURCES += \
     pathfinderhelper.cpp \
     pathfindernode.cpp \
     poisontile.cpp \
-    protagonistview.cpp \
     textualenemyview.cpp \
     textualhealthpackview.cpp \
     textualprotagonistview.cpp \
+    textualview.cpp \
     textualworldview.cpp \
     view.cpp \
-    worldview.cpp \
     xenemy.cpp
 
 HEADERS += \
-    customqgraphicsview.h \
     difficultycontroller.h \
-    enemyview.h \
     gamecontroller.h \
     graphicalenemyview.h \
     graphicalhealthpackview.h \
     graphicalprotagonistview.h \
+    graphicalview.h \
     graphicalworldview.h \
-    healthpackview.h \
     level.h \
     levelmanager.h \
     mainwindow.h \
@@ -59,13 +54,12 @@ HEADERS += \
     pathfinderhelper.h \
     pathfindernode.h \
     poisontile.h \
-    protagonistview.h \
     textualenemyview.h \
     textualhealthpackview.h \
     textualprotagonistview.h \
+    textualview.h \
     textualworldview.h \
     view.h \
-    worldview.h \
     xenemy.h
 
 FORMS += \

@@ -1,7 +1,12 @@
 #include "textualenemyview.h"
+#include "textualworldview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
+#include "ownpenemy.h"
+#include "xenemy.h"
 
 TextualEnemyView::TextualEnemyView(QTextEdit* textView, TextualWorldView *worldView)
-    : textView(textView), worldView(worldView) {
+    : TextualView(textView), worldView(worldView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }
@@ -19,7 +24,19 @@ void TextualEnemyView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        updatedGrid.replace(pos-1, 3, enemy->getTextRepresentation());
+        if (typeid(*enemy) == typeid(OwnPEnemy)) {
+            characterRepresentation = "P";
+        } else if (typeid(*enemy) == typeid(XEnemy)) {
+            characterRepresentation = "X";
+        } else {
+            characterRepresentation = "E";
+        }
+
+        if (enemy->getDefeated()){
+            characterRepresentation = characterRepresentation.toLower();
+        }
+
+        updatedGrid.replace(pos, 1, characterRepresentation);
     }
 
     worldView->setWorldGrid(updatedGrid);

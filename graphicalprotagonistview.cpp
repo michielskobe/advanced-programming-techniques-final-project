@@ -1,27 +1,27 @@
 #include "graphicalprotagonistview.h"
-
-#include "graphicalprotagonistview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
-    : scene(scene), currentFrame(0) {
+    : GraphicalView(scene) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
     connectSlots();
 
-    protagonistPixmap = QPixmap(":/images/Protagonist.png");
-    protagonistPixmapItem = new QGraphicsPixmapItem(protagonistPixmap.copy(6, 3, 25, 25));
-    protagonistPixmapItem->setZValue(1);
-    protagonistPixmapItem->setScale(2.4);
-    scene->addItem(protagonistPixmapItem);
+    characterPixmap = QPixmap(":/images/Protagonist.png");
+    characterPixmapItem = new QGraphicsPixmapItem(characterPixmap.copy(6, 3, 25, 25));
+    characterPixmapItem->setZValue(1);
+    characterPixmapItem->setScale(2.4);
+    scene->addItem(characterPixmapItem);
 
-    animationTimer = new QTimer(this);
-    connect(animationTimer, &QTimer::timeout, this, [this]() {updateAnimationFrame(animationFrames);});
+    animationTimer = std::make_unique<QTimer>(this);
+    connect(animationTimer.get(), &QTimer::timeout, this, [this]() {updateAnimationFrame(animationFrames);});
 }
 
 void GraphicalProtagonistView::updateView() {
     auto& levelProtagonist = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist;
-    protagonistPixmapItem->setPos(levelProtagonist->getXPos() * 50, levelProtagonist->getYPos() * 50);
-    scene->addItem(protagonistPixmapItem);
+    characterPixmapItem->setPos(levelProtagonist->getXPos() * positionScalingFactor, levelProtagonist->getYPos() * positionScalingFactor);
+    scene->addItem(characterPixmapItem);
 }
 
 
@@ -42,15 +42,15 @@ void GraphicalProtagonistView::updateForState(const QString& state) {
     animationFrames.clear();
 
     const QMap<QString, std::vector<QPixmap>> stateToFrames = {
-        {"Idle", {protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"MovingUp", {protagonistPixmap.copy(70, 132, 25, 25), protagonistPixmap.copy(134, 132, 25, 25), protagonistPixmap.copy(70, 132, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"MovingDown", {protagonistPixmap.copy(70, 4, 25, 25), protagonistPixmap.copy(134, 4, 25, 25), protagonistPixmap.copy(70, 4, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"MovingLeft", {protagonistPixmap.copy(70, 196, 25, 25), protagonistPixmap.copy(134, 196, 25, 25), protagonistPixmap.copy(70, 196, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"MovingRight", {protagonistPixmap.copy(70, 68, 25, 25), protagonistPixmap.copy(134, 68, 25, 25), protagonistPixmap.copy(70, 68, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"Attacking", {protagonistPixmap.copy(166, 35, 25, 25), protagonistPixmap.copy(232, 36, 25, 25), protagonistPixmap.copy(264, 36, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"HealthPack", {protagonistPixmap.copy(646, 2, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"Poisoned", {protagonistPixmap.copy(712, 2, 25, 25), protagonistPixmap.copy(6, 3, 25, 25)}},
-        {"Dying", {protagonistPixmap.copy(742, 229, 25, 25)}}
+        {"Idle", {characterPixmap.copy(6, 3, 25, 25)}},
+        {"MovingUp", {characterPixmap.copy(70, 132, 25, 25), characterPixmap.copy(134, 132, 25, 25), characterPixmap.copy(70, 132, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"MovingDown", {characterPixmap.copy(70, 4, 25, 25), characterPixmap.copy(134, 4, 25, 25), characterPixmap.copy(70, 4, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"MovingLeft", {characterPixmap.copy(70, 196, 25, 25), characterPixmap.copy(134, 196, 25, 25), characterPixmap.copy(70, 196, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"MovingRight", {characterPixmap.copy(70, 68, 25, 25), characterPixmap.copy(134, 68, 25, 25), characterPixmap.copy(70, 68, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"Attacking", {characterPixmap.copy(166, 35, 25, 25), characterPixmap.copy(232, 36, 25, 25), characterPixmap.copy(264, 36, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"HealthPack", {characterPixmap.copy(646, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"Poisoned", {characterPixmap.copy(712, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"Dying", {characterPixmap.copy(742, 229, 25, 25)}}
     };
 
     if (stateToFrames.contains(state)) {
@@ -62,13 +62,13 @@ void GraphicalProtagonistView::updateForState(const QString& state) {
 
         } else {
             animationTimer->stop();
-            protagonistPixmapItem->setPixmap(animationFrames[0]);
+            characterPixmapItem->setPixmap(animationFrames[0]);
         }
     }
 }
 
 void GraphicalProtagonistView::updateAnimationFrame(const std::vector<QPixmap>& animationFrames) {
-    protagonistPixmapItem->setPixmap(animationFrames[currentFrame % animationFrames.size()]);
+    characterPixmapItem->setPixmap(animationFrames[currentFrame % animationFrames.size()]);
     currentFrame++;
     if (currentFrame >= (int)animationFrames.size()) {
         animationTimer->stop();

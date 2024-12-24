@@ -1,23 +1,36 @@
 #include "graphicalenemyview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 #include "xenemy.h"
 #include "ownenemy.h"
 #include "ownpenemy.h"
 
 
 GraphicalEnemyView::GraphicalEnemyView(QGraphicsScene* scene)
-    : scene(scene) {
+    : GraphicalView(scene) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }
 
 void GraphicalEnemyView::updateView() {
     for (auto& enemy : (*levels)[*(gameController->getActiveLevelIndex())]->enemies) {
-        QString image = enemy->getImage();
-        QGraphicsPixmapItem* enemyPixmapItem = new QGraphicsPixmapItem(QPixmap(image));
-        enemyPixmapItem->setPos(enemy->getXPos() * 50, enemy->getYPos() * 50);
-        enemyPixmapItem->setZValue(1);
-        enemyPixmapItem->setScale(0.09);
-        scene->addItem(enemyPixmapItem);
-        enemyPixmapItems.append(enemyPixmapItem);
+
+        if (typeid(*enemy) == typeid(OwnPEnemy)) {
+            if (enemy->getDefeated()) { characterPixmap = QPixmap(":/images/PEnemy_Dead.png"); }
+            else { characterPixmap = QPixmap(":/images/PEnemy_Idle.png"); }
+        } else if (typeid(*enemy) == typeid(XEnemy)) {
+            if (enemy->getDefeated()) { characterPixmap = QPixmap(":/images/XEnemy_Dead.png"); }
+            else { characterPixmap = QPixmap(":/images/XEnemy_Idle.png"); }
+        } else {
+            if (enemy->getDefeated()) { characterPixmap = QPixmap(":/images/Enemy_Dead.png"); }
+            else { characterPixmap = QPixmap(":/images/Enemy_Idle.png"); }
+        }
+
+        QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
+        characterPixmapItem->setPos(enemy->getXPos() * positionScalingFactor, enemy->getYPos() * positionScalingFactor);
+        characterPixmapItem->setZValue(1);
+        characterPixmapItem->setScale(0.085);
+        scene->addItem(characterPixmapItem);
+        characterPixmapItems.emplace_back(characterPixmapItem);
     }
 }

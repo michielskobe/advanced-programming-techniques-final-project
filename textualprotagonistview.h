@@ -2,28 +2,24 @@
 #define TEXTUALPROTAGONISTVIEW_H
 
 class TextualWorldView;
-#include "protagonistview.h"
-#include <QTextEdit>
-#include <QString>
+#include "textualview.h"
 #include <QColor>
 
-class TextualProtagonistView : public ProtagonistView
+class TextualProtagonistView : public TextualView
 {
     Q_OBJECT
 public:
     TextualProtagonistView(QTextEdit* textView, TextualWorldView* worldView);
 
     void updateView() override;
-    void connectSlots() override;
+    void connectSlots();
     void changeProtagonistColor(const QColor& color);
 
 public slots:
     void updateForState(const QString& state);
 
 private:
-    QTextEdit* textView;
-    TextualWorldView* worldView;
-    QString protagonistView {" ☺ "};
+    TextualWorldView *worldView;
     QColor currentColor {QColor("black")};
     bool isDead {false};
 };

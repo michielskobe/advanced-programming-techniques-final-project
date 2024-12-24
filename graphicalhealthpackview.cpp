@@ -1,18 +1,21 @@
 #include "graphicalhealthpackview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 GraphicalHealthpackView::GraphicalHealthpackView(QGraphicsScene* scene)
-    : scene(scene) {
+    : GraphicalView(scene) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }
 
 void GraphicalHealthpackView::updateView() {
     for (auto& hp : (*levels)[*(gameController->getActiveLevelIndex())]->healthPacks) {
-        QGraphicsPixmapItem* healthpackPixmapItem = new QGraphicsPixmapItem(QPixmap(":/images/healthpack.png"));
-        healthpackPixmapItem->setPos(hp->getXPos() * 50, hp->getYPos() * 50);
-        healthpackPixmapItem->setZValue(1);
-        healthpackPixmapItem->setScale(0.13);
-        scene->addItem(healthpackPixmapItem);
-        healthpackPixmapItems.append(healthpackPixmapItem);
+        characterPixmap = QPixmap(":/images/healthpack.png");
+        QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
+        characterPixmapItem->setPos(hp->getXPos() * positionScalingFactor, hp->getYPos() * positionScalingFactor);
+        characterPixmapItem->setZValue(1);
+        characterPixmapItem->setScale(0.13);
+        scene->addItem(characterPixmapItem);
+        characterPixmapItems.emplace_back(characterPixmapItem);
     }
 }

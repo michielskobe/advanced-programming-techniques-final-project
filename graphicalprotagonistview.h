@@ -1,31 +1,26 @@
 #ifndef GRAPHICALPROTAGONISTVIEW_H
 #define GRAPHICALPROTAGONISTVIEW_H
 
-#include "protagonistview.h"
-#include <QGraphicsScene>
-#include <QPixmap>
-#include <QGraphicsPixmapItem>
+#include "graphicalview.h"
 #include <QTimer>
 
-class GraphicalProtagonistView : public ProtagonistView
+class GraphicalProtagonistView : public GraphicalView
 {
     Q_OBJECT
 public:
     GraphicalProtagonistView(QGraphicsScene* scene);
+    ~GraphicalProtagonistView() = default;
 
     void updateView() override;
-    void connectSlots() override;
+    void connectSlots();
     void updateAnimationFrame(const std::vector<QPixmap>& animationFrames);
 
 public slots:
     void updateForState(const QString& state);
 
-private:
-    QGraphicsScene* scene;
-    QPixmap protagonistPixmap;
-    QGraphicsPixmapItem* protagonistPixmapItem;
-    QTimer* animationTimer;
-    int currentFrame;
+protected:
+    std::unique_ptr<QTimer> animationTimer;
+    int currentFrame {0};
     std::vector<QPixmap> animationFrames;
 };
 
