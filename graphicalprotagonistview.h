@@ -7,27 +7,18 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 
-class GraphicalProtagonistView : public QObject, public ProtagonistView
+class GraphicalProtagonistView : public ProtagonistView
 {
     Q_OBJECT
 public:
     GraphicalProtagonistView(QGraphicsScene* scene);
 
-    void initializeProtagonistView();
-    void connectSlots();
     void updateView() override;
-    void updateAnimationFrame(QPixmap firstAnimationFrame, QPixmap secondAnimationFrame, QPixmap thirdAnimationFrame);
+    void connectSlots() override;
+    void updateAnimationFrame(const std::vector<QPixmap>& animationFrames);
 
 public slots:
-    void updateForIdle();
-    void updateForMovingUp();
-    void updateForMovingDown();
-    void updateForMovingLeft();
-    void updateForMovingRight();
-    void updateForAttacking();
-    void updateForHealthPack();
-    void updateForPoisoned();
-    void updateForDying();
+    void updateForState(const QString& state);
 
 private:
     QGraphicsScene* scene;
@@ -35,12 +26,7 @@ private:
     QGraphicsPixmapItem* protagonistPixmapItem;
     QTimer* animationTimer;
     int currentFrame;
-    QPixmap firstAnimationFrame;
-    QPixmap secondAnimationFrame;
-    QPixmap thirdAnimationFrame;
-
-    std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
-    GameController* gameController;
+    std::vector<QPixmap> animationFrames;
 };
 
 #endif // GRAPHICALPROTAGONISTVIEW_H
