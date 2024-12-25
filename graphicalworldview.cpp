@@ -40,9 +40,6 @@ void GraphicalWorldView::updateView() {
                 image.setPixelColor(x, y, greenShade);
             }
 
-
-
-
         }
     }
 

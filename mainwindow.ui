@@ -178,7 +178,7 @@
      <rect>
       <x>920</x>
       <y>30</y>
-      <width>45</width>
+      <width>50</width>
       <height>27</height>
      </rect>
     </property>
@@ -217,7 +217,7 @@
      <rect>
       <x>920</x>
       <y>80</y>
-      <width>45</width>
+      <width>50</width>
       <height>27</height>
      </rect>
     </property>
@@ -252,6 +252,32 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="overlayButton">
+    <property name="geometry">
+     <rect>
+      <x>899</x>
+      <y>130</y>
+      <width>71</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="overlay_label">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>130</y>
+      <width>81</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Overlay</string>
     </property>
    </widget>
   </widget>

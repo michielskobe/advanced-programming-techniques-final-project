@@ -14,6 +14,7 @@ SOURCES += \
     gamecontroller.cpp \
     graphicalenemyview.cpp \
     graphicalhealthpackview.cpp \
+    graphicaloverlayview.cpp \
     graphicalprotagonistview.cpp \
     graphicalview.cpp \
     graphicalworldview.cpp \
@@ -21,7 +22,6 @@ SOURCES += \
     levelmanager.cpp \
     main.cpp \
     mainwindow.cpp \
-    overlayrender.cpp \
     ownenemy.cpp \
     ownpenemy.cpp \
     pathfinderhelper.cpp \
@@ -40,6 +40,7 @@ HEADERS += \
     gamecontroller.h \
     graphicalenemyview.h \
     graphicalhealthpackview.h \
+    graphicaloverlayview.h \
     graphicalprotagonistview.h \
     graphicalview.h \
     graphicalworldview.h \
@@ -47,7 +48,6 @@ HEADERS += \
     levelmanager.h \
     mainwindow.h \
     mainwindow.h \
-    overlayrender.h \
     ownenemy.h \
     ownpenemy.h \
     pathfinder_class.h \

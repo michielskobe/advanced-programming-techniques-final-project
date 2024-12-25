@@ -13,5 +13,6 @@
         <file>images/PEnemy_Idle.png</file>
         <file>images/Protagonist.png</file>
         <file>images/XEnemy_Dead.png</file>
+        <file>images/overlay_images/worldmap.png</file>
     </qresource>
 </RCC>

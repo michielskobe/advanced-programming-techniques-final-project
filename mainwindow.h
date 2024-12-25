@@ -14,6 +14,7 @@
 #include "textualenemyview.h"
 #include "graphicalhealthpackview.h"
 #include "textualhealthpackview.h"
+#include "graphicaloverlayview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -54,6 +55,7 @@ private:
     TextualEnemyView* textualEnemyView;
     GraphicalHealthpackView* graphicalHealthpackView;
     TextualHealthpackView* textualHealthpackView;
+    GraphicalOverlayView* graphicalOverlayView;
 
     QHash<QString, std::function<void(const QStringList&)>> commandHandlers;
     QStringList commands;
@@ -71,6 +73,7 @@ private:
     void protagonistStatus(float health, float energy);
     void keyPressEvent(QKeyEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
+    void switchOverlayStatus();
 
 private slots:
     void on_activeLevelBox_valueChanged(int arg1);

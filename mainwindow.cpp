@@ -110,6 +110,8 @@ void MainWindow::initializeGameComponents()
 
     graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
     textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
+
+    graphicalOverlayView = new GraphicalOverlayView(ui->graphicsView->scene());
 }
 
 void MainWindow::connectSlots()
@@ -119,6 +121,7 @@ void MainWindow::connectSlots()
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
     connect(ui->zoomInBtn, &QPushButton::clicked, this, &MainWindow::zoomIn);
     connect(ui->zoomOutBtn, &QPushButton::clicked, this, &MainWindow::zoomOut);
+    connect(ui->overlayButton, &QPushButton::clicked, this,&MainWindow::switchOverlayStatus);
 }
 
 void MainWindow::handleGotoCommand(const QStringList &args)
@@ -250,6 +253,7 @@ void MainWindow::updateMainUI()
         graphicalEnemyView->updateView();
         graphicalProtagonistView->updateView();
         graphicalHealthpackView->updateView();
+        graphicalOverlayView->updateView();
     }
     else if (currentWorldView == textualWorldView){
         textualEnemyView->updateView();
@@ -272,11 +276,26 @@ void MainWindow::onTabChanged(int index)
         qCInfo(MainWindowCat) << "Switched to Graphical View.";
         currentWorldView = graphicalWorldView;
         ui->help_label->setHidden(true);
+        ui->overlayButton->setHidden(false);
+        ui->overlay_label->setHidden(false);
     } else if (index == 1) {
         // Text view tab selected
         qCInfo(MainWindowCat) << "Switched to Text View.";
         currentWorldView = textualWorldView;
+        ui->overlayButton->setHidden(true);
+        ui->overlay_label->setHidden(true);
     }
+    updateMainUI();
+}
+
+void MainWindow::switchOverlayStatus(){
+    if (graphicalOverlayView->getOverlayStatus()){
+        ui->overlayButton->setText("Enable");
+    }
+    else {
+        ui->overlayButton->setText("Disable");
+    }
+    graphicalOverlayView->switchOverlayStatus();
     updateMainUI();
 }
 
