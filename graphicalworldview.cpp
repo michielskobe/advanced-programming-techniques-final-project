@@ -1,9 +1,13 @@
 #include "graphicalworldview.h"
 #include <QImage>
 #include <QColor>
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 GraphicalWorldView::GraphicalWorldView(QGraphicsScene* scene)
     : GraphicalView(scene) {
+    levels = LevelManager::GetInstance()->getLevels();
+    gameController = GameController::GetInstance();
 }
 
 void GraphicalWorldView::updateView() {
@@ -23,8 +27,22 @@ void GraphicalWorldView::updateView() {
         for (int x = 0; x < image.width(); ++x) {
             QColor color = image.pixelColor(x, y);
             int intensity = (color.red() + color.green() + color.blue()) / 3;
-            QColor greenShade(0, intensity, 0);
-            image.setPixelColor(x, y, greenShade);
+
+            const int index = x + y * ((*levels)[*(gameController->activeLevelIndex)]->cols);
+            auto tile = ((*levels)[*(gameController->activeLevelIndex)]->tiles)[index].get();
+            const int poisonDmg = tile->damageMultiplier;
+            if (poisonDmg) {
+                QColor poisonShade(intensity, 0, intensity);
+                image.setPixelColor(x, y, poisonShade);
+            }
+            else {
+                QColor greenShade(0, intensity, 0);
+                image.setPixelColor(x, y, greenShade);
+            }
+
+
+
+
         }
     }
 
