@@ -49,7 +49,7 @@ void GraphicalProtagonistView::updateForState(const QString& state) {
         {"MovingRight", {characterPixmap.copy(70, 68, 25, 25), characterPixmap.copy(134, 68, 25, 25), characterPixmap.copy(70, 68, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
         {"Attacking", {characterPixmap.copy(166, 35, 25, 25), characterPixmap.copy(232, 36, 25, 25), characterPixmap.copy(264, 36, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
         {"HealthPack", {characterPixmap.copy(646, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
-        {"Poisoned", {characterPixmap.copy(712, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
+        {"Poisoned", {characterPixmap.copy(712, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25), characterPixmap.copy(712, 2, 25, 25), characterPixmap.copy(6, 3, 25, 25)}},
         {"Dying", {characterPixmap.copy(742, 229, 25, 25)}}
     };
 

@@ -110,8 +110,12 @@ void GameController::healthPackLogic(const int absoluteX, const int absoluteY)
 
 void GameController::PoisonTileLogic(const int absoluteX, const int absoluteY)
 {
-
-    emit protagonistPoisonVisualisation();
+    const int index = absoluteX + absoluteY * ((*levels)[*activeLevelIndex]->cols);
+    auto tile = ((*levels)[*activeLevelIndex]->tiles)[index].get();
+    const int poisonDmg = tile->damageMultiplier;
+    if (poisonDmg) {
+        emit protagonistPoisonVisualisation();
+    }
 }
 
 bool GameController::attackEnemy(const int absoluteX, const int absoluteY)
@@ -225,6 +229,7 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
     if(calculateValidMove(absoluteX, absoluteY)){
         healthPackLogic(absoluteX, absoluteY);
+        PoisonTileLogic(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
         (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
     }

@@ -67,8 +67,8 @@ void TextualProtagonistView::updateForState(const QString& state) {
         currentColor = QColor("red");
         characterRepresentation = " ☺❤";
     } else if (state == "Poisoned") {
-        currentColor = QColor("purple");
-        characterRepresentation = " ☺ ";
+        currentColor = QColor("green");
+        characterRepresentation = " @ ";
     } else if (state == "Dying") {
         isDead = true;
         currentColor = QColor("grey");
