@@ -28,7 +28,7 @@ void GraphicalEnemyView::updateView() {
 
         QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
         characterPixmapItem->setPos(enemy->getXPos() * positionScalingFactor, enemy->getYPos() * positionScalingFactor);
-        characterPixmapItem->setZValue(1);
+        characterPixmapItem->setZValue(4);
         characterPixmapItem->setScale(0.085);
         scene->addItem(characterPixmapItem);
         characterPixmapItems.emplace_back(characterPixmapItem);

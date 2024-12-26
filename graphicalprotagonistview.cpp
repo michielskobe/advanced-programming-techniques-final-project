@@ -10,7 +10,7 @@ GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
 
     characterPixmap = QPixmap(":/images/Protagonist.png");
     characterPixmapItem = new QGraphicsPixmapItem(characterPixmap.copy(6, 3, 25, 25));
-    characterPixmapItem->setZValue(1);
+    characterPixmapItem->setZValue(5);
     characterPixmapItem->setScale(2.4);
     scene->addItem(characterPixmapItem);
 

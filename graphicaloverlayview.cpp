@@ -12,7 +12,7 @@ void GraphicalOverlayView::updateView(){
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldOverlayLocation;
     characterPixmapItem = new QGraphicsPixmapItem(QPixmap(imageFile));
     characterPixmapItem->setScale(positionScalingFactor);
-    characterPixmapItem->setZValue(0.5);
+    characterPixmapItem->setZValue(1);
     if (overlayStatus){
         characterPixmapItem->setVisible(true);
     } else {

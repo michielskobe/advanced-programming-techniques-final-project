@@ -13,7 +13,7 @@ void GraphicalHealthpackView::updateView() {
         characterPixmap = QPixmap(":/images/healthpack.png");
         QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
         characterPixmapItem->setPos(hp->getXPos() * positionScalingFactor, hp->getYPos() * positionScalingFactor);
-        characterPixmapItem->setZValue(1);
+        characterPixmapItem->setZValue(3);
         characterPixmapItem->setScale(0.13);
         scene->addItem(characterPixmapItem);
         characterPixmapItems.emplace_back(characterPixmapItem);
