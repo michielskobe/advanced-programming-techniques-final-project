@@ -7,12 +7,12 @@
 #include "ownpenemy.h"
 QLoggingCategory LevelCat("level");
 
-Level::Level(QString fileName)
+Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealthpacks, float pRatio)
 {
     qCInfo(LevelCat) << "Generating level for " << fileName << ".";
     // add world to stack, generate what we need, and then add it to level
     World world = World();
-    world.createWorld(fileName, 20, 5, 0.50f);
+    world.createWorld(fileName, nrOfEnemies, nrOfHealthpacks, pRatio);
 
     auto tempTiles = world.getTiles();
     for (int i = 0; i < (int)(tempTiles).size(); i++){
@@ -37,6 +37,8 @@ Level::Level(QString fileName)
     cols = world.getCols();
     protagonist = world.getProtagonist();
     worldImageLocation = fileName;
+    worldOverlayLocation = fileName;
+    worldOverlayLocation = worldOverlayLocation.replace("world_images", "overlay_images");
     initXEnemy();
 
 }

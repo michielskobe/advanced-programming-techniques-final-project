@@ -1,14 +1,18 @@
 #include "graphicaloverlayview.h"
+#include "levelmanager.h"
+#include "gamecontroller.h"
 
 GraphicalOverlayView::GraphicalOverlayView(QGraphicsScene* scene)
     : GraphicalView(scene) {
-    characterPixmapItem = new QGraphicsPixmapItem(QPixmap(":/images/overlay_images/worldmap.png"));
-    characterPixmapItem->setScale(positionScalingFactor);
-    characterPixmapItem->setZValue(0.5);
-    characterPixmapItem->setVisible(false);
+    levels = LevelManager::GetInstance()->getLevels();
+    gameController = GameController::GetInstance();
 }
 
 void GraphicalOverlayView::updateView(){
+    QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldOverlayLocation;
+    characterPixmapItem = new QGraphicsPixmapItem(QPixmap(imageFile));
+    characterPixmapItem->setScale(positionScalingFactor);
+    characterPixmapItem->setZValue(0.5);
     if (overlayStatus){
         characterPixmapItem->setVisible(true);
     } else {

@@ -242,12 +242,13 @@ void GameController::initialGameLoad()
     qCInfo(gameControllerCat) << "Performing initial game load.";
     activeLevelIndex = std::make_shared<int>(0);
     // get levels from GameGenerator;
-    std::vector<QString> fileNames;
-    fileNames.push_back(":/images/world_images/worldmap.png");
-    fileNames.push_back(":/images/world_images/worldmap4.png");
+    std::vector<std::unique_ptr<Level>> levelCollection;
+    levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap.png"));
+    levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap2.png"));
+    levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap4.png", 500, 500));
 
     LevelManager* levelManager = LevelManager::GetInstance();
-    levelManager->setLevels(fileNames);
+    levelManager->setLevels(levelCollection);
     levels = levelManager->getLevels();
     setActiveLevelIndex(*activeLevelIndex);
 }

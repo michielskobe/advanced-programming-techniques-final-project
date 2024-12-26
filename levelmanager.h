@@ -22,7 +22,7 @@ public:
     // This is the static method that controls the access to the singleton instance.
     static LevelManager *GetInstance();
 
-    void setLevels(std::vector<QString> fileNames);
+    void setLevels(std::vector<std::unique_ptr<Level>>& levelCollection);
 
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> getLevels();
 };

@@ -22,13 +22,13 @@ std::shared_ptr<std::vector<std::unique_ptr<Level>>> LevelManager::getLevels()
     return levels;
 }
 
-void LevelManager::setLevels(std::vector<QString> fileNames)
+void LevelManager::setLevels(std::vector<std::unique_ptr<Level>>& levelCollection)
 {
-    levels->reserve(fileNames.size()); // reserve the memory to avoid re-alloc
+    levels->reserve(levelCollection.size()); // reserve the memory to avoid re-alloc
 
     // generate levels based on the fileNames
-    for (auto file: fileNames){
-        levels->emplace_back(new Level(file));
+    for (auto& level: levelCollection){
+        levels->emplace_back(std::move(level));
     }
 }
 

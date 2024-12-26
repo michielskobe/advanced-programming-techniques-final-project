@@ -14,5 +14,7 @@
         <file>images/Protagonist.png</file>
         <file>images/XEnemy_Dead.png</file>
         <file>images/overlay_images/worldmap.png</file>
+        <file>images/overlay_images/worldmap2.png</file>
+        <file>images/world_images/worldmap2.png</file>
     </qresource>
 </RCC>

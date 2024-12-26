@@ -15,7 +15,7 @@ class Level
 {
 public: //ctor + dctor
     Level();
-    Level(QString fileName);
+    Level(QString fileName, unsigned int nrOfEnemies = 20, unsigned int nrOfHealthpacks = 5, float pRatio = 0.25f);
 
 public: //attributes
     std::vector<std::unique_ptr<PathFinderNode>> tiles;
@@ -24,6 +24,7 @@ public: //attributes
     int rows;
     int cols;
     QString worldImageLocation;
+    QString worldOverlayLocation;
     std::unique_ptr<Protagonist> protagonist;
 
 public: // methods

@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Setup UI
     ui->setupUi(this);
+    ui->activeLevelBox->setMaximum(levels->size()-1);
     setupGraphicsView();
     setupTextView();
     setupCommandHandler();
@@ -282,8 +283,8 @@ void MainWindow::onTabChanged(int index)
         // Text view tab selected
         qCInfo(MainWindowCat) << "Switched to Text View.";
         currentWorldView = textualWorldView;
-        ui->overlayButton->setHidden(true);
-        ui->overlay_label->setHidden(true);
+        ui->overlayButton->setHidden(false);
+        ui->overlay_label->setHidden(false);
     }
     updateMainUI();
 }
