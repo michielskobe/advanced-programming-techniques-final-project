@@ -58,13 +58,7 @@ void Level::moveProtagonistRelative(int relativeX, int relativeY)
  */
 void Level::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
-    // first check if this is a valid position
-    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
-        qCInfo(LevelCat) << "Invalid tile position, can not move Protagonist to x=" << absoluteX << " y=" << absoluteY;
-    }
-    else  {
-        protagonist->setPos(absoluteX, absoluteY);
-    }
+    protagonist->setPos(absoluteX, absoluteY);
 }
 
 float Level::getProtagonistHealth() const

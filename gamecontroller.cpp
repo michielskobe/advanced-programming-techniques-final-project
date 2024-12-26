@@ -69,6 +69,11 @@ bool GameController::calculateValidMove(const int absoluteX, const int absoluteY
         isValidMove = false;
     }
 
+    // detect out of bounds
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= ((*levels)[*activeLevelIndex]->cols) || absoluteX >= ((*levels)[*activeLevelIndex]->rows)){
+        isValidMove = false;
+    }
+
     // can protagonist move?
     if((*levels)[*activeLevelIndex]->getProtagonistHealth() == 0.0f || (*levels)[*activeLevelIndex]->getProtagonistEnergy() == 0.0f){
         isValidMove = false;
