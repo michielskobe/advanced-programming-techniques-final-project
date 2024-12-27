@@ -13,6 +13,8 @@ GraphicalEnemyView::GraphicalEnemyView(QGraphicsScene* scene)
 }
 
 void GraphicalEnemyView::updateView() {
+    characterPixmapItems.clear();
+
     for (auto& enemy : (*levels)[*(gameController->getActiveLevelIndex())]->enemies) {
 
         if (typeid(*enemy) == typeid(OwnPEnemy)) {
@@ -26,11 +28,12 @@ void GraphicalEnemyView::updateView() {
             else { characterPixmap = QPixmap(":/images/Enemy_Idle.png"); }
         }
 
-        QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
+        auto characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(characterPixmap);
         characterPixmapItem->setPos(enemy->getXPos() * positionScalingFactor, enemy->getYPos() * positionScalingFactor);
         characterPixmapItem->setZValue(4);
         characterPixmapItem->setScale(0.085);
-        scene->addItem(characterPixmapItem);
-        characterPixmapItems.emplace_back(characterPixmapItem);
+
+        scene->addItem(characterPixmapItem.get());
+        characterPixmapItems.emplace_back(std::move(characterPixmapItem));
     }
 }

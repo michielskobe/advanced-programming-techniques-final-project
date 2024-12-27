@@ -9,10 +9,10 @@ GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
     connectSlots();
 
     characterPixmap = QPixmap(":/images/Protagonist.png");
-    characterPixmapItem = new QGraphicsPixmapItem(characterPixmap.copy(6, 3, 25, 25));
+    characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(characterPixmap.copy(6, 3, 25, 25));
     characterPixmapItem->setZValue(5);
     characterPixmapItem->setScale(2.4);
-    scene->addItem(characterPixmapItem);
+    scene->addItem(characterPixmapItem.get());
 
     animationTimer = std::make_unique<QTimer>(this);
     connect(animationTimer.get(), &QTimer::timeout, this, [this]() {updateAnimationFrame(animationFrames);});
@@ -21,7 +21,7 @@ GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
 void GraphicalProtagonistView::updateView() {
     auto& levelProtagonist = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist;
     characterPixmapItem->setPos(levelProtagonist->getXPos() * positionScalingFactor, levelProtagonist->getYPos() * positionScalingFactor);
-    scene->addItem(characterPixmapItem);
+    scene->addItem(characterPixmapItem.get());
 }
 
 

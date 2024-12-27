@@ -18,8 +18,8 @@ public:
 protected:
     QGraphicsScene* scene;
     QPixmap characterPixmap;
-    QGraphicsPixmapItem* characterPixmapItem;
-    std::vector<QGraphicsPixmapItem*> characterPixmapItems;
+    std::unique_ptr<QGraphicsPixmapItem> characterPixmapItem;
+    std::vector<std::unique_ptr<QGraphicsPixmapItem>> characterPixmapItems;
     int positionScalingFactor {50};
 };
 

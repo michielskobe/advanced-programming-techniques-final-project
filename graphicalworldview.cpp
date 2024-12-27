@@ -19,6 +19,7 @@ void GraphicalWorldView::updateView() {
             scene->removeItem(pixmapItem);
         }
     }
+    characterPixmapItems.clear();
 
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldImageLocation;
     QImage image(imageFile);
@@ -43,14 +44,20 @@ void GraphicalWorldView::updateView() {
         }
     }
 
-    QGraphicsPixmapItem *portalIn = new QGraphicsPixmapItem(QPixmap(":/images/portal_in.png"));
-    QGraphicsPixmapItem *portalOut = new QGraphicsPixmapItem(QPixmap(":/images/portal_out.png"));
+    auto portalIn = std::make_unique<QGraphicsPixmapItem>(QPixmap(":/images/portal_in.png"));
+    auto portalOut = std::make_unique<QGraphicsPixmapItem>(QPixmap(":/images/portal_out.png"));
+
     portalIn->setZValue(4);
     portalIn->setPos(8*positionScalingFactor, 2*positionScalingFactor);
     portalIn->setScale(0.26);
+
     portalOut->setZValue(4);
     portalOut->setPos(0,0);
     portalOut->setScale(0.26);
-    scene->addItem(portalIn);
-    scene->addItem(portalOut);
+
+    scene->addItem(portalIn.get());
+    scene->addItem(portalOut.get());
+
+    characterPixmapItems.emplace_back(std::move(portalIn));
+    characterPixmapItems.emplace_back(std::move(portalOut));
 }

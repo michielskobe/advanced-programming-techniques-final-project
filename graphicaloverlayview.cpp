@@ -7,13 +7,12 @@ GraphicalOverlayView::GraphicalOverlayView(QGraphicsScene* scene)
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldOverlayLocation;
-    characterPixmapItem = new QGraphicsPixmapItem(QPixmap(imageFile));
+    characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(QPixmap(imageFile));
 }
 
 void GraphicalOverlayView::updateView(){
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldOverlayLocation;
-    delete characterPixmapItem; // prevent memory leak when loading new imageFile
-    characterPixmapItem = new QGraphicsPixmapItem(QPixmap(imageFile));
+    characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(QPixmap(imageFile));
     characterPixmapItem->setScale(positionScalingFactor);
     characterPixmapItem->setZValue(1);
     if (overlayStatus){
@@ -21,7 +20,7 @@ void GraphicalOverlayView::updateView(){
     } else {
         characterPixmapItem->setVisible(false);
     }
-    scene->addItem(characterPixmapItem);
+    scene->addItem(characterPixmapItem.get());
 }
 
 

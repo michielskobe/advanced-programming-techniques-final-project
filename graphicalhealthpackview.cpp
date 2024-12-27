@@ -9,13 +9,15 @@ GraphicalHealthpackView::GraphicalHealthpackView(QGraphicsScene* scene)
 }
 
 void GraphicalHealthpackView::updateView() {
+    characterPixmapItems.clear();
+
     for (auto& hp : (*levels)[*(gameController->getActiveLevelIndex())]->healthPacks) {
         characterPixmap = QPixmap(":/images/healthpack.png");
-        QGraphicsPixmapItem* characterPixmapItem = new QGraphicsPixmapItem(characterPixmap);
+        auto characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(characterPixmap);
         characterPixmapItem->setPos(hp->getXPos() * positionScalingFactor, hp->getYPos() * positionScalingFactor);
         characterPixmapItem->setZValue(3);
         characterPixmapItem->setScale(0.13);
-        scene->addItem(characterPixmapItem);
-        characterPixmapItems.emplace_back(characterPixmapItem);
+        scene->addItem(characterPixmapItem.get());
+        characterPixmapItems.emplace_back(std::move(characterPixmapItem));
     }
 }
