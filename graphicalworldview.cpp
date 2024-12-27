@@ -14,10 +14,7 @@ void GraphicalWorldView::updateView() {
     // Clear scene
     QList<QGraphicsItem*> items = scene->items();
     for (QGraphicsItem* item : items) {
-        QGraphicsPixmapItem* pixmapItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        if (pixmapItem) {
-            scene->removeItem(pixmapItem);
-        }
+        scene->removeItem(item);
     }
     characterPixmapItems.clear();
 
