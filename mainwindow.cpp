@@ -217,14 +217,26 @@ void MainWindow::protagonistStatus(float health, float energy)
 
 void MainWindow::zoomIn()
 {
-    ui->graphicsView->scale(1.1, 1.1);
-    ui->textView->zoomIn(2.5);
+    if (currentWorldView == graphicalWorldView){
+        ui->graphicsView->scale(1.1, 1.1);
+    }
+    else if (currentWorldView == textualWorldView){
+        ui->textView->zoomIn(2.5);
+    }
 }
+
+
 
 void MainWindow::zoomOut()
 {
-    ui->graphicsView->scale(0.9, 0.9);
-    ui->textView->zoomOut(2.5);
+    if (currentWorldView == graphicalWorldView){
+        ui->graphicsView->scale(0.9, 0.9);
+    }
+    else if (currentWorldView == textualWorldView){
+        ui->textView->zoomOut(2.5);
+    }
+
+
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)

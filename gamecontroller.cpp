@@ -298,6 +298,6 @@ void GameController::requestUpdateUI()
     emit updateUI();
     auto xPos = (*levels)[*activeLevelIndex]->protagonist->getXPos();
     auto yPos = (*levels)[*activeLevelIndex]->protagonist->getYPos();
-    detectXEnemyColision(xPos, yPos);
     PoisonTileLogic(xPos, yPos);
+    detectXEnemyColision(xPos, yPos);
 }
