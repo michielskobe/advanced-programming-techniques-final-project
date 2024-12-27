@@ -80,6 +80,15 @@ void XEnemy::updatePosition(int path)
     emit(positionXEnemyUpdated());
 }
 
+int XEnemy::protagonistDistance() const
+{
+    LevelManager* levelManager = LevelManager::GetInstance();
+    auto levels = levelManager->getLevels();
+    GameController* gctrl = GameController::GetInstance();
+    auto activeIndex = gctrl->getActiveLevelIndex();
+    return std::abs(xPos - (*levels)[*activeIndex]->protagonist->getXPos()) + std::abs(yPos - (*levels)[*activeIndex]->protagonist->getYPos());
+}
+
 float XEnemy::getAttacked(const float damage)
 {
     // You can not attack an XEnemy, it can only die from walking around too much.
@@ -102,11 +111,16 @@ void XEnemy::updateXEnemyPosition()
         auto activeIndex = gctrl->getActiveLevelIndex();
         const int ownIndex = xPos + yPos*(*levels)[*activeIndex]->cols;
         const int protagonistIndex = (*levels)[*activeIndex]->protagonist->getXPos() + (*levels)[*activeIndex]->protagonist->getYPos()*(*levels)[*activeIndex]->cols;
-        auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
-        if (!moves.empty()){
-           updatePosition(moves[0]);
+        if(protagonistDistance() <= 200){
+            auto moves = pfHelper.getPath((*levels)[*activeIndex]->tiles, ownIndex, protagonistIndex, (*levels)[*activeIndex]->cols);
+            if (!moves.empty()){
+               updatePosition(moves[0]);
+            }
+            qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
+        } else {
+            qCInfo(XEnemyCat) <<  "Protagonist too far away. Did not move XEnemy";
         }
-        qCInfo(XEnemyCat) <<  "Update position of XEnemy. Got path : " << moves;
+
     }
 }
 
