@@ -42,4 +42,15 @@ void GraphicalWorldView::updateView() {
             }
         }
     }
+
+    QGraphicsPixmapItem *portalIn = new QGraphicsPixmapItem(QPixmap(":/images/portal_in.png"));
+    QGraphicsPixmapItem *portalOut = new QGraphicsPixmapItem(QPixmap(":/images/portal_out.png"));
+    portalIn->setZValue(4);
+    portalIn->setPos(8*positionScalingFactor, 2*positionScalingFactor);
+    portalIn->setScale(0.26);
+    portalOut->setZValue(4);
+    portalOut->setPos(0,0);
+    portalOut->setScale(0.26);
+    scene->addItem(portalIn);
+    scene->addItem(portalOut);
 }

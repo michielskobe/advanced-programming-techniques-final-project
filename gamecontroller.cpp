@@ -233,10 +233,17 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
     if(calculateValidMove(absoluteX, absoluteY)){
-        healthPackLogic(absoluteX, absoluteY);
-        PoisonTileLogic(absoluteX, absoluteY);
-        (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
-        (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
+        if (absoluteX == 8 && absoluteY == 2){
+            (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(0, 0);
+            *activeLevelIndex = (*activeLevelIndex + 1) % (levels->size());
+            setActiveLevelIndex(*activeLevelIndex);
+        }
+        else {
+            healthPackLogic(absoluteX, absoluteY);
+            PoisonTileLogic(absoluteX, absoluteY);
+            (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
+            (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
+        }
     }
     emit updateUI(); // update UI after calculating changes due to attempted move
 }

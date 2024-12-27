@@ -37,5 +37,9 @@ QString TextualWorldView::generateTextRepresentation(){
     }
     gridString += QString("+---").repeated(gridWidth) + "+\n"; // Bottom border
 
+    // Visualise level switching portal
+    const int pos = 2 * (8 * gridWidth + 4) + (gridWidth * 4 + 2) + 33; // Calculated based on character position formula, indicates start of 3-character portal tile
+    gridString.replace(pos, 3, "[║]");
+
     return gridString;
 }
