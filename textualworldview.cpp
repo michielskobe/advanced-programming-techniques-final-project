@@ -9,8 +9,7 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
 }
 
 void TextualWorldView::updateView() {
-    worldGrid = generateTextRepresentation();
-    textView->setPlainText(worldGrid);
+    textView->setPlainText(completeWorldRepresentation);
 }
 
 

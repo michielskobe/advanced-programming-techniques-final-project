@@ -22,8 +22,8 @@ void TextualHealthpackView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        worldGrid.replace(pos, 1, characterRepresentation);
+        completeWorldRepresentation.replace(pos, 1, characterRepresentation);
     }
 
-    textView->setPlainText(worldGrid);
+    textView->setPlainText(completeWorldRepresentation);
 }

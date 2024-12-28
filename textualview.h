@@ -5,7 +5,7 @@
 #include <QTextEdit>
 #include <QString>
 
-extern QString worldGrid;
+extern QString completeWorldRepresentation;
 
 class TextualView : public View
 {

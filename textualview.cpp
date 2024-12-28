@@ -2,13 +2,14 @@
 #include "levelmanager.h"
 #include "gamecontroller.h"
 
-QString worldGrid;
+QString completeWorldRepresentation;
 
 TextualView::TextualView(QTextEdit* textView)
     :textView(textView)
 {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
+    completeWorldRepresentation = generateTextRepresentation();
 }
 
 QString TextualView::generateTextRepresentation(){

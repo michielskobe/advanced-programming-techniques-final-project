@@ -13,6 +13,7 @@ TextualEnemyView::TextualEnemyView(QTextEdit* textView)
 
 void TextualEnemyView::updateView() {
     // Modify the grid to place the enemy at the specified coordinates
+    completeWorldRepresentation.replace("X", " ");
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
 
     for (auto& enemy :(*levels)[*(gameController->getActiveLevelIndex())]->enemies){
@@ -35,8 +36,8 @@ void TextualEnemyView::updateView() {
             characterRepresentation = characterRepresentation.toLower();
         }
 
-        worldGrid.replace(pos, 1, characterRepresentation);
+        completeWorldRepresentation.replace(pos, 1, characterRepresentation);
     }
 
-    textView->setPlainText(worldGrid);
+    textView->setPlainText(completeWorldRepresentation);
 }
