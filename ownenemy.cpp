@@ -2,10 +2,16 @@
 #include "difficultycontroller.h"
 
 OwnEnemy::OwnEnemy(int xPos, int yPos, int strength): Enemy(xPos, yPos, strength)
-{}
+{
+    deadPixmap = QPixmap(":/images/Enemy_Dead.png");
+    idlePixmap = QPixmap(":/images/Enemy_Idle.png");
+}
 
 OwnEnemy::OwnEnemy(const Enemy &worldEnemy): Enemy(worldEnemy.getXPos(), worldEnemy.getYPos(), worldEnemy.getValue())
-{}
+{
+    deadPixmap = QPixmap(":/images/Enemy_Dead.png");
+    idlePixmap = QPixmap(":/images/Enemy_Idle.png");
+}
 
 /*
  * This function handles logic for getting attacked.
@@ -26,3 +32,12 @@ float OwnEnemy::getAttacked(const float damage)
     }
     return 0.0f;
 }
+
+QPixmap OwnEnemy::getPixmap()
+{
+    if(getDefeated()){
+        return deadPixmap;
+    }
+    return idlePixmap;
+}
+

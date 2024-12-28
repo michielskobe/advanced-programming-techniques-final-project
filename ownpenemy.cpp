@@ -15,6 +15,9 @@
 OwnPEnemy::OwnPEnemy(const PEnemy &worldPEnemy): OwnEnemy(worldPEnemy), poisonLevel{worldPEnemy.getPoisonLevel()}
 {
     srand(time(nullptr));
+    deadPixmap = QPixmap(":/images/PEnemy_Dead.png");
+    idlePixmap = QPixmap(":/images/PEnemy_Idle.png");
+
 }
 
 bool OwnPEnemy::poison()

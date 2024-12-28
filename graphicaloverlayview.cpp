@@ -6,8 +6,7 @@ GraphicalOverlayView::GraphicalOverlayView(QGraphicsScene* scene)
     : GraphicalView(scene) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
-    QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldOverlayLocation;
-    characterPixmapItem = std::make_unique<QGraphicsPixmapItem>(QPixmap(imageFile));
+
 }
 
 void GraphicalOverlayView::updateView(){
