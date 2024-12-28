@@ -14,7 +14,7 @@ TextualProtagonistView::TextualProtagonistView(QTextEdit* textView)
 
 
 void TextualProtagonistView::updateView() {
-    completeWorldRepresentation.replace(characterRepresentation, "   ");
+    textualRepresentation.completeWorldRepresentation.replace(characterRepresentation, "   ");
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
     const int xPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos();
     const int yPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
@@ -23,9 +23,9 @@ void TextualProtagonistView::updateView() {
     const int colOffset = xPos * 4 + 2;
     const int pos = rowOffset + colOffset;
 
-    completeWorldRepresentation.replace(pos - 1, 3, characterRepresentation);
+    textualRepresentation.completeWorldRepresentation.replace(pos - 1, 3, characterRepresentation);
 
-    textView->setPlainText(completeWorldRepresentation);
+    textView->setPlainText(textualRepresentation.completeWorldRepresentation);
 
     QTextCursor cursor(textView->document());
     cursor.setPosition(pos - 1);

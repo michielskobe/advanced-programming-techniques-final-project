@@ -5,7 +5,16 @@
 #include <QTextEdit>
 #include <QString>
 
-extern QString completeWorldRepresentation;
+struct TextualRepresentation {
+    QString completeWorldRepresentation;
+    QString visibleWorldRepresentation;
+    int visibleWidth;
+    int visibleHeight;
+    int firstVisibleRow;
+    int firstVisibleCol;
+};
+
+extern TextualRepresentation textualRepresentation;
 
 class TextualView : public View
 {
