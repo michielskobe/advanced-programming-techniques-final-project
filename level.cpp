@@ -23,14 +23,18 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
     auto tempEnemies = world.getEnemies();
     for (int i = 0; i < (int)(tempEnemies).size(); i++) {
         auto reference = (&(*(tempEnemies[i])));
-        auto temp = dynamic_cast<PEnemy*>(reference);
-        if (temp != nullptr) {
-            auto newEnemy = new OwnPEnemy(*temp);
-            enemies.emplace_back(newEnemy);
-        }else {
-            auto newEnemy = new OwnEnemy(*reference);
-            enemies.emplace_back(newEnemy);
+        // Make sure enemy is not located on level switching portal
+        if (reference->getXPos() != 8 && reference->getYPos() != 2){
+            auto temp = dynamic_cast<PEnemy*>(reference);
+            if (temp != nullptr) {
+                auto newEnemy = new OwnPEnemy(*temp);
+                enemies.emplace_back(newEnemy);
+            }else {
+                auto newEnemy = new OwnEnemy(*reference);
+                enemies.emplace_back(newEnemy);
+            }
         }
+
     }
     healthPacks = world.getHealthPacks();
     rows = world.getRows();
