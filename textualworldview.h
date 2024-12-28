@@ -9,6 +9,9 @@ public:
     TextualWorldView(QTextEdit* textView);
 
     void updateView() override;
+
+private:
+    int activeLevel {0};
 };
 
 #endif // TEXTUALWORLDVIEW_H

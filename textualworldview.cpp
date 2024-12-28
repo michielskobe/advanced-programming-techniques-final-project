@@ -9,6 +9,10 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
 }
 
 void TextualWorldView::updateView() {
+    if (activeLevel != *(gameController->activeLevelIndex)){
+        activeLevel = *(gameController->activeLevelIndex);
+        completeWorldRepresentation = generateTextRepresentation();
+    }
     textView->setPlainText(completeWorldRepresentation);
 }
 
