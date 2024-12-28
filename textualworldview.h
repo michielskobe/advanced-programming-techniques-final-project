@@ -9,14 +9,6 @@ public:
     TextualWorldView(QTextEdit* textView);
 
     void updateView() override;
-    QString& getWorldGrid();
-
-    void setWorldGrid(const QString &newWorldGrid);
-
-private:
-    QString generateTextRepresentation();
-
-    QString worldGrid;
 };
 
 #endif // TEXTUALWORLDVIEW_H

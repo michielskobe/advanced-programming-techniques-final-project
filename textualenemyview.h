@@ -7,12 +7,9 @@ class TextualWorldView;
 class TextualEnemyView : public TextualView
 {
 public:
-    TextualEnemyView(QTextEdit* textView, TextualWorldView* worldView);
+    TextualEnemyView(QTextEdit* textView);
 
     void updateView() override;
-
-private:
-    TextualWorldView* worldView;
 };
 
 #endif // TEXTUALENEMYVIEW_H

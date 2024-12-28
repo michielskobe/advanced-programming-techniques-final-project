@@ -104,13 +104,13 @@ void MainWindow::initializeGameComponents()
     currentWorldView = graphicalWorldView;
 
     graphicalEnemyView = new GraphicalEnemyView(ui->graphicsView->scene());
-    textualEnemyView = new TextualEnemyView(ui->textView, textualWorldView);
+    textualEnemyView = new TextualEnemyView(ui->textView);
 
     graphicalHealthpackView = new GraphicalHealthpackView(ui->graphicsView->scene());
-    textualHealthpackView = new TextualHealthpackView(ui->textView, textualWorldView);
+    textualHealthpackView = new TextualHealthpackView(ui->textView);
 
     graphicalProtagonistView = new GraphicalProtagonistView(ui->graphicsView->scene());
-    textualProtagonistView = new TextualProtagonistView(ui->textView, textualWorldView);
+    textualProtagonistView = new TextualProtagonistView(ui->textView);
 
     graphicalOverlayView = new GraphicalOverlayView(ui->graphicsView->scene());
 }

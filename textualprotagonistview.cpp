@@ -4,8 +4,8 @@
 #include "gamecontroller.h"
 #include <QTimer>
 
-TextualProtagonistView::TextualProtagonistView(QTextEdit* textView, TextualWorldView *worldView)
-    : TextualView(textView), worldView(worldView){
+TextualProtagonistView::TextualProtagonistView(QTextEdit* textView)
+    : TextualView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
     characterRepresentation = " ☺ ";
@@ -14,8 +14,7 @@ TextualProtagonistView::TextualProtagonistView(QTextEdit* textView, TextualWorld
 
 
 void TextualProtagonistView::updateView() {
-    QString updatedGrid = worldView->getWorldGrid();
-
+    worldGrid.replace(characterRepresentation, "   ");
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
     const int xPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos();
     const int yPos = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
@@ -24,10 +23,9 @@ void TextualProtagonistView::updateView() {
     const int colOffset = xPos * 4 + 2;
     const int pos = rowOffset + colOffset;
 
-    updatedGrid.replace(pos - 1, 3, characterRepresentation);
+    worldGrid.replace(pos - 1, 3, characterRepresentation);
 
-    worldView->setWorldGrid(updatedGrid);
-    textView->setPlainText(updatedGrid);
+    textView->setPlainText(worldGrid);
 
     QTextCursor cursor(textView->document());
     cursor.setPosition(pos - 1);

@@ -7,12 +7,9 @@ class TextualWorldView;
 class TextualHealthpackView : public TextualView
 {
 public:
-    TextualHealthpackView(QTextEdit* textView, TextualWorldView* worldView);
+    TextualHealthpackView(QTextEdit* textView);
 
     void updateView() override;
-
-private:
-    TextualWorldView *worldView;
 };
 
 #endif // TEXTUALHEALTHPACKVIEW_H

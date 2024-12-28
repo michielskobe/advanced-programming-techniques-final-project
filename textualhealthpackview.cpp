@@ -3,8 +3,8 @@
 #include "levelmanager.h"
 #include "gamecontroller.h"
 
-TextualHealthpackView::TextualHealthpackView(QTextEdit* textView, TextualWorldView *worldView)
-    : TextualView(textView), worldView(worldView) {
+TextualHealthpackView::TextualHealthpackView(QTextEdit* textView)
+    : TextualView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
     characterRepresentation = "❤";
@@ -12,7 +12,6 @@ TextualHealthpackView::TextualHealthpackView(QTextEdit* textView, TextualWorldVi
 
 void TextualHealthpackView::updateView() {
     // Modify the grid to place the healthpack at the specified coordinates
-    QString updatedGrid = worldView->getWorldGrid();
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
 
     for (auto& hp :(*levels)[*(gameController->getActiveLevelIndex())]->healthPacks){
@@ -23,9 +22,8 @@ void TextualHealthpackView::updateView() {
         int colOffset = xPos * 4 + 2;
         int pos = rowOffset + colOffset;
 
-        updatedGrid.replace(pos, 1, characterRepresentation);
+        worldGrid.replace(pos, 1, characterRepresentation);
     }
 
-    worldView->setWorldGrid(updatedGrid);
-    textView->setPlainText(updatedGrid);
+    textView->setPlainText(worldGrid);
 }

@@ -5,15 +5,14 @@
 #include "ownpenemy.h"
 #include "xenemy.h"
 
-TextualEnemyView::TextualEnemyView(QTextEdit* textView, TextualWorldView *worldView)
-    : TextualView(textView), worldView(worldView) {
+TextualEnemyView::TextualEnemyView(QTextEdit* textView)
+    : TextualView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
 }
 
 void TextualEnemyView::updateView() {
     // Modify the grid to place the enemy at the specified coordinates
-    QString updatedGrid = worldView->getWorldGrid();
     const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
 
     for (auto& enemy :(*levels)[*(gameController->getActiveLevelIndex())]->enemies){
@@ -36,9 +35,8 @@ void TextualEnemyView::updateView() {
             characterRepresentation = characterRepresentation.toLower();
         }
 
-        updatedGrid.replace(pos, 1, characterRepresentation);
+        worldGrid.replace(pos, 1, characterRepresentation);
     }
 
-    worldView->setWorldGrid(updatedGrid);
-    textView->setPlainText(updatedGrid);
+    textView->setPlainText(worldGrid);
 }

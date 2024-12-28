@@ -9,7 +9,7 @@ class TextualProtagonistView : public TextualView
 {
     Q_OBJECT
 public:
-    TextualProtagonistView(QTextEdit* textView, TextualWorldView* worldView);
+    TextualProtagonistView(QTextEdit* textView);
 
     void updateView() override;
     void connectSlots();
@@ -19,7 +19,6 @@ public slots:
     void updateForState(const QString& state);
 
 private:
-    TextualWorldView *worldView;
     QColor currentColor {QColor("black")};
     bool isDead {false};
 };

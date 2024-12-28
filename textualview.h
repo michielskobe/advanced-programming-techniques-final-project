@@ -5,8 +5,11 @@
 #include <QTextEdit>
 #include <QString>
 
+extern QString worldGrid;
+
 class TextualView : public View
 {
+
 public:
     TextualView(QTextEdit* textView);
     virtual ~TextualView() = default;
@@ -14,9 +17,12 @@ public:
     virtual void updateView() = 0;
 
 protected:
+    QString generateTextRepresentation();
+
     QTextEdit* textView;
     QString characterRepresentation;
-
 };
+
+
 
 #endif // TEXTUALVIEW_H
