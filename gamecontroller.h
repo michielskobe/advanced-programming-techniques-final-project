@@ -63,6 +63,10 @@ signals:
     void protagonistHealthVisualisation();
     void protagonistPoisonVisualisation();
     void protagonistDeathVisualisation();
+    void textualWorldMoveUp();
+    void textualWorldMoveDown();
+    void textualWorldMoveLeft();
+    void textualWorldMoveRight();
 };
 
 #endif // GAMECONTROLLER_H

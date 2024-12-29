@@ -6,6 +6,7 @@ TextualWorldView::TextualWorldView(QTextEdit* textView)
     : TextualView(textView) {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
+    connectSlots();
 }
 
 void TextualWorldView::updateView() {
@@ -15,5 +16,4 @@ void TextualWorldView::updateView() {
     }
     textView->setPlainText(textualRepresentation.completeWorldRepresentation);
 }
-
 

@@ -1,7 +1,9 @@
 #include "textualview.h"
 #include "levelmanager.h"
 #include "gamecontroller.h"
-
+#include <QDebug>
+#include <QtLogging>
+#include <QLoggingCategory>
 TextualRepresentation textualRepresentation;
 
 TextualView::TextualView(QTextEdit* textView)
@@ -10,6 +12,19 @@ TextualView::TextualView(QTextEdit* textView)
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
     textualRepresentation.completeWorldRepresentation = generateTextRepresentation();
+    textualRepresentation.visibleWorldRepresentation = "";
+    textualRepresentation.visibleWidth = 20;
+    textualRepresentation.visibleHeight = 20;
+    textualRepresentation.firstVisibleRow = 0;
+    textualRepresentation.firstVisibleCol = 0;
+}
+
+void TextualView::connectSlots() {
+    qInfo() << "Connecting slots for TextualView";
+    QObject::connect(gameController, &GameController::textualWorldMoveUp, this, &TextualView::moveVisibleViewUp, Qt::UniqueConnection);
+    QObject::connect(gameController, &GameController::textualWorldMoveDown, this, &TextualView::moveVisibleViewDown, Qt::UniqueConnection);
+    QObject::connect(gameController, &GameController::textualWorldMoveLeft, this, &TextualView::moveVisibleViewLeft, Qt::UniqueConnection);
+    QObject::connect(gameController, &GameController::textualWorldMoveRight, this, &TextualView::moveVisibleViewRight, Qt::UniqueConnection);
 }
 
 QString TextualView::generateTextRepresentation(){
@@ -32,3 +47,30 @@ QString TextualView::generateTextRepresentation(){
 
     return gridString;
 }
+
+void TextualView::moveVisibleViewUp()
+{
+    qInfo() << "Slot moveVisibleViewUp triggered";
+    textualRepresentation.firstVisibleRow = textualRepresentation.firstVisibleRow -1;
+    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+
+}
+
+void TextualView::moveVisibleViewDown()
+{
+    textualRepresentation.firstVisibleRow = textualRepresentation.firstVisibleRow + 1;
+    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+}
+
+void TextualView::moveVisibleViewLeft()
+{
+    textualRepresentation.firstVisibleCol = textualRepresentation.firstVisibleCol -1;
+    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+}
+
+void TextualView::moveVisibleViewRight()
+{
+    textualRepresentation.firstVisibleCol = textualRepresentation.firstVisibleCol + 1;
+    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+}
+

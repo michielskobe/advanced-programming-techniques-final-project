@@ -24,6 +24,13 @@ public:
     virtual ~TextualView() = default;
 
     virtual void updateView() = 0;
+    void connectSlots();
+
+public slots:
+    void moveVisibleViewUp();
+    void moveVisibleViewDown();
+    void moveVisibleViewLeft();
+    void moveVisibleViewRight();
 
 protected:
     QString generateTextRepresentation();
