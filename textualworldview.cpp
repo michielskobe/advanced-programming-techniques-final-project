@@ -17,6 +17,7 @@ void TextualWorldView::updateView() {
         textualRepresentation.completeWorldRepresentation = generateTextRepresentation();
         textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
     }
-    textView->setPlainText(textualRepresentation.completeWorldRepresentation);
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
 }
 

@@ -13,8 +13,8 @@ TextualView::TextualView(QTextEdit* textView)
     gameController = GameController::GetInstance();
     textualRepresentation.completeWorldRepresentation = generateTextRepresentation();
     textualRepresentation.visibleWorldRepresentation = "";
-    textualRepresentation.visibleWidth = 20;
-    textualRepresentation.visibleHeight = 20;
+    textualRepresentation.visibleWidth = 15;
+    textualRepresentation.visibleHeight = 15;
     textualRepresentation.firstVisibleRow = 0;
     textualRepresentation.firstVisibleCol = 0;
 }
@@ -49,34 +49,54 @@ QString TextualView::generateTextRepresentation(){
 }
 
 QString TextualView::getVisibleTextRepresentation(){
-    QString gridString;
+    QString worldString = textualRepresentation.completeWorldRepresentation;
+    QString displayedWorld;
+    QStringList rowList = worldString.split('\n');
+    const int nrOfRowCharacters = 4 * textualRepresentation.visibleWidth;
+    const int nrOfColCharacters = 2 * textualRepresentation.visibleHeight;
+    for (int i = textualRepresentation.firstVisibleRow; i <= textualRepresentation.firstVisibleRow + nrOfColCharacters && i < rowList.size(); ++i) {
+        QString row = rowList[i];
+        displayedWorld += row.mid(textualRepresentation.firstVisibleCol, nrOfRowCharacters + 1) + "\n";
+    }
 
-    return gridString;
+    return displayedWorld;
 }
 
 
 void TextualView::moveVisibleViewUp()
 {
-    textualRepresentation.firstVisibleRow--;
-    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
-
+    if (textualRepresentation.firstVisibleRow > 0){
+        textualRepresentation.firstVisibleRow -= 2;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
+    std::cout << textualRepresentation.firstVisibleRow << std::endl;
 }
 
 void TextualView::moveVisibleViewDown()
 {
-    textualRepresentation.firstVisibleRow++;
-    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+    if (textualRepresentation.firstVisibleRow < 2*(((*levels)[*(gameController->getActiveLevelIndex())]->rows)-textualRepresentation.visibleHeight)){
+        textualRepresentation.firstVisibleRow += 2;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
+    std::cout << textualRepresentation.firstVisibleRow << std::endl;
+
 }
 
 void TextualView::moveVisibleViewLeft()
 {
-    textualRepresentation.firstVisibleCol--;
-    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+    if (textualRepresentation.firstVisibleCol > 0){
+        textualRepresentation.firstVisibleCol -= 4;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
+    std::cout << textualRepresentation.firstVisibleCol << std::endl;
 }
 
 void TextualView::moveVisibleViewRight()
 {
-    textualRepresentation.firstVisibleCol++;
-    std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
+    if (textualRepresentation.firstVisibleCol < 4*(((*levels)[*(gameController->getActiveLevelIndex())]->cols)-textualRepresentation.visibleWidth)){
+        textualRepresentation.firstVisibleCol += 4;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
+    std::cout << textualRepresentation.firstVisibleCol << std::endl;
 }
 

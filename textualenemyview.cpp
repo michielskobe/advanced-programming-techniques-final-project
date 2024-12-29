@@ -13,16 +13,22 @@ TextualEnemyView::TextualEnemyView(QTextEdit* textView)
 
 void TextualEnemyView::updateView() {
     // Modify the grid to place the enemy at the specified coordinates
-    textualRepresentation.completeWorldRepresentation.replace("X", " "); // Only X enemy needs to be removed, other enemies keep position and are overwritten
-    const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+    textualRepresentation.visibleWorldRepresentation.replace("X", " "); // Only X enemy needs to be removed, other enemies keep position and are overwritten
 
     for (auto& enemy :(*levels)[*(gameController->getActiveLevelIndex())]->enemies){
         const int xPos = enemy->getXPos();
         const int yPos = enemy->getYPos();
 
-        int rowOffset = yPos*(2*gridWidth*4+4) + (gridWidth*4 + 2);
-        int colOffset = xPos * 4 + 2;
-        int pos = rowOffset + colOffset;
+        if (yPos < textualRepresentation.firstVisibleRow/2 ||
+            yPos >= textualRepresentation.firstVisibleRow/2 + textualRepresentation.visibleHeight ||
+            xPos < textualRepresentation.firstVisibleCol/4 ||
+            xPos >= textualRepresentation.firstVisibleCol/4 + textualRepresentation.visibleWidth) {
+            continue;
+        }
+
+        const int rowOffset = (1 + 2*yPos - textualRepresentation.firstVisibleRow)*(textualRepresentation.visibleWidth * 4 + 2);
+        const int colOffset = 2 + xPos * 4;
+        const int pos = rowOffset + colOffset;
 
         if (typeid(*enemy) == typeid(OwnPEnemy)) {
             characterRepresentation = "P";
@@ -36,8 +42,9 @@ void TextualEnemyView::updateView() {
             characterRepresentation = characterRepresentation.toLower();
         }
 
-        textualRepresentation.completeWorldRepresentation.replace(pos, 1, characterRepresentation);
+
+        textualRepresentation.visibleWorldRepresentation.replace(pos, 1, characterRepresentation);
     }
 
-    textView->setPlainText(textualRepresentation.completeWorldRepresentation);
+    //textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
 }

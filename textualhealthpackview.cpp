@@ -12,18 +12,22 @@ TextualHealthpackView::TextualHealthpackView(QTextEdit* textView)
 
 void TextualHealthpackView::updateView() {
     // Modify the grid to place the healthpack at the specified coordinates
-    const int gridWidth = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-
     for (auto& hp :(*levels)[*(gameController->getActiveLevelIndex())]->healthPacks){
         const int xPos = hp->getXPos();
         const int yPos = hp->getYPos();
 
-        int rowOffset = yPos*(2*gridWidth*4+4) + (gridWidth*4 + 2);
-        int colOffset = xPos * 4 + 2;
-        int pos = rowOffset + colOffset;
+        if (yPos < textualRepresentation.firstVisibleRow/2 ||
+            yPos >= textualRepresentation.firstVisibleRow/2 + textualRepresentation.visibleHeight ||
+            xPos < textualRepresentation.firstVisibleCol/4 ||
+            xPos >= textualRepresentation.firstVisibleCol/4 + textualRepresentation.visibleWidth) {
+            continue;
+        }
 
-        textualRepresentation.completeWorldRepresentation.replace(pos, 1, characterRepresentation);
+        const int rowOffset = (1 + 2*yPos - textualRepresentation.firstVisibleRow)*(textualRepresentation.visibleWidth * 4 + 2);
+        const int colOffset = 2 + xPos * 4;
+        const int pos = rowOffset + colOffset;
+        textualRepresentation.visibleWorldRepresentation.replace(pos, 1, characterRepresentation);
+
     }
-
-    textView->setPlainText(textualRepresentation.completeWorldRepresentation);
+    //textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
 }
