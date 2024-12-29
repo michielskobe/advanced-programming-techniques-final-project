@@ -34,6 +34,7 @@ public slots:
 
 protected:
     QString generateTextRepresentation();
+    QString getVisibleTextRepresentation();
 
     QTextEdit* textView;
     QString characterRepresentation;
