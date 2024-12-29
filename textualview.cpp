@@ -48,29 +48,35 @@ QString TextualView::generateTextRepresentation(){
     return gridString;
 }
 
+QString TextualView::getVisibleTextRepresentation(){
+    QString gridString;
+
+    return gridString;
+}
+
+
 void TextualView::moveVisibleViewUp()
 {
-    qInfo() << "Slot moveVisibleViewUp triggered";
-    textualRepresentation.firstVisibleRow = textualRepresentation.firstVisibleRow -1;
+    textualRepresentation.firstVisibleRow--;
     std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
 
 }
 
 void TextualView::moveVisibleViewDown()
 {
-    textualRepresentation.firstVisibleRow = textualRepresentation.firstVisibleRow + 1;
+    textualRepresentation.firstVisibleRow++;
     std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
 }
 
 void TextualView::moveVisibleViewLeft()
 {
-    textualRepresentation.firstVisibleCol = textualRepresentation.firstVisibleCol -1;
+    textualRepresentation.firstVisibleCol--;
     std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
 }
 
 void TextualView::moveVisibleViewRight()
 {
-    textualRepresentation.firstVisibleCol = textualRepresentation.firstVisibleCol + 1;
+    textualRepresentation.firstVisibleCol++;
     std::cout << "(" << textualRepresentation.firstVisibleRow << "," << textualRepresentation.firstVisibleCol << ")"  << std::endl;
 }
 
