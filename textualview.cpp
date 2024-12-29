@@ -65,38 +65,27 @@ QString TextualView::getVisibleTextRepresentation(){
 
 void TextualView::moveVisibleViewUp()
 {
-    if (textualRepresentation.firstVisibleRow > 0){
-        textualRepresentation.firstVisibleRow -= 2;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
-    }
-    std::cout << textualRepresentation.firstVisibleRow << std::endl;
+    textualRepresentation.firstVisibleRow -= 2;
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 
 void TextualView::moveVisibleViewDown()
 {
-    if (textualRepresentation.firstVisibleRow < 2*(((*levels)[*(gameController->getActiveLevelIndex())]->rows)-textualRepresentation.visibleHeight)){
-        textualRepresentation.firstVisibleRow += 2;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
-    }
-    std::cout << textualRepresentation.firstVisibleRow << std::endl;
+    textualRepresentation.firstVisibleRow += 2;
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 
 }
 
 void TextualView::moveVisibleViewLeft()
 {
-    if (textualRepresentation.firstVisibleCol > 0){
-        textualRepresentation.firstVisibleCol -= 4;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
-    }
-    std::cout << textualRepresentation.firstVisibleCol << std::endl;
+
+    textualRepresentation.firstVisibleCol -= 4;
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 
 void TextualView::moveVisibleViewRight()
 {
-    if (textualRepresentation.firstVisibleCol < 4*(((*levels)[*(gameController->getActiveLevelIndex())]->cols)-textualRepresentation.visibleWidth)){
-        textualRepresentation.firstVisibleCol += 4;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
-    }
-    std::cout << textualRepresentation.firstVisibleCol << std::endl;
+    textualRepresentation.firstVisibleCol += 4;
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 

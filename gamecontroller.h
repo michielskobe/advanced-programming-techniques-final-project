@@ -30,7 +30,7 @@ public: // methods
     void stopAutoPlay();
 
     void moveProtagonistRelative(int relativeX, int relativeY);
-    void moveProtagonistAbsolute(int absoluteX, int absoluteY);
+    void moveProtagonistAbsolute(int absoluteX, int absoluteY, const QString& direction);
     std::shared_ptr<int> getActiveLevelIndex() const;
     void setActiveLevelIndex(int newActiveLevelIndex);
     float getActiveProtagonistHealth() const;

@@ -24,10 +24,10 @@ void TextualHealthpackView::updateView() {
         }
 
         const int rowOffset = (1 + 2*yPos - textualRepresentation.firstVisibleRow)*(textualRepresentation.visibleWidth * 4 + 2);
-        const int colOffset = 2 + xPos * 4;
+        const int colOffset = 2 + xPos * 4 - textualRepresentation.firstVisibleCol;
         const int pos = rowOffset + colOffset;
         textualRepresentation.visibleWorldRepresentation.replace(pos, 1, characterRepresentation);
 
     }
-    //textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
+    textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
 }

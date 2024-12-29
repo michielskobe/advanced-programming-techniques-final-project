@@ -192,7 +192,7 @@ bool GameController::detectWall(const int absoluteX, const int absoluteY)
  */
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
-    if (relativeX == 0 && relativeY == -1) {
+    /*if (relativeX == 0 && relativeY == -1) {
         emit protagonistMoveUpVisualisation();
         emit textualWorldMoveUp();
     } else if (relativeX == 0) {
@@ -204,12 +204,23 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
     } else {
         emit protagonistMoveLeftVisualisation();
         emit textualWorldMoveLeft();
-    }
+    }*/
     qCInfo(gameControllerCat) << "Moving player on level: " << *getActiveLevelIndex();
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
     int newXPos = (*levels)[*activeLevelIndex]->protagonist->getXPos() + relativeX;
     int newYPos = (*levels)[*activeLevelIndex]->protagonist->getYPos() + relativeY;
-    moveProtagonistAbsolute(newXPos, newYPos);
+    if (relativeX == 0 && relativeY == -1) {
+        moveProtagonistAbsolute(newXPos, newYPos, "up");
+    } else if (relativeX == 0) {
+        moveProtagonistAbsolute(newXPos, newYPos, "down");
+
+    } else if (relativeX == 1) {
+        moveProtagonistAbsolute(newXPos, newYPos, "right");
+
+    } else {
+        moveProtagonistAbsolute(newXPos, newYPos, "left");
+
+    }
 
     /*
      * When moving relatively, we need to take into account the energy loss
@@ -233,7 +244,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
  * Move the protagonist absolutely in the active level
  * This does NOT update the energy of the protagonist
  */
-void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
+void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY, const QString& direction)
 {
     qCInfo(gameControllerCat) << "Moving the player absolutely: x=" << absoluteX << " y=" << absoluteY;
     if(calculateValidMove(absoluteX, absoluteY)){
@@ -247,6 +258,19 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY)
             PoisonTileLogic(absoluteX, absoluteY);
             (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
             (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
+            if (direction == "up") {
+                emit protagonistMoveUpVisualisation();
+                emit textualWorldMoveUp();
+            } else if (direction == "down") {
+                emit protagonistMoveDownVisualisation();
+                emit textualWorldMoveDown();
+            } else if (direction == "right") {
+                emit protagonistMoveRightVisualisation();
+                emit textualWorldMoveRight();
+            } else if (direction == "left"){
+                emit protagonistMoveLeftVisualisation();
+                emit textualWorldMoveLeft();
+            }
         }
     }
     emit updateUI(); // update UI after calculating changes due to attempted move
