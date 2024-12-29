@@ -62,37 +62,56 @@ QString TextualView::getVisibleTextRepresentation(){
     return displayedWorld;
 }
 
+void TextualView::moveVisibleViewUp() {
+    const int protagonistY = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos() * 2;
+    const int offsetLimit = 10; // 10 -> 5 rows of 2 ASCII characters
 
-void TextualView::moveVisibleViewUp()
-{
-    if (textualRepresentation.firstVisibleRow > 0){
+    if (textualRepresentation.firstVisibleRow > 0 && (protagonistY - textualRepresentation.firstVisibleRow) < offsetLimit) {
         textualRepresentation.firstVisibleRow -= 2;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
     }
+
+    textualRepresentation.firstVisibleRow = std::max(0, textualRepresentation.firstVisibleRow);
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 
-void TextualView::moveVisibleViewDown()
-{
-    if (textualRepresentation.firstVisibleRow < 2*textualRepresentation.visibleHeight){
+void TextualView::moveVisibleViewDown() {
+    const int protagonistY = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos() * 2;
+    const int maxRowOffset = 2 * ((*levels)[*(gameController->getActiveLevelIndex())]->rows - textualRepresentation.visibleHeight);
+    const int offsetLimit = 10; // 10 -> 5 rows of 2 ASCII characters
+
+    if (textualRepresentation.firstVisibleRow < maxRowOffset &&
+        (textualRepresentation.firstVisibleRow + textualRepresentation.visibleHeight * 2 - protagonistY) < offsetLimit) {
         textualRepresentation.firstVisibleRow += 2;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
     }
 
+    textualRepresentation.firstVisibleRow = std::min(maxRowOffset, textualRepresentation.firstVisibleRow);
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 
-void TextualView::moveVisibleViewLeft()
-{
-    if (textualRepresentation.firstVisibleCol > 0){
+void TextualView::moveVisibleViewLeft() {
+    const int protagonistX = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos() * 4;
+    const int offsetLimit = 20;  // 20 -> 5 colums of 4 ASCII characters
+
+    if (textualRepresentation.firstVisibleCol > 0 && (protagonistX - textualRepresentation.firstVisibleCol) < offsetLimit) {
         textualRepresentation.firstVisibleCol -= 4;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
     }
+
+    textualRepresentation.firstVisibleCol = std::max(0, textualRepresentation.firstVisibleCol);
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
 
-void TextualView::moveVisibleViewRight()
-{
-    if (textualRepresentation.firstVisibleCol < 4*textualRepresentation.visibleWidth){
+void TextualView::moveVisibleViewRight() {
+    const int protagonistX = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos() * 4;
+    const int maxColOffset = 4 * ((*levels)[*(gameController->getActiveLevelIndex())]->cols - textualRepresentation.visibleWidth);
+    const int offsetLimit = 20;  // 20 -> 5 colums of 4 ASCII characters
+
+    if (textualRepresentation.firstVisibleCol < maxColOffset &&
+        (textualRepresentation.firstVisibleCol + textualRepresentation.visibleWidth * 4 - protagonistX) < offsetLimit) {
         textualRepresentation.firstVisibleCol += 4;
-        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
     }
+
+    textualRepresentation.firstVisibleCol = std::min(maxColOffset, textualRepresentation.firstVisibleCol);
+    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
 }
+
 
