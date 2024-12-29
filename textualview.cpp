@@ -65,27 +65,34 @@ QString TextualView::getVisibleTextRepresentation(){
 
 void TextualView::moveVisibleViewUp()
 {
-    textualRepresentation.firstVisibleRow -= 2;
-    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    if (textualRepresentation.firstVisibleRow > 0){
+        textualRepresentation.firstVisibleRow -= 2;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
 }
 
 void TextualView::moveVisibleViewDown()
 {
-    textualRepresentation.firstVisibleRow += 2;
-    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    if (textualRepresentation.firstVisibleRow < 2*textualRepresentation.visibleHeight){
+        textualRepresentation.firstVisibleRow += 2;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
 
 }
 
 void TextualView::moveVisibleViewLeft()
 {
-
-    textualRepresentation.firstVisibleCol -= 4;
-    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    if (textualRepresentation.firstVisibleCol > 0){
+        textualRepresentation.firstVisibleCol -= 4;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
 }
 
 void TextualView::moveVisibleViewRight()
 {
-    textualRepresentation.firstVisibleCol += 4;
-    textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    if (textualRepresentation.firstVisibleCol < 4*textualRepresentation.visibleWidth){
+        textualRepresentation.firstVisibleCol += 4;
+        textualRepresentation.visibleWorldRepresentation = getVisibleTextRepresentation();
+    }
 }
 
