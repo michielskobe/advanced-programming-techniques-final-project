@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "difficultycontroller.h"
+#include "pathfinderhelper.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
@@ -136,13 +137,45 @@ void MainWindow::handleGotoCommand(const QStringList &args)
     int x = args[0].toInt(&validX);
     int y = args[1].toInt(&validY);
 
-    if (!validX || !validY) {
+    const int nrofCols = (*levels)[*(gameController->activeLevelIndex)]->cols;
+    const int nrOfRows = (*levels)[*(gameController->activeLevelIndex)]->rows;
+
+    if (!validX || !validY || x < 0 || y < 0 || x >= nrofCols || y >= nrOfRows) {
         qCInfo(MainWindowCat) << "Invalid coordinates.";
         return;
     }
 
     qCInfo(MainWindowCat) << "Moving protagonist to: " << x << y;
-    // TODO: Implement move protagonist to (x, y)
+    PathFinderHelper pfHelper = PathFinderHelper();
+    const int curX = (*levels)[*(gameController->activeLevelIndex)]->protagonist->getXPos();
+    const int curY = (*levels)[*(gameController->activeLevelIndex)]->protagonist->getYPos();
+    const int startPos = curX + curY * nrofCols;
+    const int destPos = x + y * nrofCols;
+    auto moves = pfHelper.getPath((*levels)[*(gameController->activeLevelIndex)]->tiles, startPos, destPos, nrofCols);
+    const std::array<std::pair<int, int>, 8> directions = {
+        std::make_pair(0, -1),
+        std::make_pair(1, -1),
+        std::make_pair(1, 0),
+        std::make_pair(1, 1),
+        std::make_pair(0, 1),
+        std::make_pair(-1, 1),
+        std::make_pair(-1, 0),
+        std::make_pair(-1, -1)
+    };
+
+    std::for_each(moves.begin(), moves.end(), [this, directions](int move) {
+        if (move >= 0 && move < (int)directions.size()) {
+            auto [dx, dy] = directions[move];
+
+            // Split diagonal moves into two separate steps
+            if (dx != 0 && dy != 0) {
+                gameController->moveProtagonistRelative(dx, 0);
+                gameController->moveProtagonistRelative(0, dy);
+            } else {
+                gameController->moveProtagonistRelative(dx, dy);
+            }
+        }
+    });
 }
 
 void MainWindow::displayHelp()
