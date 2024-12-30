@@ -17,6 +17,7 @@ TextualView::TextualView(QTextEdit* textView)
     textualRepresentation.visibleHeight = 15;
     textualRepresentation.firstVisibleRow = 0;
     textualRepresentation.firstVisibleCol = 0;
+    textualRepresentation.offsetLimit = 5;
 }
 
 void TextualView::connectSlots() {
@@ -64,9 +65,8 @@ QString TextualView::getVisibleTextRepresentation(){
 
 void TextualView::moveVisibleViewUp() {
     const int protagonistY = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos() * 2;
-    const int offsetLimit = 10; // 10 -> 5 rows of 2 ASCII characters
 
-    if (textualRepresentation.firstVisibleRow > 0 && (protagonistY - textualRepresentation.firstVisibleRow) < offsetLimit) {
+    if (textualRepresentation.firstVisibleRow > 0 && (protagonistY - textualRepresentation.firstVisibleRow) < 2*textualRepresentation.offsetLimit) {
         textualRepresentation.firstVisibleRow -= 2;
     }
 
@@ -77,10 +77,9 @@ void TextualView::moveVisibleViewUp() {
 void TextualView::moveVisibleViewDown() {
     const int protagonistY = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos() * 2;
     const int maxRowOffset = 2 * ((*levels)[*(gameController->getActiveLevelIndex())]->rows - textualRepresentation.visibleHeight);
-    const int offsetLimit = 10; // 10 -> 5 rows of 2 ASCII characters
 
     if (textualRepresentation.firstVisibleRow < maxRowOffset &&
-        (textualRepresentation.firstVisibleRow + textualRepresentation.visibleHeight * 2 - protagonistY) < offsetLimit) {
+        (textualRepresentation.firstVisibleRow + textualRepresentation.visibleHeight * 2 - protagonistY) < 2*textualRepresentation.offsetLimit) {
         textualRepresentation.firstVisibleRow += 2;
     }
 
@@ -90,9 +89,8 @@ void TextualView::moveVisibleViewDown() {
 
 void TextualView::moveVisibleViewLeft() {
     const int protagonistX = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos() * 4;
-    const int offsetLimit = 20;  // 20 -> 5 colums of 4 ASCII characters
 
-    if (textualRepresentation.firstVisibleCol > 0 && (protagonistX - textualRepresentation.firstVisibleCol) < offsetLimit) {
+    if (textualRepresentation.firstVisibleCol > 0 && (protagonistX - textualRepresentation.firstVisibleCol) < 4*textualRepresentation.offsetLimit) {
         textualRepresentation.firstVisibleCol -= 4;
     }
 
@@ -103,10 +101,9 @@ void TextualView::moveVisibleViewLeft() {
 void TextualView::moveVisibleViewRight() {
     const int protagonistX = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos() * 4;
     const int maxColOffset = 4 * ((*levels)[*(gameController->getActiveLevelIndex())]->cols - textualRepresentation.visibleWidth);
-    const int offsetLimit = 20;  // 20 -> 5 colums of 4 ASCII characters
 
     if (textualRepresentation.firstVisibleCol < maxColOffset &&
-        (textualRepresentation.firstVisibleCol + textualRepresentation.visibleWidth * 4 - protagonistX) < offsetLimit) {
+        (textualRepresentation.firstVisibleCol + textualRepresentation.visibleWidth * 4 - protagonistX) < 4*textualRepresentation.offsetLimit) {
         textualRepresentation.firstVisibleCol += 4;
     }
 

@@ -72,7 +72,6 @@ private:
     void setStatBars(float health, float energy);
     void protagonistStatus(float health, float energy);
     void keyPressEvent(QKeyEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
     void switchOverlayStatus();
 
 private slots:

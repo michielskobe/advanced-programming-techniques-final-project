@@ -12,6 +12,7 @@ struct TextualRepresentation {
     int visibleHeight;
     int firstVisibleRow;
     int firstVisibleCol;
+    int offsetLimit;
 };
 
 extern TextualRepresentation textualRepresentation;

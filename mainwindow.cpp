@@ -220,9 +220,22 @@ void MainWindow::zoomIn()
     if (currentWorldView == graphicalWorldView){
         ui->graphicsView->scale(1.1, 1.1);
     }
-    else if (currentWorldView == textualWorldView){
-        ui->textView->zoomIn(2.5);
+    else if (currentWorldView == textualWorldView && ui->textView->font().pointSize() < 18){
+        // Increase font size
+        QFont font = ui->textView->font();
+        int currentFontSize = font.pointSize();
+        font.setPointSize(currentFontSize + 1);
+        ui->textView->setFont(font);
+
+        // Decrease nr of visisble rows and collums
+        textualRepresentation.visibleWidth -= 1;
+        textualRepresentation.visibleHeight -= 1;
+
+        // Adjust border
+        textualRepresentation.firstVisibleRow = std::min(textualRepresentation.firstVisibleRow, 2 * ((*levels)[*(gameController->getActiveLevelIndex())]->rows - textualRepresentation.visibleHeight));
+        textualRepresentation.firstVisibleCol = std::min(textualRepresentation.firstVisibleCol, 4 * ((*levels)[*(gameController->getActiveLevelIndex())]->cols - textualRepresentation.visibleWidth));
     }
+    updateMainUI();
 }
 
 
@@ -232,27 +245,29 @@ void MainWindow::zoomOut()
     if (currentWorldView == graphicalWorldView){
         ui->graphicsView->scale(0.9, 0.9);
     }
-    else if (currentWorldView == textualWorldView){
-        ui->textView->zoomOut(2.5);
+    else if (currentWorldView == textualWorldView && ui->textView->font().pointSize() > 10){
+        // Decrease font size
+        QFont font = ui->textView->font();
+        int currentFontSize = font.pointSize();
+        font.setPointSize(currentFontSize - 1);
+        ui->textView->setFont(font);
+
+        // Increase nr of visisble rows and collums
+        textualRepresentation.visibleWidth += 1;
+        textualRepresentation.visibleHeight += 1;
+
+        // Adjust border
+        textualRepresentation.firstVisibleRow = std::min(textualRepresentation.firstVisibleRow, 2 * ((*levels)[*(gameController->getActiveLevelIndex())]->rows - textualRepresentation.visibleHeight));
+        textualRepresentation.firstVisibleCol = std::min(textualRepresentation.firstVisibleCol, 4 * ((*levels)[*(gameController->getActiveLevelIndex())]->cols - textualRepresentation.visibleWidth));
     }
+    updateMainUI();
 
 
-}
-
-void MainWindow::wheelEvent(QWheelEvent *event)
-{
-    if (event->modifiers() & Qt::ControlModifier) {
-        event->accept();
-        (event->angleDelta().y() > 0) ? zoomIn() : zoomOut();
-    }
 }
 
 void MainWindow::updateMainUI()
 {
     qCInfo(MainWindowCat) << "Updating main window!";
-
-    int verticalScrollPos = ui->textView->verticalScrollBar()->value();
-    int horizontalScrollPos = ui->textView->horizontalScrollBar()->value();
 
     // Update stats bars
     setStatBars(gameController->getActiveProtagonistHealth(), gameController->getActiveProtagonistEnergy());
@@ -269,17 +284,20 @@ void MainWindow::updateMainUI()
         graphicalOverlayView->updateView();
     }
     else if (currentWorldView == textualWorldView){
+        int verticalScrollPos = ui->textView->verticalScrollBar()->value();
+        int horizontalScrollPos = ui->textView->horizontalScrollBar()->value();
+
         textualEnemyView->updateView();
         textualHealthpackView->updateView();
         textualProtagonistView->updateView();
+
+        ui->textView->verticalScrollBar()->setValue(verticalScrollPos);
+        ui->textView->horizontalScrollBar()->setValue(horizontalScrollPos);
     }
 
     // Center view on protagonist
     QPointF protagonistPos((*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos()*50, (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos()*50);
     ui->graphicsView->centerOn(protagonistPos);
-
-    ui->textView->verticalScrollBar()->setValue(verticalScrollPos);
-    ui->textView->horizontalScrollBar()->setValue(horizontalScrollPos);
 }
 
 void MainWindow::onTabChanged(int index)
