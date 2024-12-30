@@ -313,8 +313,8 @@ void MainWindow::onTabChanged(int index)
         // Text view tab selected
         qCInfo(MainWindowCat) << "Switched to Text View.";
         currentWorldView = textualWorldView;
-        ui->overlayButton->setHidden(false);
-        ui->overlay_label->setHidden(false);
+        ui->overlayButton->setHidden(true);
+        ui->overlay_label->setHidden(true);
     }
     updateMainUI();
 }
