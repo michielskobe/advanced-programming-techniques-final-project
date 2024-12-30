@@ -23,23 +23,19 @@ void GraphicalWorldView::updateView() {
     QPixmap modifiedPixmap = QPixmap::fromImage(image);
     scene->addPixmap(modifiedPixmap)->setScale(positionScalingFactor);
 
-    for (int y = 0; y < image.height(); ++y) {
-        for (int x = 0; x < image.width(); ++x) {
-            const int index = x + y * ((*levels)[*(gameController->activeLevelIndex)]->cols);
-            auto tile = ((*levels)[*(gameController->activeLevelIndex)]->tiles)[index].get();
-            const int poisonDmg = tile->damageMultiplier;
-            if (poisonDmg) {
-                QGraphicsRectItem *rect = new QGraphicsRectItem(x*positionScalingFactor, y*positionScalingFactor, positionScalingFactor, positionScalingFactor);
-                QColor color = image.pixelColor(x, y);
-                int intensity = (color.red() + color.green() + color.blue()) / 3;
-                QBrush brush(QColor(intensity, 0, intensity));
-                rect->setBrush(brush);
-                rect->setZValue(2);
-                rect->setPen(Qt::NoPen);
-                scene->addItem(rect);
-            }
+    const auto& tiles = (*levels)[*(gameController->activeLevelIndex)]->tiles;
+    std::for_each(tiles.begin(), tiles.end(), [this](const auto &tile) {
+        if (tile->damageMultiplier > 0) {
+            const int x = tile->getXPos();
+            const int y = tile->getYPos();
+            auto rect = std::make_unique<QGraphicsRectItem>(x * positionScalingFactor, y * positionScalingFactor, positionScalingFactor, positionScalingFactor);
+            QBrush brush(QColor(255*tile->getValue(), 0, 255*tile->getValue()));
+            rect->setBrush(brush);
+            rect->setZValue(2);
+            rect->setPen(Qt::NoPen);
+            scene->addItem(rect.release());
         }
-    }
+    });
 
     auto portalIn = std::make_unique<QGraphicsPixmapItem>(QPixmap(":/images/portal_in.png"));
     auto portalOut = std::make_unique<QGraphicsPixmapItem>(QPixmap(":/images/portal_out.png"));
