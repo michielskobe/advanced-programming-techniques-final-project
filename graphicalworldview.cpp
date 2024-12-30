@@ -19,9 +19,11 @@ void GraphicalWorldView::updateView() {
     characterPixmapItems.clear();
 
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldImageLocation;
-    QImage image(imageFile);
-    QPixmap modifiedPixmap = QPixmap::fromImage(image);
-    scene->addPixmap(modifiedPixmap)->setScale(positionScalingFactor);
+    auto worldPixmapItem = std::make_unique<QGraphicsPixmapItem>(QPixmap(imageFile));
+    worldPixmapItem->setScale(positionScalingFactor);
+    worldPixmapItem->setZValue(0);
+    scene->addItem(worldPixmapItem.get());
+    characterPixmapItems.emplace_back(std::move(worldPixmapItem));
 
     const auto& tiles = (*levels)[*(gameController->activeLevelIndex)]->tiles;
     std::for_each(tiles.begin(), tiles.end(), [this](const auto &tile) {
