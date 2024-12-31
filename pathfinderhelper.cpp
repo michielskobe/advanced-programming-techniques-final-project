@@ -6,7 +6,7 @@ QLoggingCategory pathFinderHelperCat("PathFinderHelper");
 
 PathFinderHelper::PathFinderHelper() {}
 
-std::vector<int> PathFinderHelper::getPath(std::vector<std::unique_ptr<PathFinderNode> > &tiles, const int startPos, const int destPos, const int width)
+std::vector<std::pair<int, int>> PathFinderHelper::getPath(std::vector<std::unique_ptr<PathFinderNode> > &tiles, const int startPos, const int destPos, const int width)
 {
     std::vector<PathFinderNode> nodes;
     auto start = high_resolution_clock::now();
@@ -35,7 +35,24 @@ std::vector<int> PathFinderHelper::getPath(std::vector<std::unique_ptr<PathFinde
     stop = high_resolution_clock::now();
     duration = duration_cast<microseconds>(stop - start);
     qCInfo(pathFinderHelperCat) << "It took this many microseconds to find a path: " << duration.count();
-    return res;
+
+    std::array<std::pair<int, int>, 8> directions = {
+        std::make_pair(0, -1),
+        std::make_pair(1, -1),
+        std::make_pair(1, 0),
+        std::make_pair(1, 1),
+        std::make_pair(0, 1),
+        std::make_pair(-1, 1),
+        std::make_pair(-1, 0),
+        std::make_pair(-1, -1)
+    };
+
+    std::vector<std::pair<int, int>> res_pair;
+    foreach (auto& step, res) {
+        res_pair.push_back(directions[step]);
+    }
+
+    return res_pair;
 }
 
 void PathFinderHelper::convNodes(const std::vector<std::unique_ptr<Tile> > &tiles, std::vector<PathFinderNode> &nodes)

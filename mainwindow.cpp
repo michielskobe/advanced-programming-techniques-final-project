@@ -152,28 +152,16 @@ void MainWindow::handleGotoCommand(const QStringList &args)
     const int startPos = curX + curY * nrofCols;
     const int destPos = x + y * nrofCols;
     auto moves = pfHelper.getPath((*levels)[*(gameController->activeLevelIndex)]->tiles, startPos, destPos, nrofCols);
-    const std::array<std::pair<int, int>, 8> directions = {
-        std::make_pair(0, -1),
-        std::make_pair(1, -1),
-        std::make_pair(1, 0),
-        std::make_pair(1, 1),
-        std::make_pair(0, 1),
-        std::make_pair(-1, 1),
-        std::make_pair(-1, 0),
-        std::make_pair(-1, -1)
-    };
 
-    std::for_each(moves.begin(), moves.end(), [this, directions](int move) {
-        if (move >= 0 && move < (int)directions.size()) {
-            auto [dx, dy] = directions[move];
+    std::for_each(moves.begin(), moves.end(), [this](auto move) {
+        auto [dx, dy] = move;
 
-            // Split diagonal moves into two separate steps
-            if (dx != 0 && dy != 0) {
-                gameController->moveProtagonistRelative(dx, 0);
-                gameController->moveProtagonistRelative(0, dy);
-            } else {
-                gameController->moveProtagonistRelative(dx, dy);
-            }
+        // Split diagonal moves into two separate steps
+        if (dx != 0 && dy != 0) {
+            gameController->moveProtagonistRelative(dx, 0);
+            gameController->moveProtagonistRelative(0, dy);
+        } else {
+            gameController->moveProtagonistRelative(dx, dy);
         }
     });
 }

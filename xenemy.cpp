@@ -44,40 +44,14 @@ void XEnemy::setUpdatePositionAllowed(bool newUpdatePositionAllowed)
     updatePositionAllowed = newUpdatePositionAllowed;
 }
 
-void XEnemy::updatePosition(int path)
+void XEnemy::updatePosition(std::pair<int, int> move)
 {
-    switch (path) {
-    case 0:
-        yPos = yPos-1;
-        break;
-    case 1:
-        yPos = yPos-1;
-        xPos = xPos+1;
-        break;
-    case 2:
-        xPos = xPos+1;
-        break;
-    case 3:
-        yPos = yPos+1;
-        xPos = xPos+1;
-        break;
-    case 4:
-        yPos = yPos+1;
-        break;
-    case 5:
-        yPos = yPos+1;
-        xPos = xPos-1;
-        break;
-    case 6:
-        xPos = xPos-1;
-        break;
-    case 7:
-        yPos = yPos-1;
-        xPos = xPos-1;
-        break;
-    default:
-        break;
-    }
+    // perform move
+    auto [dx, dy] = move;
+    xPos += dx;
+    yPos += dy;
+
+    // update health and UI
     setHealth(getHealth()-DifficultyController::GetInstance()->getXEnemyHealthLossMove());
     emit(positionXEnemyUpdated());
 }

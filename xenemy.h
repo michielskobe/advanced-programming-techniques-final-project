@@ -20,7 +20,7 @@ public:// methods
     void setHealth(float newHealth);
     bool getUpdatePositionAllowed() const;
     void setUpdatePositionAllowed(bool newUpdatePositionAllowed);
-    void updatePosition(int path);
+    void updatePosition(std::pair<int, int> move);
     int protagonistDistance() const;
     float getAttacked(const float damage) override;
 
