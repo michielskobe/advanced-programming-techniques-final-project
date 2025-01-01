@@ -8,8 +8,6 @@
 
 GraphicalEnemyView::GraphicalEnemyView(QGraphicsScene* scene)
     : GraphicalView(scene) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
 }
 
 void GraphicalEnemyView::updateView() {

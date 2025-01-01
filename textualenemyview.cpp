@@ -1,5 +1,4 @@
 #include "textualenemyview.h"
-#include "textualworldview.h"
 #include "levelmanager.h"
 #include "gamecontroller.h"
 #include "ownpenemy.h"
@@ -7,8 +6,6 @@
 
 TextualEnemyView::TextualEnemyView(QTextEdit* textView)
     : TextualView(textView) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
 }
 
 void TextualEnemyView::updateView() {

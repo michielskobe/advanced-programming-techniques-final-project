@@ -4,8 +4,6 @@
 
 GraphicalHealthpackView::GraphicalHealthpackView(QGraphicsScene* scene)
     : GraphicalView(scene) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
 }
 
 void GraphicalHealthpackView::updateView() {

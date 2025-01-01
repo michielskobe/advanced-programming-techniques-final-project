@@ -4,8 +4,6 @@
 
 GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
     : GraphicalView(scene) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
     connectSlots();
 
     characterPixmap = QPixmap(":/images/Protagonist.png");

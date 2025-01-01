@@ -1,13 +1,10 @@
 #include "textualprotagonistview.h"
-#include "textualworldview.h"
 #include "levelmanager.h"
 #include "gamecontroller.h"
 #include <QTimer>
 
 TextualProtagonistView::TextualProtagonistView(QTextEdit* textView)
     : TextualView(textView) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
     characterRepresentation = " ☺ ";
     connectSlots();
 }

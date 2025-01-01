@@ -1,13 +1,10 @@
 #include "graphicalworldview.h"
-#include <QImage>
-#include <QColor>
 #include "levelmanager.h"
 #include "gamecontroller.h"
+#include <QColor>
 
 GraphicalWorldView::GraphicalWorldView(QGraphicsScene* scene)
     : GraphicalView(scene) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
 }
 
 void GraphicalWorldView::updateView() {

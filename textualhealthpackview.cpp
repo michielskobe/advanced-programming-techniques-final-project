@@ -1,12 +1,9 @@
 #include "textualhealthpackview.h"
-#include "textualworldview.h"
 #include "levelmanager.h"
 #include "gamecontroller.h"
 
 TextualHealthpackView::TextualHealthpackView(QTextEdit* textView)
     : TextualView(textView) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
     characterRepresentation = "❤";
 }
 

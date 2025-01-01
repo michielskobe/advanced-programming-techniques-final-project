@@ -4,8 +4,6 @@
 
 TextualWorldView::TextualWorldView(QTextEdit* textView)
     : TextualView(textView) {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
     connectSlots();
 }
 

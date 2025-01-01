@@ -1,16 +1,12 @@
 #include "textualview.h"
 #include "levelmanager.h"
 #include "gamecontroller.h"
-#include <QDebug>
-#include <QtLogging>
-#include <QLoggingCategory>
+
 TextualRepresentation textualRepresentation;
 
 TextualView::TextualView(QTextEdit* textView)
     :textView(textView)
 {
-    levels = LevelManager::GetInstance()->getLevels();
-    gameController = GameController::GetInstance();
     textualRepresentation.completeWorldRepresentation = generateTextRepresentation();
     textualRepresentation.visibleWorldRepresentation = "";
     textualRepresentation.visibleWidth = 15;
@@ -21,7 +17,6 @@ TextualView::TextualView(QTextEdit* textView)
 }
 
 void TextualView::connectSlots() {
-    qInfo() << "Connecting slots for TextualView";
     QObject::connect(gameController, &GameController::textualWorldMoveUp, this, &TextualView::moveVisibleViewUp, Qt::UniqueConnection);
     QObject::connect(gameController, &GameController::textualWorldMoveDown, this, &TextualView::moveVisibleViewDown, Qt::UniqueConnection);
     QObject::connect(gameController, &GameController::textualWorldMoveLeft, this, &TextualView::moveVisibleViewLeft, Qt::UniqueConnection);
