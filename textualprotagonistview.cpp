@@ -4,7 +4,7 @@
 #include <QTimer>
 
 TextualProtagonistView::TextualProtagonistView(QTextEdit* textView)
-    : TextualView(textView) {
+    : TextualView {textView} {
     characterRepresentation = " ☺ ";
     connectSlots();
 }

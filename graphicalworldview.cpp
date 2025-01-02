@@ -4,7 +4,7 @@
 #include <QColor>
 
 GraphicalWorldView::GraphicalWorldView(QGraphicsScene* scene)
-    : GraphicalView(scene) {
+    : GraphicalView {scene} {
 }
 
 void GraphicalWorldView::updateView() {
@@ -14,6 +14,7 @@ void GraphicalWorldView::updateView() {
         scene->removeItem(item);
     }
     characterPixmapItems.clear();
+    characterPixmapItems.reserve(3);
 
     QString imageFile = (*levels)[*(gameController->activeLevelIndex)]->worldImageLocation;
     auto worldPixmapItem = std::make_unique<QGraphicsPixmapItem>(QPixmap(imageFile));

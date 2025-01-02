@@ -5,7 +5,7 @@
 TextualRepresentation textualRepresentation;
 
 TextualView::TextualView(QTextEdit* textView)
-    :textView(textView)
+    :textView {textView}
 {
     textualRepresentation.completeWorldRepresentation = generateTextRepresentation();
     textualRepresentation.visibleWorldRepresentation = "";

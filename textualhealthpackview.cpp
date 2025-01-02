@@ -3,7 +3,7 @@
 #include "gamecontroller.h"
 
 TextualHealthpackView::TextualHealthpackView(QTextEdit* textView)
-    : TextualView(textView) {
+    : TextualView {textView} {
     characterRepresentation = "❤";
 }
 

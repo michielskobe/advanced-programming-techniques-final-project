@@ -5,7 +5,7 @@
 #include "xenemy.h"
 
 TextualEnemyView::TextualEnemyView(QTextEdit* textView)
-    : TextualView(textView) {
+    : TextualView {textView} {
 }
 
 void TextualEnemyView::updateView() {

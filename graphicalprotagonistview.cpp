@@ -3,7 +3,7 @@
 #include "gamecontroller.h"
 
 GraphicalProtagonistView::GraphicalProtagonistView(QGraphicsScene* scene)
-    : GraphicalView(scene) {
+    : GraphicalView {scene} {
     connectSlots();
 
     characterPixmap = QPixmap(":/images/Protagonist.png");

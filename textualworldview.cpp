@@ -3,7 +3,7 @@
 #include "gamecontroller.h"
 
 TextualWorldView::TextualWorldView(QTextEdit* textView)
-    : TextualView(textView) {
+    : TextualView {textView} {
     connectSlots();
 }
 

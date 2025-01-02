@@ -3,7 +3,7 @@
 #include "gamecontroller.h"
 
 GraphicalOverlayView::GraphicalOverlayView(QGraphicsScene* scene)
-    : GraphicalView(scene) {
+    : GraphicalView {scene} {
 }
 
 void GraphicalOverlayView::updateView(){
