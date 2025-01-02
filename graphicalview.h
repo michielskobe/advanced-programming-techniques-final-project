@@ -11,9 +11,9 @@ class GraphicalView : public View
 {
 public:
     GraphicalView(QGraphicsScene* scene);
-    virtual ~GraphicalView() = default;
+    ~GraphicalView() = default;
 
-    virtual void updateView() = 0;
+    void updateView() = 0;
 
 protected:
     QGraphicsScene* scene;

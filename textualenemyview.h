@@ -8,6 +8,7 @@ class TextualEnemyView : public TextualView
 {
 public:
     TextualEnemyView(QTextEdit* textView);
+    ~TextualEnemyView() = default;
 
     void updateView() override;
 };

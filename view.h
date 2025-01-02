@@ -13,7 +13,7 @@ class View : public QObject
     Q_OBJECT
 public:
     View();
-    ~View() = default;
+    virtual ~View() = default;
 
     virtual void updateView() = 0;
 

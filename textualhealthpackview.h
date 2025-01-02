@@ -8,6 +8,7 @@ class TextualHealthpackView : public TextualView
 {
 public:
     TextualHealthpackView(QTextEdit* textView);
+    ~TextualHealthpackView() = default;
 
     void updateView() override;
 };

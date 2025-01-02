@@ -7,6 +7,7 @@ class TextualWorldView : public TextualView
 {
 public:
     TextualWorldView(QTextEdit* textView);
+    ~TextualWorldView() = default;
 
     void updateView() override;
 

@@ -10,6 +10,7 @@ class TextualProtagonistView : public TextualView
     Q_OBJECT
 public:
     TextualProtagonistView(QTextEdit* textView);
+    ~TextualProtagonistView() = default;
 
     void updateView() override;
     void connectSlots();

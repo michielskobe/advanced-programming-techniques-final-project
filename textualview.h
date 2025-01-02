@@ -22,9 +22,9 @@ class TextualView : public View
 
 public:
     TextualView(QTextEdit* textView);
-    virtual ~TextualView() = default;
+    ~TextualView() = default;
 
-    virtual void updateView() = 0;
+    void updateView() = 0;
     void connectSlots();
 
 public slots:
