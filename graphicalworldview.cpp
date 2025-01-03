@@ -34,6 +34,16 @@ void GraphicalWorldView::updateView() {
             rect->setPen(Qt::NoPen);
             scene->addItem(rect.release());
         }
+        if(tile->getAutoPlayHighlight()){
+            const int x = tile->getXPos();
+            const int y = tile->getYPos();
+            auto rect = std::make_unique<QGraphicsRectItem>(x * positionScalingFactor, y * positionScalingFactor, positionScalingFactor, positionScalingFactor);
+            QBrush brush(QColor(0, 255*tile->getValue(), 255*tile->getValue()));
+            rect->setBrush(brush);
+            rect->setZValue(2);
+            rect->setPen(Qt::NoPen);
+            scene->addItem(rect.release());
+        }
     });
 
     auto portalIn = std::make_unique<QGraphicsPixmapItem>(QPixmap(":/images/portal_in.png"));

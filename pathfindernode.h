@@ -22,6 +22,7 @@ public: // attributes
 
     float damageMultiplier{0.0f};
     bool playerVisited;
+    bool autoPlayHighlight{false};
 
     void setPoison();
 
@@ -34,6 +35,9 @@ public: // attributes
 //     void removePoison();
     bool getPlayerVisited() const;
     void setPlayerVisited(bool newPlayerVisited);
+    bool getAutoPlayHighlight() const;
+    void setAutoPlayHighlight(bool newAutoPlayHighlight);
+    void resetAutoPlayHighlight();
 };
 
 #endif // PATHFINDERNODE_H

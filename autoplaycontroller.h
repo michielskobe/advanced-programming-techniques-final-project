@@ -27,6 +27,7 @@ public:
     int findClosestEnemy();
     float findDistance(Tile & t1, Tile & t2);
     std::vector<std::pair<int, int>> getPathToDest(const int destIndex);
+    void highlightCurrentPath();
 
 protected:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;

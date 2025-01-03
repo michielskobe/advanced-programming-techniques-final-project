@@ -26,6 +26,21 @@ PathFinderNode::PathFinderNode(const Tile &worldTile): Tile(worldTile.getXPos(),
 
 }
 
+bool PathFinderNode::getAutoPlayHighlight() const
+{
+    return autoPlayHighlight;
+}
+
+void PathFinderNode::setAutoPlayHighlight(bool newAutoPlayHighlight)
+{
+    autoPlayHighlight = newAutoPlayHighlight;
+}
+
+void PathFinderNode::resetAutoPlayHighlight()
+{
+    autoPlayHighlight = false;
+}
+
 bool PathFinderNode::getPlayerVisited() const
 {
     return playerVisited;

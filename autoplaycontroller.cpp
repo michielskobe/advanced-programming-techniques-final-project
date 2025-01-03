@@ -68,9 +68,29 @@ std::vector<std::pair<int, int> > AutoPlayController::getPathToDest(const int de
     return pfHelper.getPath((*levels)[*(gameController->getActiveLevelIndex())]->tiles, protagonistIndex, destIndex, (*levels)[*(gameController->getActiveLevelIndex())]->cols);
 }
 
+void AutoPlayController::highlightCurrentPath()
+{
+    std::for_each((*levels)[*(gameController->getActiveLevelIndex())]->tiles.begin(), (*levels)[*(gameController->getActiveLevelIndex())]->tiles.end(), [this](const auto &tile) {
+        tile->resetAutoPlayHighlight();
+    });
+
+    int Xindex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos();
+    int Yindex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
+    const int cols = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+    foreach (auto & move, currentPath) {
+        const auto tileIndex = Xindex + Yindex * cols;
+        (*levels)[*(gameController->getActiveLevelIndex())]->tiles[tileIndex]->setAutoPlayHighlight(true);
+        auto [dx, dy] = move;
+        Xindex += dx;
+        Yindex += dy;
+    }
+
+}
+
 void AutoPlayController::walkPath()
 {
     if(!currentPath.empty()){
+        highlightCurrentPath();
         auto move = currentPath[0];
         auto [dx, dy] = move;
         qCInfo(autoplayControllerCat) << "Performing move: " << move;
