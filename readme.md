@@ -17,6 +17,7 @@ The final code can be found on the `main` branch.
     * attack nearest enemy
     * take nearest health pack
     * help
+    * use magic portal (for level switching)
  * Tab completion in text-based representation
  * Difficulty controller
  * Protagonist animations in Graphical representation:

@@ -100,6 +100,11 @@ void MainWindow::setupCommandHandler()
     commandHandlers["take nearest health pack"] = [this](const QStringList &) {
         takeNearestHealthPack();
     };
+    commandHandlers["use magic portal"] = [this](const QStringList &) {
+        QList<QString> coordinates;
+        coordinates << "8" << "2";
+        handleGotoCommand(coordinates);
+    };
     commandHandlers["help"] = [this](const QStringList &) {
         displayHelp();
     };
