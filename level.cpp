@@ -14,6 +14,9 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
     World world = World();
     world.createWorld(fileName, nrOfEnemies, nrOfHealthpacks, pRatio);
 
+    rows = world.getRows();
+    cols = world.getCols();
+
     auto tempTiles = world.getTiles();
     for (int i = 0; i < (int)(tempTiles).size(); i++){
         auto reference = (&(*(tempTiles[i])));
@@ -33,12 +36,12 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
                 auto newEnemy = new OwnEnemy(*reference);
                 enemies.emplace_back(newEnemy);
             }
+            // Set the tile value under enemy high, so that pathfinder tries to avoid it
+            setTileValue(reference->getXPos(), reference->getYPos(), 10000000000000000000000000.0f);
         }
-
     }
+
     healthPacks = world.getHealthPacks();
-    rows = world.getRows();
-    cols = world.getCols();
     protagonist = world.getProtagonist();
     worldImageLocation = fileName;
     worldOverlayLocation = fileName;
@@ -114,6 +117,30 @@ float Level::getTileValue(const int absoluteX, const int absoluteY) const
     return tiles[index].get()->getValue();
 }
 
+void Level::setTileValue(const int absoluteX, const int absoluteY, const float newValue)
+{
+    bool canSet{true};
+    // check for non valid positions
+    if (absoluteX < 0 || absoluteY < 0 || absoluteY >= cols || absoluteX >= rows){
+        qCInfo(LevelCat) << "Invalid tile position, can not set value for position x=" << absoluteX << " y=" << absoluteY;
+        canSet = false;
+    }
+
+    // Calculate tile index:
+    const int index = absoluteX + absoluteY * cols;
+
+    // check if index is out of bounds
+    if (index < 0 || index >= cols*rows){
+        qCInfo(LevelCat) << "Tile index is out of bounds, can not set value for position x=" << absoluteX << " y=" << absoluteY;
+        canSet = false;
+    }
+
+    // Set the value of the requested tile
+    if(canSet){
+        tiles[index].get()->setValue(newValue);
+    }
+}
+
 void Level::makePoisonTile(const int tileIndex)
 {
     tiles[tileIndex]->setPoison();
@@ -172,6 +199,7 @@ void Level::initXEnemy()
             auto newEnemy = new XEnemy(xpos, ypos, value);
             newEnemy->setHealth(cols*rows);
             enemies[i].reset(newEnemy);
+            setTileValue(xpos, ypos, 1.0f);
             // stop making XEnemy after 1 has been made, leave the rest as regular enemy
             break;
         }

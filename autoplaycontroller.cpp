@@ -25,7 +25,9 @@ void AutoPlayController::performAction()
 {
     qCInfo(autoplayControllerCat) << "Invoking autoplay action";
 
-    if(idle){
+    auto protagonistDead = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth() <= 0.5f || (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getEnergy() <= 0.5;
+
+    if(idle && !protagonistDead){
         idle = false;
         auto protHealth = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth();
 
@@ -130,7 +132,7 @@ void AutoPlayController::walkPath()
         qCInfo(autoplayControllerCat) << "Performing move: " << move;
         gameController->moveProtagonistRelative(dx, dy);
         currentPath.erase(currentPath.begin());
-        QTimer::singleShot(1000, this, SLOT(walkPath()));
+        QTimer::singleShot(100, this, SLOT(walkPath()));
     } else {
         idle = true;
     }

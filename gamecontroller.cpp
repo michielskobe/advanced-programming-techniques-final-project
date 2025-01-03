@@ -270,7 +270,7 @@ void GameController::initialGameLoad()
     // get levels from GameGenerator;
     std::vector<std::unique_ptr<Level>> levelCollection;
     levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap.png"));
-    levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap2.png"));
+    levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/maze1.png"));
     levelCollection.emplace_back(std::make_unique<Level>(":/images/world_images/worldmap4.png", 500, 500));
 
     LevelManager* levelManager = LevelManager::GetInstance();
