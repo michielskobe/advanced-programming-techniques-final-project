@@ -13,6 +13,15 @@ class AutoPlayController : public QObject
     Q_OBJECT
 public:
     AutoPlayController();
+    static AutoPlayController* autoPlayController;
+
+    // Singletons should not be cloneable or assignable.
+    AutoPlayController(AutoPlayController &other) = delete;
+    void operator=(const AutoPlayController &) = delete;
+
+    // This is the static method that controls the access to the singleton instance.
+    static AutoPlayController *GetInstance();
+
 
     void performAction();
     int findClosestEnemy();
@@ -22,7 +31,11 @@ public:
 protected:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
     GameController* gameController;
+    std::vector<std::pair<int, int>> currentPath;
 signals:
+
+public slots:
+    void walkPath();
 };
 
 #endif // AUTOPLAYCONTROLLER_H

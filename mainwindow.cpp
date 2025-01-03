@@ -366,7 +366,7 @@ void MainWindow::on_difficultyBox_valueChanged(int arg1)
 
 void MainWindow::on_autoplayButton_clicked()
 {
-    auto autoplay = AutoPlayController();
-    autoplay.performAction();
+    auto autoplay = AutoPlayController::GetInstance();
+    autoplay->performAction();
 }
 

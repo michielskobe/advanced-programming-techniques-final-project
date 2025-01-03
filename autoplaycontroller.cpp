@@ -1,11 +1,24 @@
 #include "autoplaycontroller.h"
+#include <unistd.h>
+#include <QTimer>
 
 QLoggingCategory autoplayControllerCat("autoplay");
+
+AutoPlayController* AutoPlayController::autoPlayController= nullptr;
+
 
 AutoPlayController::AutoPlayController()
 {
     levels = LevelManager::GetInstance()->getLevels();
     gameController = GameController::GetInstance();
+}
+
+AutoPlayController *AutoPlayController::GetInstance()
+{
+    if(autoPlayController==nullptr){
+        autoPlayController = new AutoPlayController();
+    }
+    return autoPlayController;
 }
 
 void AutoPlayController::performAction()
@@ -17,9 +30,11 @@ void AutoPlayController::performAction()
     // find path to the closest enemy
     auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
     auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-    auto pathToEnemy = getPathToDest(enemyTileIndex);
-    qCInfo(autoplayControllerCat) << "Closest enemy path is: " << pathToEnemy;
+    currentPath = getPathToDest(enemyTileIndex);
+    qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
 
+    // walk the found path
+    walkPath();
 }
 
 int AutoPlayController::findClosestEnemy()
@@ -51,4 +66,16 @@ std::vector<std::pair<int, int> > AutoPlayController::getPathToDest(const int de
     PathFinderHelper pfHelper = PathFinderHelper();
     const int protagonistIndex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos() + (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos()*(*levels)[*(gameController->getActiveLevelIndex())]->cols;
     return pfHelper.getPath((*levels)[*(gameController->getActiveLevelIndex())]->tiles, protagonistIndex, destIndex, (*levels)[*(gameController->getActiveLevelIndex())]->cols);
+}
+
+void AutoPlayController::walkPath()
+{
+    if(!currentPath.empty()){
+        auto move = currentPath[0];
+        auto [dx, dy] = move;
+        qCInfo(autoplayControllerCat) << "Performing move: " << move;
+        gameController->moveProtagonistRelative(dx, dy);
+        currentPath.erase(currentPath.begin());
+        QTimer::singleShot(1000, this, SLOT(walkPath()));
+    }
 }
