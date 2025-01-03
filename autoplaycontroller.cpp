@@ -24,14 +24,28 @@ AutoPlayController *AutoPlayController::GetInstance()
 void AutoPlayController::performAction()
 {
     qCInfo(autoplayControllerCat) << "Invoking autoplay action";
-    // find closest enemy
-    auto closestEnemyIndex = findClosestEnemy();
 
-    // find path to the closest enemy
-    auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
-    auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-    currentPath = getPathToDest(enemyTileIndex);
-    qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
+    auto protHealth = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth();
+
+    if (protHealth >= 25.0f){
+        // find closest enemy
+        auto closestEnemyIndex = findClosestEnemy();
+
+        // find path to the closest enemy
+        auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
+        auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+        currentPath = getPathToDest(enemyTileIndex);
+        qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
+    } else {
+        // find closest enemy
+        auto closestHealthPackIndex = findClosestHealthPack();
+
+        // find path to the closest enemy
+        auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[closestHealthPackIndex])));
+        auto healthPackTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+        currentPath = getPathToDest(healthPackTileIndex);
+        qCInfo(autoplayControllerCat) << "Closest healthPack path is: " << currentPath;
+    }
 
     // walk the found path
     walkPath();
@@ -54,6 +68,23 @@ int AutoPlayController::findClosestEnemy()
         }
     }
     return closestEnemy;
+}
+
+int AutoPlayController::findClosestHealthPack()
+{
+    float minDistance{1'000'000};
+    auto closestHealth{0};
+    auto protagonist = &((*levels)[*(gameController->getActiveLevelIndex())]->protagonist);
+
+    for (int i = 0; i < (int)((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks).size(); i++) {
+        auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[i])));
+        auto distance = findDistance(**protagonist, *reference);
+        if(distance < minDistance){
+            closestHealth = i;
+            minDistance = distance;
+        }
+    }
+    return closestHealth;
 }
 
 float AutoPlayController::findDistance(Tile &t1, Tile &t2)

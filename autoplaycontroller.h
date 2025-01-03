@@ -25,6 +25,7 @@ public:
 
     void performAction();
     int findClosestEnemy();
+    int findClosestHealthPack();
     float findDistance(Tile & t1, Tile & t2);
     std::vector<std::pair<int, int>> getPathToDest(const int destIndex);
     void highlightCurrentPath();
