@@ -26,9 +26,6 @@ public: // methods
     // This is the static method that controls the access to the singleton instance.
     static GameController *GetInstance();
 
-    void startAutoPlay();
-    void stopAutoPlay();
-
     void moveProtagonistRelative(int relativeX, int relativeY);
     void moveProtagonistAbsolute(int absoluteX, int absoluteY, const QString& direction);
     std::shared_ptr<int> getActiveLevelIndex() const;

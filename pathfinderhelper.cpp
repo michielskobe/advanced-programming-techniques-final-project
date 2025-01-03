@@ -27,7 +27,7 @@ std::vector<std::pair<int, int>> PathFinderHelper::getPath(std::vector<std::uniq
         return std::abs(p1.getXPos() - p2.getXPos()) + std::abs(p1.getYPos() - p2.getYPos());
     };
 
-    float heuristicWeight = 1.0f;
+    float heuristicWeight = 0.0000001f;
     start = high_resolution_clock::now();
     a_star = new PathFinder(nodes, &nodes[startPos], &nodes[destPos], nodeComparator, width, costFunction, distFunction, heuristicWeight);
     auto res = a_star->A_star();

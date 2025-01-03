@@ -192,19 +192,6 @@ bool GameController::detectWall(const int absoluteX, const int absoluteY)
  */
 void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 {
-    /*if (relativeX == 0 && relativeY == -1) {
-        emit protagonistMoveUpVisualisation();
-        emit textualWorldMoveUp();
-    } else if (relativeX == 0) {
-        emit protagonistMoveDownVisualisation();
-        emit textualWorldMoveDown();
-    } else if (relativeX == 1) {
-        emit protagonistMoveRightVisualisation();
-        emit textualWorldMoveRight();
-    } else {
-        emit protagonistMoveLeftVisualisation();
-        emit textualWorldMoveLeft();
-    }*/
     qCInfo(gameControllerCat) << "Moving player on level: " << *getActiveLevelIndex();
     qCInfo(gameControllerCat) << "Moving the player relatively: x=" << relativeX << " y=" << relativeY;
     int newXPos = (*levels)[*activeLevelIndex]->protagonist->getXPos() + relativeX;
@@ -219,7 +206,6 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
 
     } else {
         moveProtagonistAbsolute(newXPos, newYPos, "left");
-
     }
 
     /*

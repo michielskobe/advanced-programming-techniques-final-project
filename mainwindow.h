@@ -77,5 +77,6 @@ private:
 private slots:
     void on_activeLevelBox_valueChanged(int arg1);
     void on_difficultyBox_valueChanged(int arg1);
+    void on_autoplayButton_clicked();
 };
 #endif // MAINWINDOW_H

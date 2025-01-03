@@ -12,6 +12,7 @@
 #include "ui_mainwindow.h"
 #include "difficultycontroller.h"
 #include "pathfinderhelper.h"
+#include "autoplaycontroller.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
@@ -362,3 +363,20 @@ void MainWindow::on_difficultyBox_valueChanged(int arg1)
 {
     DifficultyController::GetInstance()->setDifficultySetting(arg1);
 }
+
+void MainWindow::on_autoplayButton_clicked()
+{
+    auto autoplay = AutoPlayController::GetInstance();
+
+    auto autoplayState = autoplay->getActivated();
+    if(autoplayState){
+        autoplay->setActivated(false);
+        ui->autoplayButton->setText("Disabled");
+    } else {
+        autoplay->setActivated(true);
+        autoplay->performAction();
+        ui->autoplayButton->setText("Enabled");
+    }
+
+}
+
