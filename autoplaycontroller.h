@@ -45,7 +45,6 @@ protected:
     std::vector<std::pair<int, int>> currentPath;
     enum AutoPlayState state{idle};
     bool activated{false};
-signals:
 
 public slots:
     void walkPath();
