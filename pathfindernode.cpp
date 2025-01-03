@@ -1,17 +1,5 @@
 #include "pathfindernode.h"
 #include "difficultycontroller.h"
-#include <QDateTime>
-#include <QImage>
-#include <QRgb>
-#include <QTimer>
-#include <QtDebug>
-#include <ctime>
-#include <iostream>
-#include <limits>
-#include <random>
-#include <sstream>
-#include <QtLogging>
-#include <QLoggingCategory>
 
 QLoggingCategory PathFinderNodeCat("PathFinderNode");
 
@@ -69,15 +57,5 @@ void PathFinderNode::resetPathFinderAttr()
 
 void PathFinderNode::setPoison()
 {
-    // int t = rand() % DifficultyController::GetInstance()->getPoisonTileLingeringTime();
     setDamageMultiplier(DifficultyController::GetInstance()->getPoisonTileDamageMul());
-    // qCInfo(PathFinderNodeCat) <<  "starting timer for " << t << " seconds for PoisonTile x=" << xPos << ", y=" << yPos;
-    // QTimer::singleShot(t * 1000, this, SLOT(removePoison()));
-
 }
-
-// void PathFinderNode::removePoison()
-// {
-//     qCInfo(PathFinderNodeCat) <<  "Removing tile poison for tile x=" << xPos << ", y=" << yPos;
-//     setDamageMultiplier(0.0f);
-// }
