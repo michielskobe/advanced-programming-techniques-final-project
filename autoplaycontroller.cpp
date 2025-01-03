@@ -1,6 +1,7 @@
 #include "autoplaycontroller.h"
 #include <unistd.h>
 #include <QTimer>
+#include "xenemy.h"
 
 QLoggingCategory autoplayControllerCat("autoplay");
 
@@ -73,7 +74,7 @@ std::optional<int> AutoPlayController::findClosestEnemy()
 
     for (int i = 0; i < (int)((*levels)[*(gameController->getActiveLevelIndex())]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[i])));
-        if(!reference->getDefeated()){ // no dead enemies
+        if(typeid(*reference) != typeid(XEnemy) && !reference->getDefeated()){ // no dead enemies and no XEnemy
             auto distance = findDistance(**protagonist, *reference);
             if(distance < minDistance){
                 closestEnemy = i;
