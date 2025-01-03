@@ -37,7 +37,7 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
                 enemies.emplace_back(newEnemy);
             }
             // Set the tile value under enemy high, so that pathfinder tries to avoid it
-            setTileValue(reference->getXPos(), reference->getYPos(), 10000000000000000000000000.0f);
+            setTileValue(reference->getXPos(), reference->getYPos(), 100000000000.0f);
         }
     }
 
@@ -46,7 +46,7 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
     worldImageLocation = fileName;
     worldOverlayLocation = fileName;
     worldOverlayLocation = worldOverlayLocation.replace("world_images", "overlay_images");
-    initXEnemy();
+    //initXEnemy();
 
 }
 

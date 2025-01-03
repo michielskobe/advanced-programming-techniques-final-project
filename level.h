@@ -15,7 +15,7 @@ class Level
 {
 public: //ctor + dctor
     Level();
-    Level(QString fileName, unsigned int nrOfEnemies = 20, unsigned int nrOfHealthpacks = 5, float pRatio = 0.25f);
+    Level(QString fileName, unsigned int nrOfEnemies = 20, unsigned int nrOfHealthpacks = 15, float pRatio = 0.25f);
 
 public: //attributes
     std::vector<std::unique_ptr<PathFinderNode>> tiles;
