@@ -120,7 +120,7 @@ float AutoPlayController::findDistance(Tile &t1, Tile &t2)
         auto path = pfHelper.getPath((*levels)[*(gameController->getActiveLevelIndex())]->tiles, protagonistIndex, destIndex, (*levels)[*(gameController->getActiveLevelIndex())]->cols);
         return path.size();
     } else {
-        return simpleDistance;
+        return simpleDistance * 20.f; // punish far away enemy distance
     }
 }
 

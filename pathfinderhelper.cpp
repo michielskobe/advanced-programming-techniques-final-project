@@ -20,14 +20,14 @@ std::vector<std::pair<int, int>> PathFinderHelper::getPath(std::vector<std::uniq
     };
 
     helper_func<PathFinderNode> costFunction = [](const PathFinderNode& p1, const PathFinderNode& p2) {
-        return p2.getValue();
+        return p2.getValue() + 2.0f;
     };
 
     helper_func<PathFinderNode> distFunction = [](const PathFinderNode& p1, const PathFinderNode& p2) {
         return std::abs(p1.getXPos() - p2.getXPos()) + std::abs(p1.getYPos() - p2.getYPos());
     };
 
-    float heuristicWeight = 0.0000001f;
+    float heuristicWeight = 0.01f;
     start = high_resolution_clock::now();
     a_star = new PathFinder(nodes, &nodes[startPos], &nodes[destPos], nodeComparator, width, costFunction, distFunction, heuristicWeight);
     auto res = a_star->A_star();
