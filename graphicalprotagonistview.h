@@ -22,6 +22,7 @@ protected:
     std::unique_ptr<QTimer> animationTimer;
     int currentFrame {0};
     std::vector<QPixmap> animationFrames;
+    bool isDead {false};
 };
 
 #endif // GRAPHICALPROTAGONISTVIEW_H

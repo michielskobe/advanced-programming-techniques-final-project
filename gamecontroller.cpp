@@ -240,8 +240,6 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY, const
             setActiveLevelIndex(*activeLevelIndex);
         }
         else {
-            healthPackLogic(absoluteX, absoluteY);
-            PoisonTileLogic(absoluteX, absoluteY);
             (*levels)[*activeLevelIndex]->moveProtagonistAbsolute(absoluteX, absoluteY);
             (*levels)[*activeLevelIndex]->markTileVisited(absoluteX, absoluteY);
             if (direction == "up") {
@@ -257,6 +255,8 @@ void GameController::moveProtagonistAbsolute(int absoluteX, int absoluteY, const
                 emit protagonistMoveLeftVisualisation();
                 emit textualWorldMoveLeft();
             }
+            healthPackLogic(absoluteX, absoluteY);
+            PoisonTileLogic(absoluteX, absoluteY);
         }
     }
     emit updateUI(); // update UI after calculating changes due to attempted move

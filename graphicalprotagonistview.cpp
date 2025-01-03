@@ -52,6 +52,7 @@ void GraphicalProtagonistView::updateForState(const QString& state) {
     };
 
     if (stateToFrames.contains(state)) {
+        if (isDead && state != "Dying") return;
         animationFrames = stateToFrames[state];
         animationTimer->stop();
         if (animationFrames.size() > 1) {
@@ -62,6 +63,7 @@ void GraphicalProtagonistView::updateForState(const QString& state) {
             animationTimer->stop();
             characterPixmapItem->setPixmap(animationFrames[0]);
         }
+        if (state == "Dying") {isDead = true;}
     }
 }
 
