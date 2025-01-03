@@ -12,6 +12,14 @@ The final code can be found on the `main` branch.
 
 ## Extra features:
 
- * goto command
+ * Extra interaction commands in text-based representation:
+    * goto x y
+    * attack nearest enemy
+    * take nearest health pack
+    * help
+ * Tab completion in text-based representation
  * Difficulty controller
- * Walking animations
+ * Protagonist animations in Graphical representation:
+    * Walking
+    * Attacking
+    * Being poisoned
