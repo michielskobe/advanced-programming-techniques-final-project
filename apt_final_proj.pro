@@ -10,6 +10,7 @@ CONFIG += c++20 console
 QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
 
 SOURCES += \
+    autoplaycontroller.cpp \
     difficultycontroller.cpp \
     gamecontroller.cpp \
     graphicalenemyview.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     xenemy.cpp
 
 HEADERS += \
+    autoplaycontroller.h \
     difficultycontroller.h \
     gamecontroller.h \
     graphicalenemyview.h \
