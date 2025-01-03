@@ -312,7 +312,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Do action</string>
+     <string>Disabled</string>
     </property>
    </widget>
   </widget>

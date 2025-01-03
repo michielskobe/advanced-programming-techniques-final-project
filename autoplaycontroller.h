@@ -23,22 +23,27 @@ public:
     static AutoPlayController *GetInstance();
 
 
-    void performAction();
+
     int findClosestEnemy();
     int findClosestHealthPack();
     float findDistance(Tile & t1, Tile & t2);
     std::vector<std::pair<int, int>> getPathToDest(const int destIndex);
     void highlightCurrentPath();
 
+    bool getActivated() const;
+    void setActivated(bool newActivated);
+
 protected:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
     GameController* gameController;
     std::vector<std::pair<int, int>> currentPath;
     bool idle{true};
+    bool activated{false};
 signals:
 
 public slots:
     void walkPath();
+    void performAction();
 };
 
 #endif // AUTOPLAYCONTROLLER_H

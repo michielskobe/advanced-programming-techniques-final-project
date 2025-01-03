@@ -64,7 +64,7 @@ int AutoPlayController::findClosestEnemy()
 
     for (int i = 0; i < (int)((*levels)[*(gameController->getActiveLevelIndex())]->enemies).size(); i++) {
         auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[i])));
-        if(!reference->getDefeated()){
+        if(!reference->getDefeated()){ // no dead enemies
             auto distance = findDistance(**protagonist, *reference);
             if(distance < minDistance){
                 closestEnemy = i;
@@ -123,6 +123,16 @@ void AutoPlayController::highlightCurrentPath()
 
 }
 
+bool AutoPlayController::getActivated() const
+{
+    return activated;
+}
+
+void AutoPlayController::setActivated(bool newActivated)
+{
+    activated = newActivated;
+}
+
 void AutoPlayController::walkPath()
 {
     if(!currentPath.empty()){
@@ -135,5 +145,8 @@ void AutoPlayController::walkPath()
         QTimer::singleShot(100, this, SLOT(walkPath()));
     } else {
         idle = true;
+        if(activated){
+            performAction();
+        }
     }
 }
