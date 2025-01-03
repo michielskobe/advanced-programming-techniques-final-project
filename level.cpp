@@ -46,7 +46,7 @@ Level::Level(QString fileName, unsigned int nrOfEnemies, unsigned int nrOfHealth
     worldImageLocation = fileName;
     worldOverlayLocation = fileName;
     worldOverlayLocation = worldOverlayLocation.replace("world_images", "overlay_images");
-    //initXEnemy();
+    initXEnemy();
 
 }
 
