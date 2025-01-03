@@ -112,12 +112,16 @@ std::optional<int> AutoPlayController::findClosestHealthPack()
 
 float AutoPlayController::findDistance(Tile &t1, Tile &t2)
 {
-    PathFinderHelper pfHelper = PathFinderHelper();
-    const int protagonistIndex = t1.getXPos() + t1.getYPos()*(*levels)[*(gameController->getActiveLevelIndex())]->cols;
-    const int destIndex = t2.getXPos() + t2.getYPos()*(*levels)[*(gameController->getActiveLevelIndex())]->cols;
-    auto path = pfHelper.getPath((*levels)[*(gameController->getActiveLevelIndex())]->tiles, protagonistIndex, destIndex, (*levels)[*(gameController->getActiveLevelIndex())]->cols);
-    return path.size();
-    //return std::abs(t1.getXPos() - t2.getXPos()) + std::abs(t1.getYPos() - t2.getYPos());
+    auto simpleDistance = std::abs(t1.getXPos() - t2.getXPos()) + std::abs(t1.getYPos() - t2.getYPos());
+    if(simpleDistance <= 50.0f){
+        PathFinderHelper pfHelper = PathFinderHelper();
+        const int protagonistIndex = t1.getXPos() + t1.getYPos()*(*levels)[*(gameController->getActiveLevelIndex())]->cols;
+        const int destIndex = t2.getXPos() + t2.getYPos()*(*levels)[*(gameController->getActiveLevelIndex())]->cols;
+        auto path = pfHelper.getPath((*levels)[*(gameController->getActiveLevelIndex())]->tiles, protagonistIndex, destIndex, (*levels)[*(gameController->getActiveLevelIndex())]->cols);
+        return path.size();
+    } else {
+        return simpleDistance;
+    }
 }
 
 std::vector<std::pair<int, int> > AutoPlayController::getPathToDest(const int destIndex)
@@ -157,6 +161,7 @@ bool AutoPlayController::getActivated() const
 void AutoPlayController::setActivated(bool newActivated)
 {
     activated = newActivated;
+    state = idle;
 }
 
 void AutoPlayController::walkPath()
