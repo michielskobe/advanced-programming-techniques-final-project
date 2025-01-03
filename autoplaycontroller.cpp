@@ -78,11 +78,11 @@ void AutoPlayController::highlightCurrentPath()
     int Yindex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
     const int cols = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
     foreach (auto & move, currentPath) {
-        const auto tileIndex = Xindex + Yindex * cols;
-        (*levels)[*(gameController->getActiveLevelIndex())]->tiles[tileIndex]->setAutoPlayHighlight(true);
         auto [dx, dy] = move;
         Xindex += dx;
         Yindex += dy;
+        const auto tileIndex = Xindex + Yindex * cols;
+        (*levels)[*(gameController->getActiveLevelIndex())]->tiles[tileIndex]->setAutoPlayHighlight(true);
     }
 
 }
