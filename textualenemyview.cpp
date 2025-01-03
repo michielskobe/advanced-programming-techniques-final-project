@@ -42,6 +42,5 @@ void TextualEnemyView::updateView() {
 
         textualRepresentation.visibleWorldRepresentation.replace(pos, 1, characterRepresentation);
     }
-
-    //textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
+    textView->setPlainText(textualRepresentation.visibleWorldRepresentation);
 }

@@ -15,6 +15,7 @@
 #include "graphicalhealthpackview.h"
 #include "textualhealthpackview.h"
 #include "graphicaloverlayview.h"
+#include "autoplaycontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -44,6 +45,7 @@ private:
 
     GameController* gameController;
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
+    AutoPlayController* autoplay;
 
     World world;
     View* currentWorldView;
@@ -68,6 +70,9 @@ private:
     void initializeGameComponents();
     void connectSlots();
     void handleGotoCommand(const QStringList &args);
+    void executePathFinderTextCommand(const int destPos);
+    void attackNearestEnemy();
+    void takeNearestHealthPack();
     void displayHelp();
     void setStatBars(float health, float energy);
     void protagonistStatus(float health, float energy);

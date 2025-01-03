@@ -12,7 +12,6 @@
 #include "ui_mainwindow.h"
 #include "difficultycontroller.h"
 #include "pathfinderhelper.h"
-#include "autoplaycontroller.h"
 
 QLoggingCategory MainWindowCat("MainWindow");
 
@@ -25,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialize singletons
     gameController = GameController::GetInstance();
     levels = LevelManager::GetInstance()->getLevels();
+    autoplay = AutoPlayController::GetInstance();
 
     // Setup UI
     ui->setupUi(this);
@@ -94,6 +94,12 @@ void MainWindow::setupCommandHandler()
     commandHandlers["goto"] = [this](const QStringList &args) {
         handleGotoCommand(args);
     };
+    commandHandlers["attack nearest enemy"] = [this](const QStringList &) {
+        attackNearestEnemy();
+    };
+    commandHandlers["take nearest health pack"] = [this](const QStringList &) {
+        takeNearestHealthPack();
+    };
     commandHandlers["help"] = [this](const QStringList &) {
         displayHelp();
     };
@@ -147,11 +153,37 @@ void MainWindow::handleGotoCommand(const QStringList &args)
     }
 
     qCInfo(MainWindowCat) << "Moving protagonist to: " << x << y;
-    PathFinderHelper pfHelper = PathFinderHelper();
+    const int destPos = x + y * nrofCols;
+    executePathFinderTextCommand(destPos);
+}
+
+void MainWindow::takeNearestHealthPack() {
+    auto closestHealthPackIndex = autoplay->findClosestHealthPack();
+    if (closestHealthPackIndex){
+        auto healthpack = (&(*((*levels)[*(gameController->activeLevelIndex)]->healthPacks[*closestHealthPackIndex])));
+        const int nrofCols = (*levels)[*(gameController->activeLevelIndex)]->cols;
+        const int destPos = healthpack->getXPos() + healthpack->getYPos() *  nrofCols;
+        executePathFinderTextCommand(destPos);
+    }
+}
+
+void MainWindow::attackNearestEnemy() {
+    auto closestEnemyIndex = autoplay->findClosestEnemy();
+    if (closestEnemyIndex){
+        auto enemy = (&(*((*levels)[*(gameController->activeLevelIndex)]->enemies[*closestEnemyIndex])));
+        const int nrofCols = (*levels)[*(gameController->activeLevelIndex)]->cols;
+        const int destPos = enemy->getXPos() + enemy->getYPos() *  nrofCols;
+        executePathFinderTextCommand(destPos);
+    }
+}
+
+void MainWindow::executePathFinderTextCommand(const int destPos) {
+    const int nrofCols = (*levels)[*(gameController->activeLevelIndex)]->cols;
     const int curX = (*levels)[*(gameController->activeLevelIndex)]->protagonist->getXPos();
     const int curY = (*levels)[*(gameController->activeLevelIndex)]->protagonist->getYPos();
     const int startPos = curX + curY * nrofCols;
-    const int destPos = x + y * nrofCols;
+
+    PathFinderHelper pfHelper = PathFinderHelper();
     auto moves = pfHelper.getPath((*levels)[*(gameController->activeLevelIndex)]->tiles, startPos, destPos, nrofCols);
 
     std::for_each(moves.begin(), moves.end(), [this](auto move) {
@@ -209,13 +241,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::processCommand()
 {
     QString commandLine = ui->commandInput->text().toLower();
-    QStringList parts = commandLine.split(" ");
-    QString command = parts.takeFirst();
+    QStringList arguments;
 
-    if (commandHandlers.contains(command)) {
-        commandHandlers[command](parts);
+    if (commandHandlers.contains(commandLine)) {
+        commandHandlers[commandLine](arguments);
     } else {
-        qCInfo(MainWindowCat) << "Invalid command: " << command;
+        arguments = commandLine.split(" ");
+        QString command = arguments.takeFirst();
+        if (commandHandlers.contains(command)) {
+            commandHandlers[command](arguments);
+        } else {
+            qCInfo(MainWindowCat) << "Invalid command: " << commandLine;
+        }
     }
 
     ui->commandInput->clear();
@@ -366,8 +403,6 @@ void MainWindow::on_difficultyBox_valueChanged(int arg1)
 
 void MainWindow::on_autoplayButton_clicked()
 {
-    auto autoplay = AutoPlayController::GetInstance();
-
     auto autoplayState = autoplay->getActivated();
     if(autoplayState){
         autoplay->setActivated(false);
