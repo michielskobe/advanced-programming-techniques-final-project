@@ -34,6 +34,7 @@ protected:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
     GameController* gameController;
     std::vector<std::pair<int, int>> currentPath;
+    bool idle{true};
 signals:
 
 public slots:

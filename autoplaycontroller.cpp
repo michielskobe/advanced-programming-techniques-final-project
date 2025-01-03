@@ -25,30 +25,33 @@ void AutoPlayController::performAction()
 {
     qCInfo(autoplayControllerCat) << "Invoking autoplay action";
 
-    auto protHealth = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth();
+    if(idle){
+        idle = false;
+        auto protHealth = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth();
 
-    if (protHealth >= 25.0f){
-        // find closest enemy
-        auto closestEnemyIndex = findClosestEnemy();
+        if (protHealth >= 25.0f){
+            // find closest enemy
+            auto closestEnemyIndex = findClosestEnemy();
 
-        // find path to the closest enemy
-        auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
-        auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-        currentPath = getPathToDest(enemyTileIndex);
-        qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
-    } else {
-        // find closest enemy
-        auto closestHealthPackIndex = findClosestHealthPack();
+            // find path to the closest enemy
+            auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
+            auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+            currentPath = getPathToDest(enemyTileIndex);
+            qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
+        } else {
+            // find closest enemy
+            auto closestHealthPackIndex = findClosestHealthPack();
 
-        // find path to the closest enemy
-        auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[closestHealthPackIndex])));
-        auto healthPackTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-        currentPath = getPathToDest(healthPackTileIndex);
-        qCInfo(autoplayControllerCat) << "Closest healthPack path is: " << currentPath;
+            // find path to the closest enemy
+            auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[closestHealthPackIndex])));
+            auto healthPackTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+            currentPath = getPathToDest(healthPackTileIndex);
+            qCInfo(autoplayControllerCat) << "Closest healthPack path is: " << currentPath;
+        }
+
+        // walk the found path
+        walkPath();
     }
-
-    // walk the found path
-    walkPath();
 }
 
 int AutoPlayController::findClosestEnemy()
@@ -128,5 +131,7 @@ void AutoPlayController::walkPath()
         gameController->moveProtagonistRelative(dx, dy);
         currentPath.erase(currentPath.begin());
         QTimer::singleShot(1000, this, SLOT(walkPath()));
+    } else {
+        idle = true;
     }
 }
