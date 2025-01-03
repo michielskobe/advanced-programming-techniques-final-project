@@ -27,28 +27,36 @@ void AutoPlayController::performAction()
 
     auto protagonistDead = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth() <= 0.5f || (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getEnergy() <= 0.5;
 
-    if(idle && !protagonistDead){
-        idle = false;
+    if(state == idle && !protagonistDead){
+        state = running;
         auto protHealth = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getHealth();
 
         if (protHealth >= 25.0f){
             // find closest enemy
             auto closestEnemyIndex = findClosestEnemy();
 
-            // find path to the closest enemy
-            auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[closestEnemyIndex])));
-            auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-            currentPath = getPathToDest(enemyTileIndex);
-            qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
+            if(closestEnemyIndex){
+                // find path to the closest enemy
+                auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->enemies[*closestEnemyIndex])));
+                auto enemyTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+                currentPath = getPathToDest(enemyTileIndex);
+                qCInfo(autoplayControllerCat) << "Closest enemy path is: " << currentPath;
+            } else {
+                state = stalled;
+            }
         } else {
             // find closest enemy
             auto closestHealthPackIndex = findClosestHealthPack();
 
-            // find path to the closest enemy
-            auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[closestHealthPackIndex])));
-            auto healthPackTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
-            currentPath = getPathToDest(healthPackTileIndex);
-            qCInfo(autoplayControllerCat) << "Closest healthPack path is: " << currentPath;
+            if(closestHealthPackIndex){
+                // find path to the closest enemy
+                auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[*closestHealthPackIndex])));
+                auto healthPackTileIndex = reference->getXPos() + reference->getYPos() *  (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+                currentPath = getPathToDest(healthPackTileIndex);
+                qCInfo(autoplayControllerCat) << "Closest healthPack path is: " << currentPath;
+            } else {
+                state = stalled;
+            }
         }
 
         // walk the found path
@@ -56,10 +64,11 @@ void AutoPlayController::performAction()
     }
 }
 
-int AutoPlayController::findClosestEnemy()
+std::optional<int> AutoPlayController::findClosestEnemy()
 {
     float minDistance{1'000'000};
     auto closestEnemy{0};
+    bool found{false};
     auto protagonist = &((*levels)[*(gameController->getActiveLevelIndex())]->protagonist);
 
     for (int i = 0; i < (int)((*levels)[*(gameController->getActiveLevelIndex())]->enemies).size(); i++) {
@@ -69,17 +78,25 @@ int AutoPlayController::findClosestEnemy()
             if(distance < minDistance){
                 closestEnemy = i;
                 minDistance = distance;
+                found = true;
             }
         }
     }
-    return closestEnemy;
+    if(!found){
+        return std::nullopt;
+    }
+    return {closestEnemy};
 }
 
-int AutoPlayController::findClosestHealthPack()
+std::optional<int> AutoPlayController::findClosestHealthPack()
 {
     float minDistance{1'000'000};
     auto closestHealth{0};
     auto protagonist = &((*levels)[*(gameController->getActiveLevelIndex())]->protagonist);
+
+    if(((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks).size() == 0){
+        return std::nullopt;
+    }
 
     for (int i = 0; i < (int)((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks).size(); i++) {
         auto reference = (&(*((*levels)[*(gameController->getActiveLevelIndex())]->healthPacks[i])));
@@ -89,7 +106,7 @@ int AutoPlayController::findClosestHealthPack()
             minDistance = distance;
         }
     }
-    return closestHealth;
+    return {closestHealth};
 }
 
 float AutoPlayController::findDistance(Tile &t1, Tile &t2)
@@ -113,12 +130,15 @@ void AutoPlayController::highlightCurrentPath()
     int Xindex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getXPos();
     int Yindex = (*levels)[*(gameController->getActiveLevelIndex())]->protagonist->getYPos();
     const int cols = (*levels)[*(gameController->getActiveLevelIndex())]->cols;
+    const int rows = (*levels)[*(gameController->getActiveLevelIndex())]->rows;
     foreach (auto & move, currentPath) {
         auto [dx, dy] = move;
         Xindex += dx;
         Yindex += dy;
         const auto tileIndex = Xindex + Yindex * cols;
-        (*levels)[*(gameController->getActiveLevelIndex())]->tiles[tileIndex]->setAutoPlayHighlight(true);
+        if(tileIndex >= 0 && tileIndex <= rows*cols){
+            (*levels)[*(gameController->getActiveLevelIndex())]->tiles[tileIndex]->setAutoPlayHighlight(true);
+        }
     }
 
 }
@@ -144,9 +164,11 @@ void AutoPlayController::walkPath()
         currentPath.erase(currentPath.begin());
         QTimer::singleShot(100, this, SLOT(walkPath()));
     } else {
-        idle = true;
-        if(activated){
-            performAction();
+        if (state != stalled){
+            state = idle;
+            if(activated){
+                performAction();
+            }
         }
     }
 }

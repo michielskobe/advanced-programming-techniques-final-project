@@ -8,6 +8,12 @@
 #include "world.h"
 #include "pathfinderhelper.h"
 
+enum AutoPlayState{
+    idle,
+    running,
+    stalled
+};
+
 class AutoPlayController : public QObject
 {
     Q_OBJECT
@@ -24,8 +30,8 @@ public:
 
 
 
-    int findClosestEnemy();
-    int findClosestHealthPack();
+    std::optional<int> findClosestEnemy();
+    std::optional<int> findClosestHealthPack();
     float findDistance(Tile & t1, Tile & t2);
     std::vector<std::pair<int, int>> getPathToDest(const int destIndex);
     void highlightCurrentPath();
@@ -37,7 +43,7 @@ protected:
     std::shared_ptr<std::vector<std::unique_ptr<Level>>> levels;
     GameController* gameController;
     std::vector<std::pair<int, int>> currentPath;
-    bool idle{true};
+    enum AutoPlayState state{idle};
     bool activated{false};
 signals:
 
