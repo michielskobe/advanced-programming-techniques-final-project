@@ -27,7 +27,6 @@ SOURCES += \
     ownpenemy.cpp \
     pathfinderhelper.cpp \
     pathfindernode.cpp \
-    poisontile.cpp \
     textualenemyview.cpp \
     textualhealthpackview.cpp \
     textualprotagonistview.cpp \
@@ -55,7 +54,6 @@ HEADERS += \
     pathfinder_class.h \
     pathfinderhelper.h \
     pathfindernode.h \
-    poisontile.h \
     textualenemyview.h \
     textualhealthpackview.h \
     textualprotagonistview.h \

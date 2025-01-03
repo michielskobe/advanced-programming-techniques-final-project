@@ -217,7 +217,7 @@ void GameController::moveProtagonistRelative(int relativeX, int relativeY)
     float dmgmul = (*levels)[*activeLevelIndex]->getDamageMultiplier((*levels)[*activeLevelIndex]->protagonist->getXPos(), (*levels)[*activeLevelIndex]->protagonist->getYPos());
     tileEnergy = 1/tileEnergy; // invert the tile value
 
-    tileEnergy = tileEnergy * DifficultyController::GetInstance()->getWalkingEnergyLoss(); // Make the game more easy TODO: Make difficulty modes for this if there is time
+    tileEnergy = tileEnergy * DifficultyController::GetInstance()->getWalkingEnergyLoss(); // Make the game more easy 
 
     // update energy based on movement
     (*levels)[*activeLevelIndex]->setProtagonistEnergy(((*levels)[*activeLevelIndex]->getProtagonistEnergy())-tileEnergy);

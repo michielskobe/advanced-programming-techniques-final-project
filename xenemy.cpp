@@ -19,7 +19,7 @@ QLoggingCategory XEnemyCat("XEnemy");
 
 XEnemy::XEnemy(int xPosition, int yPosition, float strength): OwnEnemy(xPosition, yPosition, strength)
 {
-    health = 100.0f; // this should be determined by difficulty (hopefully)
+    health = 100.0f; 
     deadPixmap = QPixmap(":/images/XEnemy_Dead.png");
     idlePixmap = QPixmap(":/images/XEnemy_Idle.png");
 
